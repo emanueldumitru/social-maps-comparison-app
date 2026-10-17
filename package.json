@@ -1,0 +1,14 @@
+{
+  "name": "terra-scale-3d-studio",
+  "version": "3.0.0",
+  "description": "TERRA // SCALE — 3D WebGL Global Surface, Population, Biosphere & Mini-Wikipedia Comparison Studio (Three.js + GSAP + 1:1 Lambert Equal-Area)",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test tests/app.test.mjs"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

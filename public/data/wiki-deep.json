@@ -1,0 +1,1423 @@
+{
+  "deep": {
+    "ROU": {
+      "govType": "Unitary Semi-Presidential Representative Democratic Republic",
+      "headOfState": "President of Romania (Palatul Cotroceni • 5-year popular mandate; Nicușor Dan / Ilie Bolojan / Klaus Iohannis 2025–2026 constitutional cycle)",
+      "headOfGov": "Prime Minister of Romania (Palatul Victoria • Appointed by President with Parliamentary confidence; Ilie Bolojan / Marcel Ciolacu coalition executive)",
+      "howLed": "Dual-executive constitutional architecture under the 1991 Constitution (revised 2003). The directly elected President commands the Armed Forces, chairs the Supreme Council of National Defense (CSAT), and represents Romania in EU/NATO summits and foreign treaties. The Prime Minister leads the Cabinet of Ministers and domestic governance, accountable to the bicameral Parliament (Senate with 136 seats & Chamber of Deputies with 330 seats) housed in Bucharest's Palace of the Parliament.",
+      "alliances": "European Union (2007) • Schengen Area (Full Member) • NATO (2004) • UN • OSCE • B9 (Bucharest Nine) • Three Seas Initiative",
+      "centralBank": "National Bank of Romania (Banca Națională a României — BNR, est. 1880, Governor Mugur Isărescu)",
+      "hdi": "0.827 (Very High Human Development)",
+      "lifeExp": "76.8 years",
+      "medianAge": "43.2 years",
+      "religion": "Eastern Orthodox (~85%), Roman Catholic & Greek Catholic (~6%), Protestant (~3%)",
+      "timezone": "EET (UTC+2) / EEST (UTC+3)",
+      "financeOverview": "Southeastern Europe's largest economy ($384B Nominal GDP; ~$890B PPP). Driven by a booming IT & cybersecurity sector ('Silicon Valley of Transylvania' in Cluj-Napoca, Bucharest, Iași, Timișoara), automotive manufacturing (Automobile Dacia-Renault in Mioveni & Ford Otosan in Craiova), Black Sea offshore natural gas (Neptun Deep — making Romania the EU's largest gas producer), fertile Danubian agriculture, and EU structural investment.",
+      "historySummary": "Inhabited in antiquity by the Dacians (unified under Kings Burebista and Decebalus) and conquered by Roman Emperor Trajan in 106 AD, forging a resilient Daco-Roman Latin identity surrounded by Slavic and Finno-Ugric neighbors. Through the Middle Ages, Romanians preserved autonomy across three principalities—Wallachia, Moldavia, and Transylvania—defending Europe's eastern gates under Voivodes Mircea the Elder, Vlad III Dracula, Stephen the Great, and Michael the Brave (who achieved the first brief union in 1600). Modern Romania was born via the 1859 Union of Moldavia and Wallachia under Alexandru Ioan Cuza, won full independence in 1877–1878 under King Carol I, and achieved the Great Union (Marea Unire) on 1 December 1918. After overthrowing Europe's harshest communist dictatorship in the December 1989 Revolution, Romania anchored itself firmly in NATO and the European Union.",
+      "timeline": [
+        {
+          "era": "106 – 271 AD",
+          "title": "Roman Dacia & Ethnogenesis",
+          "desc": "Emperor Trajan conquers Dacia (celebrated on Trajan's Column in Rome); intensive Roman colonization establishes Vulgar Latin as the ancestor of the Romanian language."
+        },
+        {
+          "era": "1359 – 1600",
+          "title": "Medieval Voivodes & First Union",
+          "desc": "Wallachia (Vlad the Impaler), Moldavia (Stephen the Great, builder of UNESCO painted monasteries), and Transylvania resist Ottoman expansion; Michael the Brave unites all three in 1600."
+        },
+        {
+          "era": "1859 & 1877",
+          "title": "Modern State & Royal Independence",
+          "desc": "Alexandru Ioan Cuza unites Moldavia and Wallachia (1859); Carol I proclaims independence from the Ottoman Empire in 1877 and crowns the Kingdom of Romania (1881)."
+        },
+        {
+          "era": "1 Dec 1918",
+          "title": "The Great Union (Marea Unire)",
+          "desc": "National Assembly at Alba Iulia unites Transylvania, Bessarabia, and Bukovina with the Romanian Kingdom under King Ferdinand I and Queen Marie."
+        },
+        {
+          "era": "1989 – Present",
+          "title": "1989 Revolution, NATO & EU/Schengen",
+          "desc": "December 1989 anti-communist revolution restores democracy; Romania joins NATO (2004), the European Union (2007), and the Schengen Area."
+        }
+      ],
+      "food": [
+        {
+          "emoji": "🥘",
+          "name": "Sarmale cu Mămăligă și Smântână",
+          "desc": "Romania's beloved national dish: pickled cabbage or vine leaves stuffed with spiced pork, beef, rice, and herbs, slow-cooked over smoked bacon in clay pots and served with hot cornmeal polenta, sour cream, and chili pepper."
+        },
+        {
+          "emoji": "🌭",
+          "name": "Mititei (Mici)",
+          "desc": "Juicy, charcoal-grilled skinless minced beef-lamb-pork rolls seasoned with garlic, black pepper, thyme, coriander, and sodium bicarbonate, served with mustard and cold local beer."
+        },
+        {
+          "emoji": "🍲",
+          "name": "Ciorbă de Burtă & Ciorbă Rădăuțeană",
+          "desc": "Velvety, tangy sour soups enriched with egg yolk, heavy sour cream (*smântână*), pickled hot peppers, and plenty of crushed garlic."
+        },
+        {
+          "emoji": "🍩",
+          "name": "Papanași cu Dulceață de Afine",
+          "desc": "Golden fried sweet cow's-cheese (*brânză de vaci*) doughnuts crowned with a small dough sphere, cool sour cream, and wild Carpathian blueberry or sour cherry preserve."
+        },
+        {
+          "emoji": "🍷",
+          "name": "Cozonac, Pălincă & Fetească Neagră Wine",
+          "desc": "Festive walnut-and-cocoa braided sweet bread paired with double-distilled Transylvanian plum brandy (*Pălincă*) and ancient indigenous Fetească Neagră red wine."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "🏰",
+          "name": "Peleș Royal Castle & Bran Castle",
+          "loc": "Sinaia & Bran (Carpathians)",
+          "desc": "Peleș is Europe's first fully electrified castle (1883), a Neo-Renaissance masterpiece of King Carol I; nearby Bran Castle perches dramatically on a Transylvanian cliff."
+        },
+        {
+          "emoji": "🛣️",
+          "name": "Transfăgărășan (DN7C) & Transalpina",
+          "loc": "Southern Carpathians (2,042 m – 2,145 m)",
+          "desc": "World-famous hair-raising alpine highways carving past glacial Bâlea Lake and the high ridges of the Făgăraș and Parâng mountains."
+        },
+        {
+          "emoji": "🦢",
+          "name": "Danube Delta UNESCO Biosphere Reserve",
+          "loc": "Tulcea County / Black Sea Coast",
+          "desc": "Europe's second-largest and best-preserved river delta: 4,152 km² of floating reed islands, pelican colonies, wild horses of Letea forest, and ancient fishing villages."
+        },
+        {
+          "emoji": "🎨",
+          "name": "Painted Monasteries of Bucovina & Maramureș",
+          "loc": "Suceava & Maramureș Counties",
+          "desc": "15th–16th century UNESCO monasteries (Voroneț, Sucevița, Moldovița) famous for vivid exterior frescoes ('Voroneț Blue') alongside Europe's tallest wooden churches."
+        },
+        {
+          "emoji": "🏛️",
+          "name": "Sighișoara Citadel, Sibiu, Brașov & Palace of Parliament",
+          "loc": "Transylvania & Bucharest",
+          "desc": "Inhabited medieval Saxon walled towns alongside Bucharest's Palace of the Parliament—the heaviest and second-largest administrative building on Earth (365,000 m²)."
+        }
+      ],
+      "activities": [
+        "Drive or cycle the 90 km Transfăgărășan alpine road up to Bâlea Glacial Lake (2,042 m).",
+        "Descend 120 meters underground into Salina Turda—a surreal subterranean salt cavern theme park with an underground Ferris wheel and boating lake.",
+        "Hike or backpack a section of Via Transilvanica—Romania's 1,400 km long-distance trail from Putna Monastery to the Danube at Drobeta-Turnu Severin.",
+        "Take a dawn wooden boat expedition through the Danube Delta channels from Sulina or Crișan to photograph Great White Pelicans.",
+        "Observe wild Eurasian brown bears ethically from conservation hides in the Zărnești / Piatra Craiului and Harghita Carpathian forests."
+      ],
+      "curiosities": [
+        "Bucharest's Palace of the Parliament weighs ~4.1 million tonnes (built with 1 million m³ of Transylvanian marble and 3,500 tonnes of crystal), making it the heaviest building on Planet Earth.",
+        "Romania is the only Romance-speaking (Latin-derived) country in Eastern Europe—a linguistic island preserving grammatical features closest to Classical Latin.",
+        "Timișoara (in western Romania) became the first city in mainland Europe with electric street lighting in November 1884, and the birthplace of the 1989 Revolution."
+      ]
+    },
+    "USA": {
+      "govType": "Federal Presidential Constitutional Republic (50 States + 1 Federal District)",
+      "headOfState": "President Donald J. Trump (47th President of the United States • White House • 4-year term)",
+      "headOfGov": "President Donald J. Trump (Assisted by Vice President JD Vance & 15 Executive Department Cabinet Secretaries)",
+      "howLed": "Governed under the 1787 US Constitution—the world's oldest codified national constitution in continuous force—built on strict separation of powers and checks & balances among three co-equal branches: the Executive (the President, who is both Head of State, Head of Government, and Commander-in-Chief), the Bicameral Legislature (US Congress: 100-seat Senate with 2 senators per state & 435-seat House of Representatives apportioned by population), and the Federal Judiciary led by the 9-Justice Supreme Court. Substantial sovereignty is reserved to the 50 individual States under the 10th Amendment.",
+      "alliances": "UN Security Council Permanent Member (P5) • NATO Founding Member • G7 • G20 • OECD • USMCA • AUKUS • Quad",
+      "centralBank": "Federal Reserve System (The Fed, est. 1913 • Issuers of the US Dollar, the world's primary reserve currency)",
+      "hdi": "0.927 (Very High Human Development)",
+      "lifeExp": "79.3 years",
+      "medianAge": "38.9 years",
+      "religion": "Christianity (~63%: Protestant 40%, Catholic 21%), Unaffiliated (~29%), Judaism, Islam, Buddhism, Hinduism (~8%)",
+      "timezone": "6 Main Zones: Eastern (UTC−5) to Hawaii-Aleutian (UTC−10)",
+      "financeOverview": "World's largest economy by Nominal GDP ($29.17 Trillion; ~26% of global economic output). Powered by the US Dollar (~58% of global foreign exchange reserves), deep capital markets (NYSE & Nasdaq exceeding $55T market cap), global leadership in AI, cloud computing, semiconductors, aerospace, biotechnology, Hollywood entertainment, and status as the world's #1 crude oil and natural gas producer.",
+      "historySummary": "Inhabited for over 15,000 years by diverse Indigenous peoples (including the Ancestral Puebloans, Mississippian mound builders, Haudenosaunee Confederacy, Lakota, and Navajo). Following European colonization from the 16th–18th centuries, the Thirteen American Colonies declared independence from Great Britain on 4 July 1776, prevailing in the Revolutionary War under George Washington. Expanding westward across North America in the 19th century, the nation survived the crucible of the Civil War (1861–1865) under Abraham Lincoln, abolishing slavery and industrializing rapidly. In the 20th century, the US emerged from World Wars I and II as a global superpower, spearheading the Apollo 11 Moon landing (1969), the personal computer and Internet revolutions, and modern global institutions.",
+      "timeline": [
+        {
+          "era": "4 July 1776",
+          "title": "Declaration of Independence & Founding",
+          "desc": "Continental Congress in Philadelphia adopts the Declaration of Independence; the 1787 Constitution establishes the federal republic under First President George Washington."
+        },
+        {
+          "era": "1803 – 1865",
+          "title": "Westward Expansion & Civil War",
+          "desc": "The 1803 Louisiana Purchase doubles national territory; Abraham Lincoln preserves the Union and abolishes slavery (13th Amendment, 1865) through the Civil War."
+        },
+        {
+          "era": "1870 – 1920",
+          "title": "Industrial Gilded Age & Innovation",
+          "desc": "Transcontinental railroads, Edison's electrification, Wright Brothers' first powered flight (1903), and Ford's assembly line make the US the world's #1 industrial economy."
+        },
+        {
+          "era": "1941 – 1969",
+          "title": "WWII Arsenal, Civil Rights & Moon Landing",
+          "desc": "Allied victory in WWII, founding of the UN and NATO, the 1960s Civil Rights Act, and NASA's Apollo 11 landing Neil Armstrong and Buzz Aldrin on the Moon (20 July 1969)."
+        },
+        {
+          "era": "1989 – Present",
+          "title": "Digital, Internet & AI Superpower Era",
+          "desc": "Silicon Valley drives the personal computer, Internet, smartphone, private spaceflight, and artificial intelligence eras."
+        }
+      ],
+      "food": [
+        {
+          "emoji": "🥩",
+          "name": "Texas Smoked Brisket & Southern Slow-Wood BBQ",
+          "desc": "14-hour post-oak smoked beef brisket in Texas, hickory pulled pork in the Carolinas, and dry-rubbed ribs in Memphis."
+        },
+        {
+          "emoji": "🍔",
+          "name": "Classic American Smashburger & Diner Fries",
+          "desc": "Seared prime beef patties with melted American or cheddar cheese on toasted brioche—an American culinary icon born in the early 20th century."
+        },
+        {
+          "emoji": "🦞",
+          "name": "New England Clam Chowder & Maine Lobster Roll",
+          "desc": "Creamy Atlantic quahog clam soup alongside butter-poached or chilled Maine lobster piled into a split-top toasted roll."
+        },
+        {
+          "emoji": "🍲",
+          "name": "New Orleans Gumbo, Jambalaya & Beignets",
+          "desc": "Creole and Cajun soul food fusing West African, French, Spanish, and Choctaw culinary traditions with dark roux, filé powder, and Gulf shrimp."
+        },
+        {
+          "emoji": "🥧",
+          "name": "New York Pizza, Apple Pie & Kentucky Bourbon",
+          "desc": "Hand-tossed coal/deck-oven slices, spiced lattice-crust apple pie, and charred-oak aged Kentucky straight bourbon whiskey."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "🏜️",
+          "name": "Grand Canyon, Zion & Monument Valley",
+          "loc": "Arizona & Utah (American Southwest)",
+          "desc": "A 446-km-long, 1,857-m-deep geological chasm carved by the Colorado River exposing 2 billion years of Earth's crust."
+        },
+        {
+          "emoji": "🌋",
+          "name": "Yellowstone & Yosemite National Parks",
+          "loc": "Wyoming/Montana & California",
+          "desc": "Yellowstone (1872, world's first National Park) sits atop a supervolcano with half of Earth's geysers (Old Faithful); Yosemite boasts granite monoliths El Capitan and Half Dome."
+        },
+        {
+          "emoji": "🗽",
+          "name": "New York City (Statue of Liberty, Central Park, Manhattan)",
+          "loc": "New York",
+          "desc": "Global financial and cultural metropolis featuring Lady Liberty, Broadway, the Metropolitan Museum of Art, and the Empire State Building."
+        },
+        {
+          "emoji": "🏛️",
+          "name": "National Mall, Smithsonian & Capitol Hill",
+          "loc": "Washington, D.C.",
+          "desc": "The monumental heart of American democracy: Lincoln Memorial, Washington Monument, White House, US Capitol, and 21 free Smithsonian museums."
+        },
+        {
+          "emoji": "🏔️",
+          "name": "Denali (Alaska) & Na Pali Coast (Hawaii)",
+          "loc": "Alaska & Kauai, Hawaii",
+          "desc": "North America's highest peak (6,190 m) and glaciers alongside emerald volcanic sea cliffs rising 1,200 m above the Pacific."
+        }
+      ],
+      "activities": [
+        "Road-trip the Pacific Coast Highway (Big Sur) or historic Route 66 across the American Southwest.",
+        "Raft the Colorado River rapids through the bottom of the Grand Canyon or hike Angels Landing in Zion.",
+        "Watch Old Faithful erupt and spot wild bison and grizzly bears in Yellowstone's Lamar Valley at dawn.",
+        "Walk across the Golden Gate Bridge in San Francisco and explore Redwood National Park's 115-meter trees.",
+        "Catch a Broadway musical in Manhattan, tour NASA's Kennedy Space Center in Florida, or hear live jazz in New Orleans."
+      ],
+      "curiosities": [
+        "The US Library of Congress in Washington, D.C. is the largest library in the world, holding over 175 million items across 1,350 km of bookshelves.",
+        "Alaska's coastline (10,690 km general / 54,563 km tidal) is longer than the coastlines of all other 49 US states combined.",
+        "The United States has no federal official language by statute, though English is spoken by ~92% of the population alongside 350+ other languages."
+      ]
+    },
+    "ATA": {
+      "govType": "International Scientific Condominium under the 1959 Antarctic Treaty System (57 Signatory Nations)",
+      "headOfState": "No Single Sovereign Head of State (Governed by Consensus of 29 Consultative Treaty Parties)",
+      "headOfGov": "Antarctic Treaty Secretariat (HQ in Buenos Aires • Executive Secretary Albert Lluberas) & Station Commanders",
+      "howLed": "Antarctica is the only continent on Earth without an indigenous human government or sovereign state. Under the 1959 Antarctic Treaty (and 1991 Madrid Protocol), all territorial claims south of 60°S latitude are frozen; military activity, nuclear testing, and mineral mining are strictly prohibited, and the entire continent is dedicated as a natural reserve for peace and scientific discovery. Over 70 permanent research stations (such as the US McMurdo and Amundsen-Scott South Pole stations, and Romania's Law-Racoviță-Negoiță Station) operate year-round.",
+      "alliances": "Antarctic Treaty System (ATS) • SCAR (Scientific Committee on Antarctic Research) • CCAMLR (Marine Living Resources)",
+      "centralBank": "None (Stations use home-country currencies; McMurdo uses informal 'Antarctic Dollars' & USD)",
+      "hdi": "N/A (100% PhD Scientists, Engineers & Expedition Support Staff)",
+      "lifeExp": "N/A (Rotational Scientific Expeditions)",
+      "medianAge": "35.0 years (Expedition Staff)",
+      "religion": "Multi-faith (Home to Trinity Church on King George Island & Chapel of the Snows at McMurdo)",
+      "timezone": "All 24 Time Zones converge at the Geographic South Pole (Amundsen-Scott uses NZDT UTC+12/+13)",
+      "financeOverview": "Zero commercial extractive GDP; ~$900M+ annual international scientific research investment and strictly regulated IAATO polar expedition tourism (~100,000 visitors/season). Holds 90% of Earth's ice (~26.5 million km³) and 70% of the planet's fresh water.",
+      "historySummary": "Formed over 34 million years ago when the Drake Passage opened and isolated the continent in the Antarctic Circumpolar Current, freezing lush prehistoric forests (discovered as fossils by Romanian explorer Emil Racoviță on the 1897–1899 Belgica Expedition!) into a 4.7-km-thick ice sheet. First sighted in 1820 by Bellingshausen, Bransfield, and Palmer, the Heroic Age of Antarctic Exploration saw Roald Amundsen reach the South Pole on 14 December 1911, followed 34 days later by Robert Falcon Scott, and Ernest Shackleton's legendary 1914–1916 Endurance survival.",
+      "timeline": [
+        {
+          "era": "1820 – 1841",
+          "title": "First Sighting & Ross Ice Shelf Discovery",
+          "desc": "Expeditions by Bellingshausen, Bransfield, and Palmer sight the continent; James Clark Ross discovers Mount Erebus and the Ross Ice Shelf."
+        },
+        {
+          "era": "1897 – 1899",
+          "title": "Belgica Expedition & Emil Racoviță",
+          "desc": "First expedition to overwinter in Antarctica; Romanian biologist Emil Racoviță conducts the first systematic study of Antarctic marine and terrestrial life."
+        },
+        {
+          "era": "14 Dec 1911",
+          "title": "Amundsen & Scott Reach the South Pole",
+          "desc": "Norwegian Roald Amundsen reaches 90°S on dog sleds, followed a month later by Britain's Robert Falcon Scott."
+        },
+        {
+          "era": "1 Dec 1959",
+          "title": "Signing of the Antarctic Treaty",
+          "desc": "12 nations sign the landmark treaty setting aside Antarctica forever as a demilitarized scientific preserve."
+        },
+        {
+          "era": "2006 – Present",
+          "title": "Subglacial Lakes, Ice Cores & Law-Racoviță Station",
+          "desc": "Romania inaugurates the Law-Racoviță-Negoiță Station in the Larsemann Hills (2006); ice cores reveal 800,000 years of Earth's atmospheric CO₂ history."
+        }
+      ],
+      "food": [
+        {
+          "emoji": "🍫",
+          "name": "High-Calorie Polar Pemmican & Expedition Sledging Biscuits",
+          "desc": "5,000 kcal/day high-fat rations designed to sustain body heat in −50°C winds on the polar plateau."
+        },
+        {
+          "emoji": "🍲",
+          "name": "McMurdo Galley Hot Stews & Hydroponic Greens",
+          "desc": "Prepared by station chefs using freeze-dried stores and fresh vegetables grown in sub-zero hydroponic growth chambers."
+        },
+        {
+          "emoji": "🍕",
+          "name": "Midwinter's Day Feast (21 June Solstice)",
+          "desc": "Antarctica's most celebrated tradition: overwintering crews across all international stations prepare multi-course gourmet banquets in total polar darkness."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "💈",
+          "name": "Ceremonial & Geographic South Pole (90°S)",
+          "loc": "Polar Plateau (2,835 m elevation)",
+          "desc": "Home to the Amundsen-Scott Station and the IceCube Neutrino Observatory buried 2.5 km deep in ultra-pure glacial ice."
+        },
+        {
+          "emoji": "🌋",
+          "name": "Mount Erebus Active Lava Lake",
+          "loc": "Ross Island (3,794 m)",
+          "desc": "Earth's southernmost active volcano, featuring a persistent convecting phonolitic lava lake and surreal fumarolic ice towers."
+        },
+        {
+          "emoji": "🩸",
+          "name": "McMurdo Dry Valleys & Blood Falls",
+          "loc": "Victoria Land",
+          "desc": "Snow-free hyper-arid valleys closely resembling Mars, where iron-rich subglacial brine pours crimson over Taylor Glacier."
+        },
+        {
+          "emoji": "🏔️",
+          "name": "Lemaire Channel & Paradise Harbor",
+          "loc": "Antarctic Peninsula",
+          "desc": "Mirror-like iceberg alleys flanked by 1,000-meter sheer glacial peaks teeming with humpback whales and gentoo penguins."
+        },
+        {
+          "emoji": "🇷🇴",
+          "name": "Law-Racoviță-Negoiță Station",
+          "loc": "Larsemann Hills, Princess Elizabeth Land",
+          "desc": "Romania's permanent polar research base named after pathfinding Antarctic biologist Emil Racoviță."
+        }
+      ],
+      "activities": [
+        "Cross the Drake Passage by ice-strengthened expedition vessel and land by Zodiac on the Antarctic Peninsula.",
+        "Camp overnight on the Antarctic snowpack under 24-hour austral summer midnight sun.",
+        "Kayak silently past tabular icebergs and surfacing minke and humpback whales in Wilhelmina Bay.",
+        "Take the Polar Plunge into −1°C Southern Ocean waters inside the volcanic caldera of Deception Island.",
+        "Visit historic huts of Shackleton and Scott preserved frozen in time on Ross Island."
+      ],
+      "curiosities": [
+        "Antarctica is technically the largest desert on Planet Earth—its interior receives less than 50 mm of precipitation per year, drier than the Sahara!",
+        "If Antarctica's ice sheet melted completely, global sea levels would rise by approximately 58 meters (190 feet).",
+        "Beneath 4 km of ice lie over 400 liquid subglacial lakes (like Lake Vostok), isolated from sunlight for 15 million years."
+      ]
+    },
+    "ANTC": {
+      "govType": "International Scientific Condominium under the 1959 Antarctic Treaty System (57 Signatory Nations)",
+      "headOfState": "No Single Sovereign Head of State (Governed by Consensus of 29 Consultative Treaty Parties)",
+      "headOfGov": "Antarctic Treaty Secretariat (HQ in Buenos Aires • Executive Secretary Albert Lluberas) & Station Commanders",
+      "howLed": "Antarctica is the only continent on Earth without an indigenous human government or sovereign state. Under the 1959 Antarctic Treaty (and 1991 Madrid Protocol), all territorial claims south of 60°S latitude are frozen; military activity, nuclear testing, and mineral mining are strictly prohibited, and the entire continent is dedicated as a natural reserve for peace and scientific discovery. Over 70 permanent research stations (such as the US McMurdo and Amundsen-Scott South Pole stations, and Romania's Law-Racoviță-Negoiță Station) operate year-round.",
+      "alliances": "Antarctic Treaty System (ATS) • SCAR (Scientific Committee on Antarctic Research) • CCAMLR (Marine Living Resources)",
+      "centralBank": "None (Stations use home-country currencies; McMurdo uses informal 'Antarctic Dollars' & USD)",
+      "hdi": "N/A (100% PhD Scientists, Engineers & Expedition Support Staff)",
+      "lifeExp": "N/A (Rotational Scientific Expeditions)",
+      "medianAge": "35.0 years (Expedition Staff)",
+      "religion": "Multi-faith (Home to Trinity Church on King George Island & Chapel of the Snows at McMurdo)",
+      "timezone": "All 24 Time Zones converge at the Geographic South Pole (Amundsen-Scott uses NZDT UTC+12/+13)",
+      "financeOverview": "Zero commercial extractive GDP; ~$900M+ annual international scientific research investment and strictly regulated IAATO polar expedition tourism (~100,000 visitors/season). Holds 90% of Earth's ice (~26.5 million km³) and 70% of the planet's fresh water.",
+      "historySummary": "Formed over 34 million years ago when the Drake Passage opened and isolated the continent in the Antarctic Circumpolar Current, freezing lush prehistoric forests (discovered as fossils by Romanian explorer Emil Racoviță on the 1897–1899 Belgica Expedition!) into a 4.7-km-thick ice sheet. First sighted in 1820 by Bellingshausen, Bransfield, and Palmer, the Heroic Age of Antarctic Exploration saw Roald Amundsen reach the South Pole on 14 December 1911, followed 34 days later by Robert Falcon Scott, and Ernest Shackleton's legendary 1914–1916 Endurance survival.",
+      "timeline": [
+        {
+          "era": "1820 – 1841",
+          "title": "First Sighting & Ross Ice Shelf Discovery",
+          "desc": "Expeditions by Bellingshausen, Bransfield, and Palmer sight the continent; James Clark Ross discovers Mount Erebus and the Ross Ice Shelf."
+        },
+        {
+          "era": "1897 – 1899",
+          "title": "Belgica Expedition & Emil Racoviță",
+          "desc": "First expedition to overwinter in Antarctica; Romanian biologist Emil Racoviță conducts the first systematic study of Antarctic marine and terrestrial life."
+        },
+        {
+          "era": "14 Dec 1911",
+          "title": "Amundsen & Scott Reach the South Pole",
+          "desc": "Norwegian Roald Amundsen reaches 90°S on dog sleds, followed a month later by Britain's Robert Falcon Scott."
+        },
+        {
+          "era": "1 Dec 1959",
+          "title": "Signing of the Antarctic Treaty",
+          "desc": "12 nations sign the landmark treaty setting aside Antarctica forever as a demilitarized scientific preserve."
+        },
+        {
+          "era": "2006 – Present",
+          "title": "Subglacial Lakes, Ice Cores & Law-Racoviță Station",
+          "desc": "Romania inaugurates the Law-Racoviță-Negoiță Station in the Larsemann Hills (2006); ice cores reveal 800,000 years of Earth's atmospheric CO₂ history."
+        }
+      ],
+      "food": [
+        {
+          "emoji": "🍫",
+          "name": "High-Calorie Polar Pemmican & Expedition Sledging Biscuits",
+          "desc": "5,000 kcal/day high-fat rations designed to sustain body heat in −50°C winds on the polar plateau."
+        },
+        {
+          "emoji": "🍲",
+          "name": "McMurdo Galley Hot Stews & Hydroponic Greens",
+          "desc": "Prepared by station chefs using freeze-dried stores and fresh vegetables grown in sub-zero hydroponic growth chambers."
+        },
+        {
+          "emoji": "🍕",
+          "name": "Midwinter's Day Feast (21 June Solstice)",
+          "desc": "Antarctica's most celebrated tradition: overwintering crews across all international stations prepare multi-course gourmet banquets in total polar darkness."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "💈",
+          "name": "Ceremonial & Geographic South Pole (90°S)",
+          "loc": "Polar Plateau (2,835 m elevation)",
+          "desc": "Home to the Amundsen-Scott Station and the IceCube Neutrino Observatory buried 2.5 km deep in ultra-pure glacial ice."
+        },
+        {
+          "emoji": "🌋",
+          "name": "Mount Erebus Active Lava Lake",
+          "loc": "Ross Island (3,794 m)",
+          "desc": "Earth's southernmost active volcano, featuring a persistent convecting phonolitic lava lake and surreal fumarolic ice towers."
+        },
+        {
+          "emoji": "🩸",
+          "name": "McMurdo Dry Valleys & Blood Falls",
+          "loc": "Victoria Land",
+          "desc": "Snow-free hyper-arid valleys closely resembling Mars, where iron-rich subglacial brine pours crimson over Taylor Glacier."
+        },
+        {
+          "emoji": "🏔️",
+          "name": "Lemaire Channel & Paradise Harbor",
+          "loc": "Antarctic Peninsula",
+          "desc": "Mirror-like iceberg alleys flanked by 1,000-meter sheer glacial peaks teeming with humpback whales and gentoo penguins."
+        },
+        {
+          "emoji": "🇷🇴",
+          "name": "Law-Racoviță-Negoiță Station",
+          "loc": "Larsemann Hills, Princess Elizabeth Land",
+          "desc": "Romania's permanent polar research base named after pathfinding Antarctic biologist Emil Racoviță."
+        }
+      ],
+      "activities": [
+        "Cross the Drake Passage by ice-strengthened expedition vessel and land by Zodiac on the Antarctic Peninsula.",
+        "Camp overnight on the Antarctic snowpack under 24-hour austral summer midnight sun.",
+        "Kayak silently past tabular icebergs and surfacing minke and humpback whales in Wilhelmina Bay.",
+        "Take the Polar Plunge into −1°C Southern Ocean waters inside the volcanic caldera of Deception Island.",
+        "Visit historic huts of Shackleton and Scott preserved frozen in time on Ross Island."
+      ],
+      "curiosities": [
+        "Antarctica is technically the largest desert on Planet Earth—its interior receives less than 50 mm of precipitation per year, drier than the Sahara!",
+        "If Antarctica's ice sheet melted completely, global sea levels would rise by approximately 58 meters (190 feet).",
+        "Beneath 4 km of ice lie over 400 liquid subglacial lakes (like Lake Vostok), isolated from sunlight for 15 million years."
+      ]
+    },
+    "GBR": {
+      "alliances": "UN Security Council P5 • NATO • G7 • G20 • Commonwealth of Nations (56 states) • AUKUS",
+      "centralBank": "Bank of England (Threadneedle Street, London, est. 1694 • Pound Sterling £ GBP)",
+      "hdi": "0.940 (Very High)",
+      "lifeExp": "81.3 years",
+      "medianAge": "40.6 years",
+      "financeOverview": "Europe's second-largest economy ($3.59T Nominal GDP). Powered by the City of London global financial center, aerospace (Rolls-Royce, BAE), pharmaceuticals (AstraZeneca, GSK), creative industries, and Oxford/Cambridge/Imperial scientific research.",
+      "historySummary": "Shaped by Celtic Britons, Roman Britannia (43–410 AD), Anglo-Saxon kingdoms, and William the Conqueror's 1066 Norman Conquest. Magna Carta (1215) laid the foundations of constitutional law. Following the 1707 Acts of Union uniting England, Scotland, and Wales, Britain spearheaded the 18th-century Industrial Revolution and built the largest empire in history before prevailing in WWII under Winston Churchill and evolving into a modern multicultural democracy.",
+      "food": [
+        {
+          "emoji": "🐟",
+          "name": "Fish and Chips with Mushy Peas",
+          "desc": "Crispy beer-battered Atlantic cod or haddock served with thick-cut Maris Piper chips and malt vinegar."
+        },
+        {
+          "emoji": "🥩",
+          "name": "Sunday Roast with Yorkshire Pudding",
+          "desc": "Roasted British beef, lamb, or chicken accompanied by crisp puffed Yorkshire puddings, roast potatoes, and rich gravy."
+        },
+        {
+          "emoji": "🥧",
+          "name": "Beef Wellington, Cornish Pasty & Shepherd's Pie",
+          "desc": "Filet mignon wrapped in mushroom duxelles and golden puff pastry alongside traditional savory pies."
+        },
+        {
+          "emoji": "🫖",
+          "name": "Afternoon Tea with Clotted Cream Scones & Earl Grey",
+          "desc": "Warm freshly baked scones topped with Devonshire clotted cream and strawberry jam."
+        },
+        {
+          "emoji": "🥃",
+          "name": "Single Malt Scotch Whisky & English Cask Ale",
+          "desc": "Peated Islay and Speyside single malts aged in oak casks alongside traditional British pub bitter."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "🕰️",
+          "name": "Palace of Westminster, Big Ben & Tower of London",
+          "loc": "London",
+          "desc": "11th-century royal fortress housing the Crown Jewels alongside the Gothic seat of the Mother of Parliaments."
+        },
+        {
+          "emoji": "🪨",
+          "name": "Stonehenge & Roman Bath",
+          "loc": "Wiltshire & Somerset",
+          "desc": "5,000-year-old Neolithic megalithic circle aligned with the solstices and ancient Roman thermal baths."
+        },
+        {
+          "emoji": "🏰",
+          "name": "Edinburgh Castle & Scottish Highlands (Isle of Skye)",
+          "loc": "Scotland",
+          "desc": "Volcanic crag fortress overlooking Edinburgh alongside dramatic lochs, glens, and Ben Nevis."
+        },
+        {
+          "emoji": "🎓",
+          "name": "Oxford & Cambridge Historic University Colleges",
+          "loc": "Oxfordshire & Cambridgeshire",
+          "desc": "800-year-old medieval spires, Bodleian Library, and King's College Chapel along the River Cam."
+        },
+        {
+          "emoji": "🌊",
+          "name": "Giant's Causeway & Lake District National Park",
+          "loc": "Northern Ireland & Cumbria",
+          "desc": "40,000 interlocking hexagonal volcanic basalt columns and England's poetic glacial lakes."
+        }
+      ],
+      "activities": [
+        "Explore world-class free collections at the British Museum, National Gallery, and Natural History Museum in London.",
+        "Hike the Scottish Highlands, ride the Jacobite Steam Train over Glenfinnan Viaduct, and tour a Speyside whisky distillery.",
+        "Go punting along the River Cam in Cambridge or walk Hadrian's Wall across northern England.",
+        "Experience a Premier League football match or Wimbledon Championship tennis.",
+        "Catch a West End theater performance in London's Covent Garden and Soho."
+      ],
+      "curiosities": [
+        "The London Underground ('The Tube', opened in 1863) is the oldest underground railway network in the world.",
+        "Nowhere in Great Britain is more than 113 km (70 miles) away from the sea.",
+        "Windsor Castle is the oldest and largest continuously occupied royal castle on Earth (founded by William the Conqueror around 1070)."
+      ]
+    },
+    "FRA": {
+      "alliances": "UN Security Council P5 • European Union Founding Member • Eurozone • Schengen • NATO • G7 • G20",
+      "centralBank": "Banque de France (Eurosystem • Euro € EUR)",
+      "hdi": "0.910 (Very High)",
+      "lifeExp": "83.1 years",
+      "medianAge": "42.3 years",
+      "financeOverview": "World's #1 tourism destination (100M+ annual visitors) and 7th largest economy ($3.13T Nominal GDP). Global powerhouse in aerospace (Airbus, ArianeGroup), luxury goods (LVMH, Hermès, Chanel), nuclear energy (70% of electricity), high-speed rail (TGV), and gastronomy/wine.",
+      "historySummary": "From ancient Celtic Gaul and Roman Provincia to Clovis and Charlemagne's Frankish Empire, France shaped medieval European chivalry and Gothic architecture. The 1789 French Revolution ('Liberté, Égalité, Fraternité') and Declaration of the Rights of Man transformed modern political thought, followed by Napoleon Bonaparte's legal code (Code Napoléon). Today's Fifth Republic (founded by Charles de Gaulle in 1958) stands as a pillar of European integration.",
+      "food": [
+        {
+          "emoji": "🥐",
+          "name": "Artisanal Baguette de Tradition & Butter Croissant",
+          "desc": "UNESCO-listed crispy French baguette and flaky laminated Normandy butter viennoiserie."
+        },
+        {
+          "emoji": "🍷",
+          "name": "Boeuf Bourguignon & Coq au Vin",
+          "desc": "Charolais beef slow-braised in red Burgundy wine with pearl onions, lardons, and button mushrooms."
+        },
+        {
+          "emoji": "🍲",
+          "name": "Marseille Bouillabaisse & Duck Confit",
+          "desc": "Provençal saffron rockfish stew with rouille alongside Gascon crispy-skinned confit de canard."
+        },
+        {
+          "emoji": "🧀",
+          "name": "350+ Artisanal Cheeses (Comté, Roquefort, Brie, Camembert)",
+          "desc": "Paired with Bordeaux, Burgundy, and Champagne vintages."
+        },
+        {
+          "emoji": "🍮",
+          "name": "Crème Brûlée, Macarons & Tarte Tatin",
+          "desc": "Haute pâtisserie classics perfected across Paris and Lyon."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "🗼",
+          "name": "Eiffel Tower, Louvre Museum & Notre-Dame de Paris",
+          "loc": "Paris",
+          "desc": "Gustave Eiffel's 1889 iron lattice icon, the world's most visited art museum, and the restored Gothic cathedral on Île de la Cité."
+        },
+        {
+          "emoji": "👑",
+          "name": "Palace of Versailles & Hall of Mirrors",
+          "loc": "Île-de-France",
+          "desc": "Louis XIV's opulent royal chateau and 800-hectare geometric gardens."
+        },
+        {
+          "emoji": "🏰",
+          "name": "Mont-Saint-Michel & Loire Valley Châteaux",
+          "loc": "Normandy & Loire Valley",
+          "desc": "Tidal island Benedictine abbey and Renaissance castles (Chambord, Chenonceau)."
+        },
+        {
+          "emoji": "🏖️",
+          "name": "French Riviera (Côte d'Azur: Nice, Cannes, Eze)",
+          "loc": "Provence-Alpes-Côte d'Azur",
+          "desc": "Sun-drenched Mediterranean cliffs, lavender fields of Provence, and Verdon Gorge."
+        },
+        {
+          "emoji": "🏔️",
+          "name": "Chamonix-Mont-Blanc (4,808 m)",
+          "loc": "French Alps",
+          "desc": "Highest peak in Western Europe with the Aiguille du Midi cable car."
+        }
+      ],
+      "activities": [
+        "Ascend the Eiffel Tower at dusk and cruise the Seine past illuminated Parisian bridges.",
+        "Cycle through Burgundy or Bordeaux vineyards for grand cru wine tastings.",
+        "Walk across the tidal bay to Mont-Saint-Michel and tour Omaha Beach in Normandy.",
+        "Ski the Vallée Blanche off-piste glacier run in Chamonix-Mont-Blanc.",
+        "Dine at a traditional Lyonnais *bouchon* in Lyon, France's gastronomic capital."
+      ],
+      "curiosities": [
+        "Thanks to its overseas territories across the Atlantic, Indian, and Pacific oceans, France spans 12 different time zones—more than any other country on Earth!",
+        "France's longest land border is actually with Brazil (730 km between French Guiana and Amapá state).",
+        "French was the official language of England for over 300 years (1066 to 1362) following the Norman Conquest."
+      ]
+    },
+    "DEU": {
+      "alliances": "European Union Founding Member • Eurozone • Schengen • NATO • G7 • G20 • OECD",
+      "centralBank": "Deutsche Bundesbank & European Central Bank (Both headquartered in Frankfurt am Main • Euro € EUR)",
+      "hdi": "0.950 (Very High)",
+      "lifeExp": "81.4 years",
+      "medianAge": "45.5 years",
+      "financeOverview": "Europe's largest economy and world's 3rd largest by Nominal GDP ($4.66 Trillion). Built on the *Mittelstand* (specialized industrial champions), precision automotive engineering (Volkswagen, Mercedes-Benz, BMW, Porsche), chemicals (BASF), industrial robotics (Siemens), and renewable *Energiewende*.",
+      "historySummary": "From Germanic tribes and the Holy Roman Empire (962–1806) to Johannes Gutenberg's printing press (1450) and Martin Luther's Reformation (1517), German lands fostered giants of philosophy, music (Bach, Beethoven), and science (Planck, Einstein). Unified in 1871, and following the tragedies of the World Wars and Cold War division, the peaceful Fall of the Berlin Wall on 9 November 1989 led to German Reunification (3 October 1990) as the democratic heart of Europe.",
+      "food": [
+        {
+          "emoji": "🥨",
+          "name": "Bavarian Laugenbrezel (Pretzel), Weißwurst & Obatzda",
+          "desc": "Warm lye pretzels served with Munich white veal sausage and sweet mustard."
+        },
+        {
+          "emoji": "🍖",
+          "name": "Schweinshaxe, Sauerbraten & Spätzle",
+          "desc": "Crispy roasted pork knuckle and marinated pot roast with Swabian egg noodles (*Käsespätzle*)."
+        },
+        {
+          "emoji": "🌭",
+          "name": "Berlin Currywurst & Bratwurst (40+ Regional Varieties)",
+          "desc": "Thuringian and Nuremberg charcoal-grilled sausages and Berlin spiced curry ketchup wurst."
+        },
+        {
+          "emoji": "🍰",
+          "name": "Schwarzwälder Kirschtorte (Black Forest Cake)",
+          "desc": "Chocolate sponge layered with whipped cream, sour cherries, and Kirschwasser cherry brandy."
+        },
+        {
+          "emoji": "🍺",
+          "name": "Reinheitsgebot Craft Beers & Mosel Riesling Wines",
+          "desc": "Brewed under the 1516 Bavarian Purity Law alongside steep-slate Mosel and Rheingau Rieslings."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "🏰",
+          "name": "Neuschwanstein Castle & Bavarian Alps (Zugspitze)",
+          "loc": "Bavaria",
+          "desc": "King Ludwig II's fairy-tale Romanesque Revival castle perched above Hohenschwangau."
+        },
+        {
+          "emoji": "🏛️",
+          "name": "Brandenburg Gate, Reichstag Glass Dome & Museum Island",
+          "loc": "Berlin",
+          "desc": "Iconic symbol of German reunification and Norman Foster's panoramic Reichstag dome."
+        },
+        {
+          "emoji": "⛪",
+          "name": "Cologne Cathedral (Kölner Dom) & Rhine Gorge Castles",
+          "loc": "North Rhine-Westphalia & Rhineland",
+          "desc": "157-meter twin-spired Gothic masterpiece overlooking the Rhine River and 40 medieval hilltop castles."
+        },
+        {
+          "emoji": "🌲",
+          "name": "Black Forest (Schwarzwald) & Heidelberg Castle",
+          "loc": "Baden-Württemberg",
+          "desc": "Dense evergreen mountain valleys, thermal spas (Baden-Baden), and romantic red-sandstone ruins."
+        },
+        {
+          "emoji": "🎻",
+          "name": "Hamburg Elbphilharmonie & Dresden Frauenkirche",
+          "loc": "Hamburg & Saxony",
+          "desc": "Wave-crowned concert hall on the Elbe port and Dresden's meticulously reconstructed Baroque dome."
+        }
+      ],
+      "activities": [
+        "Walk the East Side Gallery (Berlin Wall murals) and climb inside the glass dome of the Reichstag.",
+        "Cruise the UNESCO Upper Middle Rhine Valley past Lorelei Rock and medieval castles.",
+        "Experience Munich's Oktoberfest or relax in a traditional lakeside Bavarian beer garden.",
+        "Drive the unrestricted-speed stretches of the German Autobahn and visit the Porsche & Mercedes-Benz museums in Stuttgart.",
+        "Hike the Painter's Way (*Malerweg*) through the sandstone pillars of Saxon Switzerland National Park."
+      ],
+      "curiosities": [
+        "Germany bakes over 3,200 officially registered distinct varieties of bread, recognized by UNESCO as Intangible Cultural Heritage.",
+        "Johannes Gutenberg invented movable-type mechanical printing in Mainz around 1450, sparking the global information revolution.",
+        "Ulm Minster in southern Germany has the tallest church spire in the world at 161.53 meters (until Sagrada Família's central tower completion)."
+      ]
+    },
+    "JPN": {
+      "alliances": "G7 • G20 • OECD • UN • Quad • CPTPP • US-Japan Mutual Security Alliance",
+      "centralBank": "Bank of Japan (Nippon Ginkō, Tokyo • Japanese Yen ¥ JPY)",
+      "hdi": "0.925 (Very High)",
+      "lifeExp": "84.8 years (Among World's Highest)",
+      "medianAge": "49.1 years",
+      "financeOverview": "World's 4th largest economy ($4.11T Nominal GDP). Global leader in robotics, hybrid/automotive manufacturing (Toyota, Honda), precision optics & semiconductor equipment (Sony, Tokyo Electron), high-speed Shinkansen rail, and anime/gaming culture.",
+      "historySummary": "From ancient Jōmon pottery (14,000 BC) and imperial capitals Nara and Heian-kyō (Kyoto) to centuries of Samurai feudal rule and the peaceful 265-year Tokugawa Edo period. The 1868 Meiji Restoration rapidly transformed Japan into an industrial power. Rebuilding from WWII with pacifist democratic institutions, Japan achieved an economic miracle blending ultra-modern technology with timeless Shinto and Zen Buddhist heritage.",
+      "food": [
+        {
+          "emoji": "🍣",
+          "name": "Edomae Sushi & Sashimi",
+          "desc": "Precision-sliced seasonal Pacific bluefin tuna (*otoro*), sea urchin (*uni*), and vinegared shari rice."
+        },
+        {
+          "emoji": "🍜",
+          "name": "Tonkotsu, Shoyu & Miso Ramen",
+          "desc": "18-hour simmered rich broth with hand-pulled alkaline wheat noodles, chashu pork, and ajitsuke tamago."
+        },
+        {
+          "emoji": "🥩",
+          "name": "A5 Kobe & Matsusaka Wagyu Beef / Tempura",
+          "desc": "Intricately marbled melt-in-your-mouth Wagyu beef and feather-light seasonal seafood tempura."
+        },
+        {
+          "emoji": "🥞",
+          "name": "Osaka Okonomiyaki & Takoyaki",
+          "desc": "Savory griddled cabbage pancakes and crispy molten octopus spheres from Osaka's Dotonbori."
+        },
+        {
+          "emoji": "🍵",
+          "name": "Uji Ceremonial Matcha, Wagashi & Junmai Daiginjo Sake",
+          "desc": "Stone-ground Kyoto green tea and refined rice wines."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "🗻",
+          "name": "Mount Fuji (3,776 m) & Fuji Five Lakes",
+          "loc": "Yamanashi / Shizuoka",
+          "desc": "Japan's sacred snow-capped stratovolcano and cultural muse."
+        },
+        {
+          "emoji": "⛩️",
+          "name": "Kyoto's Fushimi Inari Taisha, Kinkaku-ji & Arashiyama",
+          "loc": "Kyoto (17 UNESCO World Heritage Sites)",
+          "desc": "10,000 vermilion torii gates, the Golden Pavilion, and towering bamboo groves."
+        },
+        {
+          "emoji": "🏙️",
+          "name": "Tokyo (Shibuya Crossing, Senso-ji, Akihabara & Ginza)",
+          "loc": "Greater Tokyo (37M Metro)",
+          "desc": "The largest metropolitan area on Earth seamlessly uniting neon skyscrapers and quiet Shinto shrines."
+        },
+        {
+          "emoji": "🦌",
+          "name": "Nara Todai-ji Great Buddha & Miyajima Floating Torii",
+          "loc": "Nara & Hiroshima",
+          "desc": "Free-roaming sacred bowing deer and Itsukushima Shrine's tide-washed torii gate."
+        },
+        {
+          "emoji": "🏯",
+          "name": "Himeji White Heron Castle & Japanese Alps (Shirakawa-go)",
+          "loc": "Hyogo & Gifu",
+          "desc": "Japan's finest surviving 17th-century feudal castle and thatched *gassho-zukuri* mountain villages."
+        }
+      ],
+      "activities": [
+        "Ride the Shinkansen bullet train at 320 km/h past Mount Fuji from Tokyo to Kyoto.",
+        "Soak in a natural volcanic outdoor hot spring (*onsen*) in Hakone or Kusatsu.",
+        "Stay overnight at a traditional *ryokan* inn with tatami mats and a multi-course *kaiseki* dinner.",
+        "Witness spring Cherry Blossom (*Sakura*) *hanami* picnics or fiery autumn *momiji* maple foliage.",
+        "Explore Tsukiji/Toyosu fish markets at dawn and experience a Kyoto tea ceremony."
+      ],
+      "curiosities": [
+        "Japan has over 14,125 islands and boasts the world's oldest continuously operating company—Kongō Gumi, founded in 578 AD!",
+        "The Tokaido Shinkansen bullet train has carried over 6.4 billion passengers since 1964 with zero fatal passenger derailments or collisions.",
+        "More than 100,000 Japanese citizens are centenarians (aged 100 or older), driven by diet, walkability, and preventive healthcare."
+      ]
+    },
+    "BLKS": {
+      "govType": "International & Littoral Maritime Basin (Bordered by Romania, Bulgaria, Ukraine, Russia, Georgia, Turkey)",
+      "headOfState": "Governed via UNCLOS, Bucharest Convention (1992) & Montreux Convention (1936)",
+      "headOfGov": "Black Sea Commission (Istanbul) & EU / Littoral Maritime Authorities (Constanța, Odessa, Varna, Samsun)",
+      "howLed": "Shared by 6 coastal nations (including EU & NATO members Romania and Bulgaria). Connected to the Mediterranean exclusively through the narrow Turkish Straits (Bosporus & Dardanelles) governed by the 1936 Montreux Convention, and linked to Central Europe via the Danube River—which empties into the Black Sea at Romania's Danube Delta.",
+      "alliances": "Bucharest Convention on Protection of the Black Sea • BSEC • EU Common Maritime Agenda",
+      "centralBank": "Black Sea Trade and Development Bank (BSTDB)",
+      "hdi": "Littoral Region Average ~0.825",
+      "lifeExp": "Pelagic Ecosystem",
+      "medianAge": "Holocene Reconnection (~7,500 Years Ago)",
+      "financeOverview": "Vital Eurasian maritime trade, grain, and energy corridor ($165B+ coastal maritime economy). Hosts Romania's flagship Constanța Port (the largest deep-water port on the Black Sea) and the Neptun Deep offshore natural gas field.",
+      "historySummary": "Known to the ancient Greeks as *Pontus Euxinus* ('The Hospitable Sea'), its shores hosted Milesian Greek colonies (Histria, Tomis/Constanța, Callatis/Mangalia in Romania), Roman fleets, Genoese merchant fortresses, and Ottoman/Byzantine trade routes. Because waters below 150 meters are completely devoid of oxygen (anoxic), the Black Sea floor is the greatest underwater archaeological museum on Earth, preserving intact Greek and Roman wooden ships for over 2,400 years.",
+      "food": [
+        {
+          "emoji": "🐟",
+          "name": "Saramură de Crap & Scrumbie de Dunăre (Pontic Grilled Shad)",
+          "desc": "Charcoal-grilled Black Sea/Danube shad and carp steeped in hot garlic-chili-tomato brine with mămăligă."
+        },
+        {
+          "emoji": "🦪",
+          "name": "Midii de Marea Neagră (Black Sea Mussels in White Wine)",
+          "desc": "Plump wild Black Sea mussels steamed in Dobrogean white wine, garlic, and lovage along the Constanța coast."
+        },
+        {
+          "emoji": "🐠",
+          "name": "Calcan la Grătar (Black Sea Turbot) & Hamsii",
+          "desc": "Prized flatfish with bony tubercles alongside crispy fried Black Sea anchovies (*hamsii*) with mujdei garlic sauce."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "🏛️",
+          "name": "Constanța Historic Casino & Ancient Tomis (Ovid's Square)",
+          "loc": "Romanian Black Sea Coast",
+          "desc": "Iconic 1910 Art Nouveau seafront casino and Roman mosaics where Roman poet Ovid lived in exile."
+        },
+        {
+          "emoji": "🦩",
+          "name": "Danube Delta & Sulina Lighthouse (Mile Zero)",
+          "loc": "Romania (NW Black Sea)",
+          "desc": "Where Europe's second-longest river meets the Black Sea after a 2,860 km journey from Germany's Black Forest."
+        },
+        {
+          "emoji": "🏖️",
+          "name": "Mamaia, Vama Veche, Balchik Palace & Nesebar",
+          "loc": "Romanian & Bulgarian Riviera",
+          "desc": "Sunlit sandy spits, Queen Marie of Romania's Balchik botanical gardens, and UNESCO ancient peninsula towns."
+        },
+        {
+          "emoji": "🚢",
+          "name": "Black Sea Abyssal Shipwreck Preservation Zone",
+          "loc": "150 – 2,212 m Depth",
+          "desc": "Contains the world's oldest intact shipwreck—a 2,400-year-old ancient Greek merchant vessel sitting upright at 2,000 m depth."
+        }
+      ],
+      "activities": [
+        "Stroll the restored Art Nouveau seafront promenade at Constanța Casino and visit the Roman Edifice with Mosaic.",
+        "Boat from Sulina out to the exact confluence where the sweet waters of the Danube merge with the Black Sea.",
+        "Sail or windsurf along the Dobrogean coast and taste fresh *midii* and *calcan* in Agigea or Vama Veche.",
+        "Explore the 7th-century BC ancient Greek ruins of Histria Fortress on the shores of Lake Sinoe."
+      ],
+      "curiosities": [
+        "Nearly 90% of the Black Sea's water volume (everything deeper than 150–200 meters) is anoxic—containing zero oxygen and rich in hydrogen sulfide.",
+        "The Black Sea is 1.83 times larger in surface area (436,402 km²) than the entire country of Romania (238,397 km²)!",
+        "Every year, the Danube River pours ~203 cubic kilometers of fresh water into the Black Sea right along Romania's coast."
+      ]
+    },
+    "ITA": {
+      "alliances": "European Union Founding Member • Eurozone • Schengen • NATO • G7 • G20 • OECD",
+      "centralBank": "Banca d'Italia (Eurosystem • Euro € EUR)",
+      "hdi": "0.906 (Very High)",
+      "lifeExp": "83.6 years",
+      "medianAge": "47.8 years",
+      "financeOverview": "World's 8th largest economy ($2.38T Nominal GDP) and home to the highest number of UNESCO World Heritage Sites on Earth (60 sites). Global leader in luxury fashion (Milan), supercars (Ferrari, Lamborghini), precision machinery, pharmaceuticals, wine, and Mediterranean tourism.",
+      "historySummary": "Cradle of the Etruscan, Magna Graecia, and Roman Republic/Empire civilizations that unified the Mediterranean and gave the Western world Roman law, Latin, and engineering. In the 14th–16th centuries, Italian city-states (Florence, Venice, Rome, Milan) birthed the Renaissance under Leonardo da Vinci, Michelangelo, and Galileo. Unified during the 19th-century *Risorgimento* (1861), Italy became a democratic republic in 1946 and a founding architect of the European Union (Treaty of Rome, 1957).",
+      "food": [
+        {
+          "emoji": "🍕",
+          "name": "Pizza Napoletana Verace (Margherita & Marinara)",
+          "desc": "UNESCO-protected wood-fired Neapolitan sourdough pizza topped with San Marzano tomatoes, fresh mozzarella di bufala, and basil."
+        },
+        {
+          "emoji": "🍝",
+          "name": "Pasta alla Carbonara, Cacio e Pepe & Tagliatelle al Ragù",
+          "desc": "Roman guanciale, Pecorino Romano, and egg yolk pasta alongside Bolognese slow-simmered meat ragù."
+        },
+        {
+          "emoji": "🍚",
+          "name": "Risotto alla Milanese & Ossobuco",
+          "desc": "Creamy Carnaroli rice infused with golden saffron and Parmigiano-Reggiano paired with braised veal shanks."
+        },
+        {
+          "emoji": "🍨",
+          "name": "Artisanal Gelato, Tiramisù & Sicilian Cannoli",
+          "desc": "Mascarpone and espresso-soaked savoiardi dessert and crisp pastry tubes filled with sweet sheep's ricotta."
+        },
+        {
+          "emoji": "🍷",
+          "name": "Espresso, Barolo, Chianti Classico & Prosecco",
+          "desc": "Iconic Italian coffee culture and DOCG Piedmont and Tuscan vintages."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "🏟️",
+          "name": "Colosseum, Roman Forum, Pantheon & Vatican City",
+          "loc": "Rome",
+          "desc": "The Eternal City's 80 AD Flavian Amphitheatre, Hadrian's concrete dome, and St. Peter's Basilica / Sistine Chapel."
+        },
+        {
+          "emoji": "🛶",
+          "name": "Venice Grand Canal, St. Mark's Basilica & Doge's Palace",
+          "loc": "Veneto Lagoon",
+          "desc": "118-island marble lagoon city connected by 400 bridges including the Rialto."
+        },
+        {
+          "emoji": "🎨",
+          "name": "Florence Duomo (Brunelleschi's Dome) & Uffizi Gallery",
+          "loc": "Tuscany",
+          "desc": "Renaissance capital housing Michelangelo's *David* and Botticelli's *Birth of Venus*."
+        },
+        {
+          "emoji": "🍋",
+          "name": "Amalfi Coast, Pompeii, Capri & Cinque Terre",
+          "loc": "Campania & Liguria",
+          "desc": "Vertical cliffside pastel villages and the Roman city frozen in time by Mount Vesuvius in 79 AD."
+        },
+        {
+          "emoji": "🏔️",
+          "name": "The Dolomites, Lake Como & Milan Cathedral",
+          "loc": "Northern Italy",
+          "desc": "Jagged UNESCO limestone alps, aristocratic glacial lakes, and Milan's flamboyant Gothic marble Duomo."
+        }
+      ],
+      "activities": [
+        "Tour the Colosseum underground hypogeum and toss a coin into Rome's Trevi Fountain.",
+        "Glide by gondola down Venice's Grand Canal at sunset and visit Murano's glassblowers.",
+        "Drive or hike the dramatic cliffside paths of the Amalfi Coast (Path of the Gods) and Cinque Terre.",
+        "Hike or ski the Tre Cime di Lavaredo circuit in the UNESCO Dolomites.",
+        "Savor a Tuscan wine and olive oil tasting across the rolling hills of Val d'Orcia and Chianti."
+      ],
+      "curiosities": [
+        "Italy holds 60 UNESCO World Heritage Sites—more than any other country on Planet Earth.",
+        "Two independent sovereign microstates—Vatican City and San Marino—are completely enclaved inside Italian territory.",
+        "The University of Bologna, founded in 1088, is the oldest university in continuous operation in the world."
+      ]
+    },
+    "ESP": {
+      "alliances": "European Union • Eurozone • Schengen • NATO • OECD • Ibero-American Summit",
+      "centralBank": "Banco de España (Eurosystem • Euro € EUR)",
+      "hdi": "0.911 (Very High)",
+      "lifeExp": "83.9 years",
+      "medianAge": "45.3 years",
+      "financeOverview": "Eurozone's 4th largest economy ($1.72T Nominal GDP). World's #2 tourism superpower (~85M+ visitors/year), operating Europe's most extensive high-speed rail network (AVE, 3,900+ km), leading renewable wind/solar power, automotive production, and global banking (Santander, BBVA).",
+      "historySummary": "Crossroads of Iberian, Celtic, Phoenician, Roman (*Hispania*, birthplace of Emperors Trajan and Hadrian!), Visigothic, and 700 years of refined Moorish Al-Andalus civilization. The 1492 union of Castile and Aragon under Ferdinand and Isabella coincided with Columbus's transatlantic voyage, launching the first global empire where 'the sun never set'. Since the 1978 Constitutional transition, Spain has flourished as a vibrant parliamentary democracy.",
+      "food": [
+        {
+          "emoji": "🥘",
+          "name": "Paella Valenciana",
+          "desc": "Saffron-infused Bomba rice cooked over orange-wood fire with rabbit, chicken, garrofó beans, and crispy *socarrat* crust."
+        },
+        {
+          "emoji": "🍖",
+          "name": "Jamón Ibérico de Bellota & Tapas / Pintxos",
+          "desc": "Acorn-fed Iberian cured ham carved paper-thin alongside Basque skewered *pintxos* in San Sebastián."
+        },
+        {
+          "emoji": "🥔",
+          "name": "Tortilla Española, Patatas Bravas & Gazpacho",
+          "desc": "Caramelized onion and potato omelet and chilled Andalusian tomato-olive oil soup."
+        },
+        {
+          "emoji": "🍫",
+          "name": "Churros con Chocolate & Crema Catalana",
+          "desc": "Crisp ridged pastry dipped in thick hot dark chocolate."
+        },
+        {
+          "emoji": "🍷",
+          "name": "Rioja, Ribera del Duero, Cava & Sangria",
+          "desc": "Oak-aged Tempranillo reds and Catalan sparkling Cava."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "⛪",
+          "name": "Sagrada Família, Park Güell & Casa Batlló",
+          "loc": "Barcelona (Catalonia)",
+          "desc": "Antoni Gaudí's soaring organic Modernisme basilica—the tallest church on Earth upon completion."
+        },
+        {
+          "emoji": "🕌",
+          "name": "The Alhambra Palace & Generalife Gardens",
+          "loc": "Granada (Andalusia)",
+          "desc": "14th-century Nasrid Moorish palace complex of intricate stucco arches and fountain courtyards beneath the Sierra Nevada."
+        },
+        {
+          "emoji": "🖼️",
+          "name": "Prado Museum, Royal Palace & Plaza Mayor",
+          "loc": "Madrid",
+          "desc": "Masterpieces by Velázquez, Goya, and El Greco alongside Western Europe's largest royal palace by floor area (135,000 m²)."
+        },
+        {
+          "emoji": "💃",
+          "name": "Alcázar of Seville, Mezquita of Córdoba & Ronda",
+          "loc": "Andalusia",
+          "desc": "Mudéjar royal palaces, forest of red-and-white striped arches, and Ronda's 120-meter El Tajo gorge bridge."
+        },
+        {
+          "emoji": "🐚",
+          "name": "Santiago de Compostela Cathedral & Guggenheim Bilbao",
+          "loc": "Galicia & Basque Country",
+          "desc": "Historic culmination of the Camino de Santiago pilgrimage and Frank Gehry's titanium architectural masterpiece."
+        }
+      ],
+      "activities": [
+        "Marvel at the stained-glass light inside Gaudí's Sagrada Família in Barcelona.",
+        "Walk the final 100 km of the Camino de Santiago across green Galicia.",
+        "Experience authentic passionate Flamenco in a *tablao* in Seville's Triana quarter or Granada's Sacromonte caves.",
+        "Go on a Basque *pintxos* crawl through the Old Town of San Sebastián (Donostia).",
+        "Stargaze atop Mount Teide (3,715 m)—Spain's highest peak on Tenerife in the Canary Islands."
+      ],
+      "curiosities": [
+        "Spain produces nearly 45% of the entire world's olive oil, centered in Andalusia's Jaén province.",
+        "Madrid's Sobrino de Botín, founded in 1725, is certified by Guinness World Records as the world's oldest continuously operating restaurant.",
+        "Spain's high-speed rail network (AVE) is the longest in Europe and second in the world only to China."
+      ]
+    },
+    "CHN": {
+      "alliances": "UN Security Council Permanent Member (P5) • G20 • BRICS+ • SCO • RCEP • APEC",
+      "centralBank": "People's Bank of China (PBOC • Renminbi / Yuan ¥ CNY)",
+      "hdi": "0.788 (High)",
+      "lifeExp": "78.6 years",
+      "medianAge": "39.8 years",
+      "financeOverview": "World's #1 economy by Purchasing Power Parity (~$35T+ PPP) and #2 by Nominal GDP ($18.53T). Global manufacturing powerhouse ('Factory of the World'), #1 exporter of goods, global leader in electric vehicles (BYD), solar panels, 5G, high-speed rail (45,000+ km), and space exploration (Tiangong Space Station).",
+      "historySummary": "One of humanity's oldest continuous civilizations, emerging along the Yellow and Yangtze rivers over 4,000 years ago. Unified in 221 BC under First Emperor Qin Shi Huang, Imperial China pioneered papermaking, printing, gunpowder, and the compass across the Han, Tang, Song, Ming, and Qing dynasties while trading along the Silk Road. Following the end of imperial rule in 1912 and the founding of the People's Republic in 1949, post-1978 economic reforms lifted over 800 million people out of poverty.",
+      "food": [
+        {
+          "emoji": "🦆",
+          "name": "Peking Roast Duck (Beijing Kaoya)",
+          "desc": "Imperial crispy-glazed lacquered duck carved tableside with thin pancakes, scallions, and sweet bean sauce."
+        },
+        {
+          "emoji": "🌶️",
+          "name": "Sichuan Mala Hotpot, Mapo Tofu & Kung Pao Chicken",
+          "desc": "Simmering numbing-spicy Sichuan peppercorn (*huajiao*) broth and wok-seared delicacies."
+        },
+        {
+          "emoji": "🥟",
+          "name": "Cantonese Dim Sum & Shanghai Xiao Long Bao",
+          "desc": "Delicate steamed shrimp har gow, siu mai, and soup-filled pork dumplings."
+        },
+        {
+          "emoji": "🍜",
+          "name": "Lanzhou Hand-Pulled Beef Noodles & Biangbiang Noodles",
+          "desc": "Artisanal stretched wheat noodles in clear spiced beef broth."
+        },
+        {
+          "emoji": "🍵",
+          "name": "West Lake Longjing (Dragon Well) Green Tea & Pu'er",
+          "desc": "Centuries-old Chinese tea culture from Hangzhou and Yunnan."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "🧱",
+          "name": "The Great Wall of China (Mutianyu, Jinshanling & Badaling)",
+          "loc": "Northern China (21,196 km total)",
+          "desc": "History's longest ancient defensive fortification winding across dramatic mountain ridges."
+        },
+        {
+          "emoji": "🏯",
+          "name": "Forbidden City (Palace Museum) & Temple of Heaven",
+          "loc": "Beijing",
+          "desc": "World's largest imperial palace complex (980 buildings across 72 hectares) home to 24 Ming and Qing emperors."
+        },
+        {
+          "emoji": "🗿",
+          "name": "Terracotta Army of Emperor Qin Shi Huang",
+          "loc": "Xi'an (Shaanxi)",
+          "desc": "8,000 life-sized uniquely sculpted clay warriors, horses, and bronze chariots guarding China's first emperor since 210 BC."
+        },
+        {
+          "emoji": "🏞️",
+          "name": "Zhangjiajie Avatar Sandstone Pillars & Li River Karsts",
+          "loc": "Hunan & Guilin (Guangxi)",
+          "desc": "1,000-meter quartz-sandstone spires in Wulingyuan and mist-draped limestone peaks along the Li River."
+        },
+        {
+          "emoji": "🌆",
+          "name": "Shanghai Bund & Pudong Skyline / Chengdu Panda Base",
+          "loc": "Shanghai & Sichuan",
+          "desc": "Futuristic 632-meter Shanghai Tower facing historic Art Deco riverfront and Giant Panda sanctuaries."
+        }
+      ],
+      "activities": [
+        "Hike along the watchtowers of the Great Wall at Mutianyu or Jinshanling.",
+        "Bamboo-raft down the Li River from Guilin to Yangshuo past karst mountains depicted on the 20-yuan note.",
+        "Ride the Fuxing High-Speed Train at 350 km/h between Beijing and Shanghai in 4.5 hours.",
+        "Visit Giant Pandas munching bamboo at the Chengdu Research Base in Sichuan.",
+        "Stroll Beijing's Forbidden City axis and historic hutong courtyard alleys."
+      ],
+      "curiosities": [
+        "Despite spanning nearly 5,000 km from east to west (5 geographical time zones), all of China uses a single official time zone: Beijing Standard Time (UTC+8)!",
+        "China has built over 45,000 km of high-speed rail—more than two-thirds of the entire world's high-speed railway tracks.",
+        "Paper money (*Jiaozi*), papermaking, the magnetic compass, and movable-type printing were all invented in Imperial China."
+      ]
+    },
+    "IND": {
+      "alliances": "UN • G20 • BRICS+ • Commonwealth of Nations • Quad • SCO • ISA",
+      "centralBank": "Reserve Bank of India (RBI, Mumbai • Indian Rupee ₹ INR)",
+      "hdi": "0.644 (Medium)",
+      "lifeExp": "72.0 years",
+      "medianAge": "28.4 years",
+      "financeOverview": "World's most populous nation (1.45B) and fastest-growing major economy ($3.94T Nominal GDP; #3 globally by PPP at ~$14.6T). Global leader in IT & software services (Bengaluru, Hyderabad), digital public infrastructure (UPI instant payments), generic pharmaceuticals ('Pharmacy of the World'), space exploration (ISRO Chandrayaan-3 Moon South Pole landing), and cinema.",
+      "historySummary": "Home to the ancient Indus Valley Civilization (Harappa and Mohenjo-daro, 3300 BC), the Vedic period, and the birthplace of Hinduism, Buddhism, Jainism, and Sikhism. Classical golden ages under the Maurya (Emperor Ashoka) and Gupta empires advanced mathematics (invention of zero and decimal system), astronomy, and architecture, followed by the Chola and Mughal empires (builders of the Taj Mahal). Through Mahatma Gandhi's non-violent independence movement, India became a sovereign democratic republic in 1947/1950.",
+      "food": [
+        {
+          "emoji": "🍛",
+          "name": "Butter Chicken (Murgh Makhani), Rogan Josh & Garlic Naan",
+          "desc": "Tandoor-roasted chicken in velvety spiced tomato-butter gravy served with clay-oven flatbread."
+        },
+        {
+          "emoji": "🍚",
+          "name": "Hyderabadi Dum Biryani",
+          "desc": "Fragrant basmati rice slow-cooked in a sealed pot (*dum*) with saffron, caramelized onions, mint, and marinated lamb or chicken."
+        },
+        {
+          "emoji": "🥞",
+          "name": "South Indian Masala Dosa, Idli & Sambar",
+          "desc": "Crisp fermented rice-and-lentil crepe stuffed with spiced potatoes, coconut chutney, and tangy lentil stew."
+        },
+        {
+          "emoji": "🥟",
+          "name": "Samosas, Pani Puri (Golgappa) & Chaat",
+          "desc": "Iconic street food explosion of crispy pastry, tamarind water, mint, and chickpeas."
+        },
+        {
+          "emoji": "☕",
+          "name": "Masala Chai, Mango Lassi & Darjeeling Tea",
+          "desc": "Cardamom-ginger spiced milk tea and sweet yogurt Alphonso mango smoothies."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "🕌",
+          "name": "The Taj Mahal & Agra Fort",
+          "loc": "Agra (Uttar Pradesh)",
+          "desc": "17th-century ivory-white Makrana marble mausoleum built by Emperor Shah Jahan—universally admired jewel of world heritage."
+        },
+        {
+          "emoji": "🏰",
+          "name": "Jaipur Pink City (Hawa Mahal & Amber Fort) & Udaipur",
+          "loc": "Rajasthan",
+          "desc": "Rajput hilltop fortresses, Palace of Winds, and marble lake palaces."
+        },
+        {
+          "emoji": "🕉️",
+          "name": "Varanasi Ghats on the Sacred Ganges River",
+          "loc": "Uttar Pradesh",
+          "desc": "One of the world's oldest continuously inhabited cities, famous for evening *Ganga Aarti* fire ceremonies."
+        },
+        {
+          "emoji": "🌴",
+          "name": "Kerala Backwaters, Western Ghats & Goa Beaches",
+          "loc": "South & West India",
+          "desc": "Palm-fringed houseboat lagoons, spice plantations, and biodiversity hotspots."
+        },
+        {
+          "emoji": "🏔️",
+          "name": "Ladakh, Leh & Himalayan Monasteries",
+          "loc": "Indian Himalayas",
+          "desc": "High-altitude Tibetan Buddhist monasteries and turquoise Pangong Lake at 4,250 m."
+        }
+      ],
+      "activities": [
+        "Watch the Taj Mahal glow rose-gold at sunrise from across the Yamuna River.",
+        "Cruise the tranquil palm-lined backwaters of Alleppey in Kerala aboard a thatched *kettuvallam* houseboat.",
+        "Track wild Bengal tigers on safari in Ranthambore, Bandhavgarh, or Jim Corbett National Park.",
+        "Witness the evening candlelit *Ganga Aarti* ceremony from a wooden boat in Varanasi.",
+        "Ride the UNESCO Darjeeling Himalayan 'Toy Train' past misty tea gardens toward Kangchenjunga (8,586 m)."
+      ],
+      "curiosities": [
+        "The numeral '0' (zero), the decimal place-value system, Trigonometry, and the game of Chess (*Chaturanga*) all originated in ancient India.",
+        "India's Unified Payments Interface (UPI) processes over 14 billion real-time digital financial transactions every single month.",
+        "In August 2023, India's Chandrayaan-3 became the first spacecraft in human history to soft-land near the Lunar South Pole."
+      ]
+    },
+    "BRA": {
+      "alliances": "UN • G20 • BRICS+ • Mercosur • OAS • CELAC",
+      "centralBank": "Banco Central do Brasil (Brasília • Brazilian Real R$ BRL)",
+      "hdi": "0.760 (High)",
+      "lifeExp": "76.0 years",
+      "medianAge": "34.7 years",
+      "financeOverview": "Largest economy in Latin America and the Southern Hemisphere ($2.33T Nominal GDP). Global superpower in agribusiness (#1 coffee, soybeans, sugar, orange juice), aerospace (Embraer), deep-water pre-salt offshore oil, iron ore (Vale), and clean hydropower (~88% renewable electricity grid).",
+      "historySummary": "Inhabited for millennia by Tupi-Guarani and Amazonian Indigenous peoples before Pedro Álvares Cabral's landing in 1500 established Portuguese rule. Uniquely in the Americas, Rio de Janeiro served as the capital of the entire Portuguese Empire from 1808 to 1821 before Dom Pedro I proclaimed the Empire of Brazil in 1822. Becoming a federal republic in 1889 and building Oscar Niemeyer's modernist capital Brasília in 1960, Brazil is celebrated for its cultural vibrancy and biodiversity.",
+      "food": [
+        {
+          "emoji": "🍲",
+          "name": "Feijoada Completa",
+          "desc": "Brazil's rich national stew of black beans slow-simmered with smoked pork and beef, served with farofa (toasted cassava), collard greens, and orange slices."
+        },
+        {
+          "emoji": "🥩",
+          "name": "Gaúcho Churrasco (Picanha on Skewers)",
+          "desc": "Flame-roasted prime top sirloin cap (*picanha*) carved tableside rodízio-style."
+        },
+        {
+          "emoji": "🧀",
+          "name": "Pão de Queijo, Coxinha & Açaí na Tigela",
+          "desc": "Warm Minas Gerais baked cassava-cheese puffs and Amazonian purple açaí berry bowls."
+        },
+        {
+          "emoji": "🍤",
+          "name": "Moqueca Baiana",
+          "desc": "Afro-Brazilian Bahian seafood stew simmered in coconut milk, dendê palm oil, lime, and cilantro."
+        },
+        {
+          "emoji": "🍹",
+          "name": "Caipirinha & World-Class Minas Gerais Arabica Coffee",
+          "desc": "Muddled fresh lime, sugar, and sugarcane cachaça."
+        }
+      ],
+      "attractions": [
+        {
+          "emoji": "🗽",
+          "name": "Christ the Redeemer (Corcovado) & Sugarloaf Mountain",
+          "loc": "Rio de Janeiro",
+          "desc": "Art Deco Wonder of the World overlooking Guanabara Bay, Copacabana, and Ipanema beaches."
+        },
+        {
+          "emoji": "🌊",
+          "name": "Iguaçu Falls (Cataratas do Iguaçu)",
+          "loc": "Paraná (Border with Argentina)",
+          "desc": "275 thundering waterfalls spanning 2.7 km—including the 80-meter Devil's Throat (*Garganta do Diabo*)."
+        },
+        {
+          "emoji": "🌳",
+          "name": "Amazon Rainforest, Meeting of Waters & Manaus",
+          "loc": "Amazonas",
+          "desc": "60% of the Amazon Basin lies in Brazil, alongside the opulent 1896 Amazon Theatre in Manaus."
+        },
+        {
+          "emoji": "🐆",
+          "name": "The Pantanal & Lençóis Maranhenses",
+          "loc": "Mato Grosso & Maranhão",
+          "desc": "Earth's largest tropical wetland (best place on Earth to spot wild jaguars) and surreal white sand dunes filled with turquoise rainwater lagoons."
+        },
+        {
+          "emoji": "🏛️",
+          "name": "Salvador Pelourinho & Oscar Niemeyer's Brasília",
+          "loc": "Bahia & Federal District",
+          "desc": "Colorful colonial Afro-Brazilian heritage and UNESCO-listed futuristic modernist capital."
+        }
+      ],
+      "activities": [
+        "Take the cog train up Corcovado Mountain to Christ the Redeemer and ride the cable car to Sugarloaf at sunset.",
+        "Walk the panoramic catwalk right into the mist of Devil's Throat at Iguaçu Falls.",
+        "Embark on a riverboat expedition from Manaus into the flooded *igapó* forests of the Amazon.",
+        "Swim in the crystal-clear freshwater desert lagoons of Lençóis Maranhenses National Park.",
+        "Experience the electric samba parades of the Rio Carnival at the Sambadrome."
+      ],
+      "curiosities": [
+        "Brazil has been the world's #1 producer of coffee continuously for over 150 years.",
+        "Brazil borders every single country in South America except two (Chile and Ecuador).",
+        "The Amazon River discharges ~209,000 cubic meters of water per second into the Atlantic—more than the next seven largest rivers on Earth combined!"
+      ]
+    }
+  },
+  "leaders": {
+    "GBR": [
+      "Constitutional Parliamentary Monarchy",
+      "King Charles III (Monarch)",
+      "Prime Minister Keir Starmer (10 Downing Street)",
+      "Bicameral Parliament (House of Commons & House of Lords); the Monarch reigns ceremonially while the Prime Minister commands a majority in the elected House of Commons."
+    ],
+    "FRA": [
+      "Unitary Semi-Presidential Republic (Fifth Republic)",
+      "President Emmanuel Macron (Élysée Palace)",
+      "Prime Minister (Matignon • Appointed by President)",
+      "Semi-presidential system under the 1958 Constitution where a strong directly elected President directs foreign policy and defense while the Prime Minister manages domestic legislation before the National Assembly and Senate."
+    ],
+    "DEU": [
+      "Federal Parliamentary Republic (16 Bundesländer)",
+      "Federal President Frank-Walter Steinmeier",
+      "Federal Chancellor Friedrich Merz / Olaf Scholz (Bundeskanzleramt)",
+      "Executive power is exercised by the Federal Chancellor (*Bundeskanzler*) elected by the Bundestag, while federal states (*Länder*) representation sits in the Bundesrat."
+    ],
+    "ITA": [
+      "Unitary Parliamentary Republic",
+      "President Sergio Mattarella (Quirinal Palace)",
+      "Prime Minister Giorgia Meloni (Palazzo Chigi)",
+      "Parliamentary republic where the President serves as guarantor of the Constitution and appoints the President of the Council of Ministers (Prime Minister) supported by the Chamber of Deputies and Senate."
+    ],
+    "ESP": [
+      "Parliamentary Constitutional Monarchy (17 Autonomous Communities)",
+      "King Felipe VI",
+      "Prime Minister Pedro Sánchez (Palacio de la Moncloa)",
+      "Under the 1978 Constitution, the hereditary Monarch is Head of State while executive authority rests with the President of the Government accountable to the Cortes Generales."
+    ],
+    "JPN": [
+      "Unitary Parliamentary Constitutional Monarchy",
+      "Emperor Naruhito (Chrysanthemum Throne)",
+      "Prime Minister Shigeru Ishiba (Kantei)",
+      "Under the 1947 Constitution, the Emperor is the symbol of the State and unity of the people, while executive power is vested in the Cabinet led by the Prime Minister chosen by the National Diet."
+    ],
+    "CHN": [
+      "Unitary Marxist-Leninist One-Party Socialist Republic",
+      "President Xi Jinping (General Secretary)",
+      "Premier Li Qiang (State Council)",
+      "Led by the Chinese Communist Party (CCP); the National People's Congress is the supreme organ of state power, while the State Council led by the Premier serves as the central executive."
+    ],
+    "IND": [
+      "Federal Parliamentary Democratic Republic (28 States & 8 Union Territories)",
+      "President Droupadi Murmu (Rashtrapati Bhavan)",
+      "Prime Minister Narendra Modi (Lok Kalyan Marg)",
+      "World's largest democracy by electorate (~970M voters); executive power is wielded by the Council of Ministers headed by the Prime Minister, responsible to the Lok Sabha (Lower House of Parliament)."
+    ],
+    "BRA": [
+      "Federal Presidential Constitutional Republic (26 States + Federal District)",
+      "President Luiz Inácio Lula da Silva (Palácio do Planalto)",
+      "President Lula da Silva (Presidential Cabinet)",
+      "Presidential federal republic where the President is both Head of State and Head of Government, elected by popular two-round runoff alongside a bicameral National Congress in Brasília."
+    ],
+    "CAN": [
+      "Federal Parliamentary Constitutional Monarchy",
+      "King Charles III (Represented by Governor General Mary Simon)",
+      "Prime Minister Mark Carney / Justin Trudeau (Ottawa)",
+      "Westminster parliamentary federation of 10 provinces and 3 territories; executive authority is exercised by the Prime Minister and Cabinet accountable to the House of Commons."
+    ],
+    "AUS": [
+      "Federal Parliamentary Constitutional Monarchy",
+      "King Charles III (Represented by Governor-General Sam Mostyn)",
+      "Prime Minister Anthony Albanese (Canberra)",
+      "Federal Commonwealth of 6 states and 2 territories governed under a hybrid Westminster-Washington parliamentary constitution with compulsory preferential voting."
+    ],
+    "RUS": [
+      "Federal Semi-Presidential Republic",
+      "President Vladimir Putin (Moscow Kremlin)",
+      "Prime Minister Mikhail Mishustin",
+      "Strong executive presidency commanding foreign policy, security, and armed forces, alongside the Government led by the Prime Minister and the bicameral Federal Assembly (State Duma & Federation Council)."
+    ],
+    "UKR": [
+      "Unitary Semi-Presidential Republic",
+      "President Volodymyr Zelenskyy (Mariinskyi Palace)",
+      "Prime Minister Denys Shmyhal",
+      "Directly elected President directs national defense and foreign policy alongside the Cabinet of Ministers accountable to the unicameral Verkhovna Rada (450 seats)."
+    ],
+    "POL": [
+      "Unitary Semi-Presidential / Parliamentary Republic",
+      "President Andrzej Duda / Presidential Office",
+      "Prime Minister Donald Tusk (Chancellery)",
+      "Dual executive where the Council of Ministers led by the Prime Minister governs domestic and EU affairs before the Sejm and Senate, while the directly elected President holds legislative veto and defense powers."
+    ],
+    "HUN": [
+      "Unitary Parliamentary Republic",
+      "President Tamás Sulyok (Sándor Palace)",
+      "Prime Minister Viktor Orbán (Carmelite Monastery)",
+      "Parliamentary system where the Prime Minister is elected by the unicameral National Assembly (*Országgyűlés*, 199 seats) in Budapest's iconic neo-Gothic Parliament building."
+    ],
+    "BGR": [
+      "Unitary Parliamentary Republic",
+      "President Rumen Radev",
+      "Prime Minister (Council of Ministers, Sofia)",
+      "Unicameral National Assembly (240 seats) vests executive governance in the Prime Minister and Council of Ministers, while the directly elected President serves a 5-year term."
+    ],
+    "MDA": [
+      "Unitary Parliamentary Republic",
+      "President Maia Sandu (Chișinău)",
+      "Prime Minister Dorin Recean",
+      "Pro-European parliamentary republic where the directly elected President nominates the Prime Minister subject to confidence of the 101-seat Parliament."
+    ],
+    "SRB": [
+      "Unitary Parliamentary Republic",
+      "President Aleksandar Vučić",
+      "Prime Minister Miloš Vučević (Belgrade)",
+      "Executive power is shared between the Government led by the Prime Minister and the directly elected President, accountable to the 250-seat National Assembly."
+    ],
+    "GRC": [
+      "Unitary Parliamentary Republic",
+      "President Konstantinos Tasoulas / Katerina Sakellaropoulou",
+      "Prime Minister Kyriakos Mitsotakis (Maximos Mansion)",
+      "Birthplace of ancient democracy; executive power is exercised by the Prime Minister leading the majority party in the 300-seat Hellenic Parliament."
+    ],
+    "TUR": [
+      "Unitary Presidential Constitutional Republic",
+      "President Recep Tayyip Erdoğan (Beştepe Complex, Ankara)",
+      "President Recep Tayyip Erdoğan (Executive Presidency)",
+      "Since the 2017 constitutional reform, the directly elected President serves as both Head of State and Head of Government alongside the 600-seat Grand National Assembly."
+    ],
+    "CHE": [
+      "Federal Directorial Republic with Direct Democracy (26 Cantons)",
+      "7-Member Swiss Federal Council (Collective Head of State)",
+      "Rotating Federal President (Primus inter pares for 1-year term)",
+      "Unique system where a 7-member cross-party Federal Council serves collectively as Head of State and Government, while citizens regularly vote directly on laws via binding national referendums."
+    ],
+    "NLD": [
+      "Unitary Parliamentary Constitutional Monarchy",
+      "King Willem-Alexander",
+      "Prime Minister Dick Schoof (Binnenhof, The Hague)",
+      "Proportional representation parliamentary democracy where coalition cabinets govern from The Hague (*Den Haag*) while Amsterdam is the constitutional capital."
+    ],
+    "SWE": [
+      "Unitary Parliamentary Constitutional Monarchy",
+      "King Carl XVI Gustaf",
+      "Prime Minister Ulf Kristersson (Rosenbad)",
+      "Parliamentary democracy governed by the Prime Minister accountable to the 349-seat unicameral Riksdag."
+    ],
+    "NOR": [
+      "Unitary Parliamentary Constitutional Monarchy",
+      "King Harald V",
+      "Prime Minister Jonas Gahr Støre (Oslo)",
+      "Constitutional monarchy backed by the world's largest sovereign wealth fund ($1.7T+ Government Pension Fund Global) and the 169-seat Storting."
+    ],
+    "MEX": [
+      "Federal Presidential Constitutional Republic (31 States + CDMX)",
+      "President Claudia Sheinbaum (National Palace)",
+      "President Claudia Sheinbaum (First female President of Mexico)",
+      "Presidential federal republic where the President is elected for a single non-renewable 6-year term (*sexenio*) alongside the bicameral Congress of the Union."
+    ],
+    "ARG": [
+      "Federal Presidential Constitutional Republic (23 Provinces + CABA)",
+      "President Javier Milei (Casa Rosada, Buenos Aires)",
+      "President Javier Milei (Assisted by Chief of the Cabinet of Ministers)",
+      "Federal republic where the President serves as both Head of State and Head of Government alongside a bicameral National Congress."
+    ],
+    "EGY": [
+      "Unitary Semi-Presidential Republic",
+      "President Abdel Fattah el-Sisi (Cairo / New Administrative Capital)",
+      "Prime Minister Mostafa Madbouly",
+      "Semi-presidential republic governed by an elected President, a Cabinet led by the Prime Minister, and a bicameral Parliament (House of Representatives & Senate)."
+    ],
+    "ZAF": [
+      "Unitary Parliamentary Republic with Executive Presidency",
+      "President Cyril Ramaphosa (Union Buildings, Pretoria)",
+      "President Cyril Ramaphosa (Government of National Unity)",
+      "Three-capital republic (Pretoria executive, Cape Town legislative, Bloemfontein judicial) where the President is elected by the 400-seat National Assembly."
+    ],
+    "KOR": [
+      "Unitary Presidential Constitutional Republic",
+      "President of the Republic of Korea (Seoul)",
+      "Prime Minister (Appointed by President with National Assembly approval)",
+      "Presidential republic where executive power is vested in the President and State Council alongside the 300-seat unicameral National Assembly."
+    ],
+    "SGP": [
+      "Unitary Parliamentary Republic",
+      "President Tharman Shanmugaratnam (Istana)",
+      "Prime Minister Lawrence Wong",
+      "Westminster-style unicameral parliamentary republic recognized globally for technocratic governance, financial efficiency, and urban sustainability."
+    ],
+    "ARE": [
+      "Federal Elective Constitutional Monarchy (7 Emirates)",
+      "President Sheikh Mohamed bin Zayed Al Nahyan (Ruler of Abu Dhabi)",
+      "Prime Minister Sheikh Mohammed bin Rashid Al Maktoum (Ruler of Dubai)",
+      "Federation of 7 hereditary emirates (Abu Dhabi, Dubai, Sharjah, Ajman, Umm Al Quwain, Ras Al Khaimah, Fujairah) governed by the Federal Supreme Council."
+    ],
+    "MCO": [
+      "Unitary Parliamentary Constitutional Monarchy (Principality)",
+      "Prince Albert II (House of Grimaldi)",
+      "Minister of State (Appointed by the Sovereign Prince)",
+      "Constitutional principality ruled by the House of Grimaldi since 1297 alongside a 24-seat National Council."
+    ],
+    "GRL": [
+      "Autonomous Constituent Country within the Kingdom of Denmark",
+      "King Frederik X of Denmark",
+      "Prime Minister (Naalakkersuisut Siulittaasuat • Nuuk)",
+      "Self-governing parliamentary democracy via the 31-seat Inatsisartut in Nuuk under the 2009 Self-Government Act."
+    ]
+  }
+}

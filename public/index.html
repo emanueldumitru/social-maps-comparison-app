@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TERRA // SCALE — 3D WebGL Global Surface, Population & Encyclopedia Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css" />
+  <!-- Three.js 3D WebGL Engine & GSAP Motion Library (CDN + Local Vendor Fallback) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" onerror="this.onerror=null;this.src='/vendor/three.min.js'"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" onerror="this.onerror=null;this.src='/vendor/gsap.min.js'"></script>
+  <script src="/vendor/three-gsap-shim.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOP COMMAND BAR -->
+    <header class="topbar">
+      <div class="brand-group">
+        <div class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3.6 9h16.8M3.6 15h16.8"></path>
+            <path d="M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">
+            TERRA // SCALE
+            <span class="brand-tag" id="headerMatchupTag">ROU vs USA • 1:41.2 AREA</span>
+            <span class="entity-badge type-ocean" id="webglStatusBadge">THREE.JS 3D WEBGL</span>
+          </div>
+          <div class="brand-subtitle">True-Size Cartographic Surface, 3D WebGL Volumetric Prisms, Biosphere &amp; Encyclopedia Studio</div>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="pill-toggle" role="group" aria-label="Unit System">
+          <button type="button" id="btnUnitMetric" class="active" onclick="setUnitSystem('metric')">km² / km</button>
+          <button type="button" id="btnUnitImperial" onclick="setUnitSystem('imperial')">mi² / mi</button>
+        </div>
+
+        <div class="pill-toggle" role="group" aria-label="Territory Scope">
+          <button type="button" id="btnScopeFull" class="active" onclick="setTerritoryScope('full')" title="Include all sovereign territories (e.g. Alaska &amp; Hawaii)">Full Area</button>
+          <button type="button" id="btnScopeMainland" onclick="setTerritoryScope('mainland')" title="Compare contiguous mainland only (e.g. Lower 48 US states)">Contiguous</button>
+        </div>
+
+        <button type="button" class="btn-action" onclick="pickRandomMatchup()" title="Compare two random contrasting countries">
+          <span>🎲</span> Surprise Pair
+        </button>
+
+        <button type="button" class="btn-action" id="btnThemeToggle" onclick="toggleTheme()" title="Switch Dark / Light Cartographic Theme">
+          <span id="themeIcon">☀️</span> <span id="themeLabel">Paper Mode</span>
+        </button>
+
+        <button type="button" class="btn-action primary" onclick="exportComparisonPoster()" title="Download high-resolution PNG comparison card">
+          <span>📸</span> Export PNG
+        </button>
+      </div>
+    </header>
+
+    <!-- DUAL COUNTRY MATCHUP SELECTOR DOCK -->
+    <section class="matchup-dock" aria-label="Country Selection">
+      <!-- Country A -->
+      <div class="country-selector-card card-a" onclick="openCountryPicker('A')" role="button" tabindex="0" aria-label="Select Primary Country A">
+        <div class="selector-left">
+          <div class="flag-badge" id="flagA">🇷🇴</div>
+          <div class="selector-info">
+            <div class="selector-role" id="roleLabelA">
+              <span class="dot-a"></span> ENTITY A • DRAGGABLE OVERLAY
+            </div>
+            <div class="selector-name-row">
+              <span class="selector-name" id="nameA">Romania</span>
+              <span class="selector-iso" id="isoA">ROU</span>
+            </div>
+            <div class="selector-meta" id="metaA">Europe • Capital: Bucharest</div>
+          </div>
+        </div>
+        <div class="selector-right">
+          <div class="selector-quick-stat" id="quickAreaA">238,397 km²</div>
+          <div class="selector-quick-sub" id="quickPopA">19.06M pop</div>
+          <div style="display:flex;gap:6px;margin-top:3px;">
+            <span class="wiki-btn-inline" onclick="event.stopPropagation();openWikiModal(state.isoA)" title="Open Full Mini-Wikipedia Dossier">📖 Wiki Page</span>
+            <span class="change-pill" style="margin-top:0;">Change ▾</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Swap Hub -->
+      <div class="swap-hub">
+        <button type="button" class="btn-swap" onclick="swapCountries()" title="Swap Entity A and Entity B (Shortcut: S)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+          </svg>
+        </button>
+        <span class="vs-badge">VS</span>
+      </div>
+
+      <!-- Country B -->
+      <div class="country-selector-card card-b" onclick="openCountryPicker('B')" role="button" tabindex="0" aria-label="Select Reference Country B">
+        <div class="selector-left">
+          <div class="flag-badge" id="flagB">🇺🇸</div>
+          <div class="selector-info">
+            <div class="selector-role" id="roleLabelB">
+              <span class="dot-b"></span> ENTITY B • REFERENCE BASE
+            </div>
+            <div class="selector-name-row">
+              <span class="selector-name" id="nameB">United States</span>
+              <span class="selector-iso" id="isoB">USA</span>
+            </div>
+            <div class="selector-meta" id="metaB">Americas • Capital: Washington, D.C.</div>
+          </div>
+        </div>
+        <div class="selector-right">
+          <div class="selector-quick-stat" id="quickAreaB">9,833,520 km²</div>
+          <div class="selector-quick-sub" id="quickPopB">341.81M pop</div>
+          <div style="display:flex;gap:6px;margin-top:3px;">
+            <span class="wiki-btn-inline" onclick="event.stopPropagation();openWikiModal(state.isoB)" title="Open Full Mini-Wikipedia Dossier">📖 Wiki Page</span>
+            <span class="change-pill" style="margin-top:0;">Change ▾</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CURATED PRESETS RIBBON -->
+    <nav class="presets-bar" id="presetsBar" aria-label="Featured Country Comparisons"></nav>
+
+    <!-- 4 EXECUTIVE TELEMETRY CARDS -->
+    <section class="kpi-grid" aria-label="Key Comparison Metrics">
+      <!-- Card 1: Surface Area -->
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-title" id="kpiAreaTitle">SURFACE AREA (KM²)</span>
+          <span class="kpi-badge" id="kpiAreaRatioBadge">USA is 41.25× larger</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-val-box">
+            <span class="kpi-country-tag"><span class="dot-a"></span> <span id="kpiAreaLabelA">Romania</span></span>
+            <span class="kpi-num color-a" id="kpiAreaValA">238,397</span>
+            <span class="kpi-sub" id="kpiAreaSubA">2.42% of USA</span>
+          </div>
+          <div class="kpi-val-box right">
+            <span class="kpi-country-tag"><span id="kpiAreaLabelB">United States</span> <span class="dot-b"></span></span>
+            <span class="kpi-num color-b" id="kpiAreaValB">9,833,520</span>
+            <span class="kpi-sub" id="kpiAreaSubB">4,124.8% of ROU</span>
+          </div>
+        </div>
+        <div class="dual-bar-track">
+          <div class="dual-bar-a" id="barAreaA" style="width: 2.4%"></div>
+          <div class="dual-bar-b" id="barAreaB" style="width: 97.6%"></div>
+        </div>
+        <div class="kpi-foot" id="kpiAreaFoot">
+          <span>Difference: 9,595,123 km²</span>
+          <span>Equal-Area Verified</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Total Population / Marine Biomass -->
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-title" id="kpiPopTitle">TOTAL POPULATION</span>
+          <span class="kpi-badge" id="kpiPopRatioBadge">USA has 17.93× more people</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-val-box">
+            <span class="kpi-country-tag"><span class="dot-a"></span> <span id="kpiPopLabelA">Romania</span></span>
+            <span class="kpi-num color-a" id="kpiPopValA">19.06M</span>
+            <span class="kpi-sub" id="kpiPopSubA">19,064,409 residents</span>
+          </div>
+          <div class="kpi-val-box right">
+            <span class="kpi-country-tag"><span id="kpiPopLabelB">United States</span> <span class="dot-b"></span></span>
+            <span class="kpi-num color-b" id="kpiPopValB">341.81M</span>
+            <span class="kpi-sub" id="kpiPopSubB">341,814,420 residents</span>
+          </div>
+        </div>
+        <div class="dual-bar-track">
+          <div class="dual-bar-a" id="barPopA" style="width: 5.3%"></div>
+          <div class="dual-bar-b" id="barPopB" style="width: 94.7%"></div>
+        </div>
+        <div class="kpi-foot" id="kpiPopFoot">
+          <span>Gap: 322.75M people</span>
+          <span>Share: 5.3% vs 94.7%</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Population / Biomass Density -->
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-title" id="kpiDensityTitle">POPULATION DENSITY (/KM²)</span>
+          <span class="kpi-badge" id="kpiDensityRatioBadge">ROU is 2.30× denser</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-val-box">
+            <span class="kpi-country-tag"><span class="dot-a"></span> <span id="kpiDenLabelA">Romania</span></span>
+            <span class="kpi-num color-a" id="kpiDenValA">80.0</span>
+            <span class="kpi-sub" id="kpiDenSubA">people per km²</span>
+          </div>
+          <div class="kpi-val-box right">
+            <span class="kpi-country-tag"><span id="kpiDenLabelB">United States</span> <span class="dot-b"></span></span>
+            <span class="kpi-num color-b" id="kpiDenValB">34.8</span>
+            <span class="kpi-sub" id="kpiDenSubB">people per km²</span>
+          </div>
+        </div>
+        <div class="dual-bar-track">
+          <div class="dual-bar-a" id="barDenA" style="width: 69.7%"></div>
+          <div class="dual-bar-b" id="barDenB" style="width: 30.3%"></div>
+        </div>
+        <div class="kpi-foot" id="kpiDenFoot">
+          <span>Urban: 54.8% vs 83.5%</span>
+          <span>1.25 ha vs 2.88 ha / person</span>
+        </div>
+      </div>
+
+      <!-- Card 4: Geodesic Distance & Economic Scale -->
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-title">CAPITAL DISTANCE &amp; GDP</span>
+          <span class="kpi-badge" id="kpiDistBadge">7,854 km apart</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-val-box">
+            <span class="kpi-country-tag"><span class="dot-a"></span> <span id="kpiGdpLabelA">Romania GDP</span></span>
+            <span class="kpi-num color-a" id="kpiGdpValA">$384B</span>
+            <span class="kpi-sub" id="kpiGdpCapA">$20,142 / capita</span>
+          </div>
+          <div class="kpi-val-box right">
+            <span class="kpi-country-tag"><span id="kpiGdpLabelB">USA GDP</span> <span class="dot-b"></span></span>
+            <span class="kpi-num color-b" id="kpiGdpValB">$29.17T</span>
+            <span class="kpi-sub" id="kpiGdpCapB">$85,330 / capita</span>
+          </div>
+        </div>
+        <div class="dual-bar-track">
+          <div class="dual-bar-a" id="barGdpA" style="width: 1.3%"></div>
+          <div class="dual-bar-b" id="barGdpB" style="width: 98.7%"></div>
+        </div>
+        <div class="kpi-foot" id="kpiDistFoot">
+          <span>Bucharest ↔ Washington, D.C.</span>
+          <span>~9h 15m flight</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- HUMAN-RELATABLE BENCHMARK INSIGHT BANNER -->
+    <section class="insight-banner" aria-label="Smart Scale Equivalence">
+      <div class="insight-content">
+        <div class="insight-icon">🧭</div>
+        <div class="insight-text" id="smartInsightText">
+          Loading cartographic benchmark analysis...
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button type="button" class="hud-btn" onclick="switchStageMode('prism3d')">🧊 3D Volumetric Prisms →</button>
+        <button type="button" class="hud-btn" onclick="switchStageMode('globe')">🌐 Spin 3D WebGL Globe →</button>
+        <button type="button" class="hud-btn" onclick="switchStageMode('packing')">📦 Packing Matrix →</button>
+      </div>
+    </section>
+
+    <!-- MAIN WORKSPACE GRID -->
+    <main class="workspace-grid">
+      <!-- LEFT / PRIMARY VISUALIZATION STAGE -->
+      <section class="stage-panel" aria-label="Interactive Cartographic Stage">
+        <div class="panel-header">
+          <div class="mode-tabs" role="tablist">
+            <button type="button" class="mode-tab active" id="tabModeOverlay" onclick="switchStageMode('overlay')">
+              <span>🗺️</span> True-Scale 2D (Drag)
+            </button>
+            <button type="button" class="mode-tab" id="tabModeGlobe" onclick="switchStageMode('globe')">
+              <span>🌐</span> 3D WebGL Globe
+            </button>
+            <button type="button" class="mode-tab" id="tabModePrism3d" onclick="switchStageMode('prism3d')">
+              <span>🧊</span> 3D Volumetric Prisms
+            </button>
+            <button type="button" class="mode-tab" id="tabModePacking" onclick="switchStageMode('packing')">
+              <span>📦</span> How Many Fit?
+            </button>
+            <button type="button" class="mode-tab" id="tabModeGeom" onclick="switchStageMode('geom')">
+              <span>📐</span> Mercator &amp; Shapes
+            </button>
+            <button type="button" class="mode-tab" id="tabModeDepth" onclick="switchStageMode('depth')">
+              <span>🏔️🌊</span> Depth &amp; Creatures
+            </button>
+          </div>
+
+          <div class="pill-toggle" id="overlayLayoutSwitch">
+            <button type="button" id="btnLayoutSuper" class="active" onclick="setOverlayLayout('superimposed')">Superimposed</button>
+            <button type="button" id="btnLayoutSplit" onclick="setOverlayLayout('split')">Side-by-Side 1:1</button>
+          </div>
+        </div>
+
+        <!-- VIEW 1 & 2: MAIN CANVAS WRAP (Separate 2D Canvas and Three.js WebGL Globe Canvas) -->
+        <div class="canvas-wrap" id="mainCanvasWrap">
+          <canvas id="mainMapCanvas"></canvas>
+          <canvas id="globeWebGLCanvas" style="display:none;"></canvas>
+
+          <!-- Top Floating HUD -->
+          <div class="map-hud-top">
+            <div class="hud-chip">
+              <span class="hud-legend-item"><span class="swatch-a"></span> <span id="hudNameA">Romania</span></span>
+              <span style="opacity:0.4">vs</span>
+              <span class="hud-legend-item"><span class="swatch-b"></span> <span id="hudNameB">United States</span></span>
+              <span id="hudProjectionBadge" style="font-family:var(--font-mono);font-size:10.5px;color:var(--text-muted);padding-left:6px;border-left:1px solid var(--border-hairline);">
+                1:1 Lambert Equal-Area
+              </span>
+            </div>
+
+            <div class="hud-chip" id="hudInstructionChip">
+              <span>✋ Drag <strong style="color:var(--country-a)" id="dragHintName">Romania</strong> anywhere over <strong style="color:var(--country-b)" id="baseHintName">United States</strong> • Scroll to Zoom</span>
+            </div>
+          </div>
+
+          <!-- Bottom Floating HUD Controls -->
+          <div class="map-hud-bottom">
+            <!-- Overlay specific controls -->
+            <div class="hud-controls" id="hudOverlayControls">
+              <button type="button" class="hud-btn" onclick="zoomCanvas(1.25)" title="Zoom In">+</button>
+              <button type="button" class="hud-btn" onclick="zoomCanvas(0.8)" title="Zoom Out">−</button>
+              <button type="button" class="hud-btn" onclick="resetOverlayPositions()" title="Snap both countries to center">🎯 Center</button>
+              <button type="button" class="hud-btn" id="btnFlipLayer" onclick="toggleTopLayer()" title="Change which country is drawn on top">⇅ Layer Order</button>
+              <button type="button" class="hud-btn active" id="btnCompactInsets" onclick="toggleCompactInsets()" title="Toggle compact inset box for Alaska/Hawaii vs raw geographic distance">🧩 Compact Alaska/HI</button>
+              <div class="rotation-control" title="Rotate Country A silhouette to test how it fits">
+                <span>↻ Rotate A:</span>
+                <input type="range" id="rotateSliderA" min="-180" max="180" value="0" oninput="setRotationA(this.value)" />
+                <span id="rotateValLabel">0°</span>
+                <button type="button" class="hud-btn" onclick="setRotationA(0)" style="padding:2px 6px;font-size:10px;">0°</button>
+              </div>
+            </div>
+
+            <!-- Globe specific controls (hidden unless in Globe mode) -->
+            <div class="hud-controls" id="hudGlobeControls" style="display:none;">
+              <button type="button" class="hud-btn" onclick="focusGlobeOn('A')" id="btnFocusGlobeA">Focus Romania</button>
+              <button type="button" class="hud-btn" onclick="focusGlobeOn('B')" id="btnFocusGlobeB">Focus USA</button>
+              <button type="button" class="hud-btn" onclick="focusGlobeOn('mid')">✈️ Frame Flight Arc</button>
+              <button type="button" class="hud-btn active" id="btnGlobeSpin" onclick="toggleGlobeSpin()">⟳ Auto-Spin</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 3: THREE.JS 3D VOLUMETRIC EXTRUDED PRISMS DIORAMA -->
+        <div class="alt-stage-view" id="prism3dStageView">
+          <div class="packing-header">
+            <div>
+              <div class="packing-headline" id="prismHeadline">Three.js 3D Volumetric Country Prisms (Base Area = Surface km² • Height = Density)</div>
+              <div class="packing-sub" id="prismSubline">When Z-Height is set to Population Density, the 3D Volume of each country prism is mathematically proportional to its Total Population! Drag to orbit 3D camera.</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <div class="pill-toggle">
+                <button type="button" id="btnPrismDensity" class="active" onclick="setPrismHeightMetric('density')">Height: Pop Density</button>
+                <button type="button" id="btnPrismElev" onclick="setPrismHeightMetric('elevation')">Height: Max Peak/Depth</button>
+                <button type="button" id="btnPrismGdp" onclick="setPrismHeightMetric('gdp')">Height: GDP / Capita</button>
+              </div>
+              <button type="button" class="hud-btn active" id="btnPrismSpin" onclick="togglePrismAutoRotate()">⟳ 3D Turntable</button>
+            </div>
+          </div>
+          <canvas id="prism3dCanvas"></canvas>
+          <div class="kpi-foot" id="prismFooterNote">
+            <span id="prismTelemetryReadout">✋ Drag horizontally to orbit 360° • Drag vertically to tilt • Scroll to zoom 3D prisms</span>
+            <span>Engine: <strong style="color:var(--country-a)">Three.js ExtrudeGeometry + WebGL</strong></span>
+          </div>
+        </div>
+
+        <!-- VIEW 4: AREA & POPULATION PACKING MATRIX ("HOW MANY FIT?") -->
+        <div class="alt-stage-view" id="packingStageView">
+          <div class="packing-header">
+            <div>
+              <div class="packing-headline" id="packingHeadline">41.25 × Romania fit inside 1 × United States</div>
+              <div class="packing-sub" id="packingSubline">Each miniature silhouette below is drawn to true scale representing 238,397 km². Hover any tile to inspect cumulative total.</div>
+            </div>
+            <div class="pill-toggle">
+              <button type="button" id="btnPackArea" class="active" onclick="setPackingMetric('area')">Surface Area Packing</button>
+              <button type="button" id="btnPackPop" onclick="setPackingMetric('pop')">Population Packing</button>
+            </div>
+          </div>
+          <canvas id="packingCanvas"></canvas>
+          <div class="kpi-foot" id="packingFooterNote">
+            <span id="packingHoverReadout">Hover over any silhouette tile in the matrix to inspect cumulative surface / population.</span>
+            <span>Exact Multiplier: <strong id="packingExactMult">41.25×</strong></span>
+          </div>
+        </div>
+
+        <!-- VIEW 5: GEOMETRIC SHAPES & MERCATOR DISTORTION CHECK -->
+        <div class="alt-stage-view" id="geomStageView">
+          <div class="packing-header">
+            <div>
+              <div class="packing-headline">Proportional Geometry &amp; Mercator Illusion Analysis</div>
+              <div class="packing-sub">Pure mathematical areas (Circles &amp; Squares) alongside Web Mercator latitude inflation (`1 / cos²(lat)`).</div>
+            </div>
+            <div class="pill-toggle">
+              <button type="button" id="btnShapeCircle" class="active" onclick="setGeomShape('circle')">Concentric &amp; Split Circles</button>
+              <button type="button" id="btnShapeSquare" onclick="setGeomShape('square')">Proportional Squares</button>
+            </div>
+          </div>
+          <div class="geom-grid">
+            <div class="geom-box">
+              <div class="kpi-head">
+                <span class="kpi-title">TRUE SURFACE AREA GEOMETRY</span>
+                <span class="kpi-badge" id="geomAreaBadge">1 : 41.25</span>
+              </div>
+              <canvas id="geomAreaCanvas" class="geom-canvas"></canvas>
+              <div class="kpi-foot" id="geomAreaFoot">Radius scales with √Area so visual pixel area is 1:1 exact.</div>
+            </div>
+            <div class="geom-box">
+              <div class="kpi-head">
+                <span class="kpi-title">TOTAL POPULATION GEOMETRY</span>
+                <span class="kpi-badge" id="geomPopBadge">1 : 17.93</span>
+              </div>
+              <canvas id="geomPopCanvas" class="geom-canvas"></canvas>
+              <div class="kpi-foot" id="geomPopFoot">Radius scales with √Population so visual area matches headcount.</div>
+            </div>
+          </div>
+          <div class="geom-box" style="padding:12px 16px;">
+            <div class="kpi-head">
+              <span class="kpi-title">🧭 WEB MERCATOR PROJECTION DISTORTION DETECTOR</span>
+              <span class="kpi-badge" id="mercatorVerdictBadge">Latitude Inflation Factor</span>
+            </div>
+            <div id="mercatorExplanation" style="font-size:12.5px;color:var(--text-secondary);margin-top:4px;"></div>
+          </div>
+        </div>
+
+        <!-- VIEW 6: VERTICAL ELEVATION, OCEAN BATHYMETRY & LIVING CREATURE ZONES -->
+        <div class="alt-stage-view" id="depthStageView">
+          <div class="packing-header">
+            <div>
+              <div class="packing-headline" id="depthStageHeadline">Vertical Topographic &amp; Bathymetric Cross-Section (+8,849 m to −10,935 m)</div>
+              <div class="packing-sub">Comparing highest peaks, mean land elevation, ice sheets, and deep ocean photic/abyssal/hadal creature zones.</div>
+            </div>
+            <div class="pill-toggle">
+              <button type="button" class="active" onclick="setDepthProbe(-380)">Twilight (−380m)</button>
+              <button type="button" onclick="setDepthProbe(-2212)">Black Sea Max (−2,212m)</button>
+              <button type="button" onclick="setDepthProbe(-4280)">Pacific Mean (−4,280m)</button>
+              <button type="button" onclick="setDepthProbe(-10935)">Mariana Hadal (−10,935m)</button>
+            </div>
+          </div>
+          <canvas id="depthCrossCanvas"></canvas>
+          <div class="depth-probe-bar">
+            <div class="probe-slider-wrap">
+              <span style="font-family:var(--font-mono);font-size:11.5px;font-weight:700;color:var(--country-a)">🤿 Vertical Probe:</span>
+              <input type="range" id="depthProbeSlider" min="-11000" max="6500" step="25" value="-850" oninput="setDepthProbe(this.value)" />
+              <span id="depthProbeLabel" style="font-family:var(--font-mono);font-size:12px;font-weight:700;min-width:92px;text-align:right;">−850 m</span>
+            </div>
+            <div id="depthProbeTelemetry" style="font-family:var(--font-mono);font-size:11.5px;color:var(--text-secondary);">
+              Twilight (Mesopelagic) Zone • Pressure: 86 atm • Temp: ~6.5°C • Bioluminescent Lanternfish &amp; Giant Squid
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: DEMOGRAPHIC & DENSITY LABORATORY -->
+      <div class="right-col-stack">
+        <!-- LIVE 1 KM² CROWD DENSITY SIMULATOR -->
+        <section class="stage-panel" aria-label="1 Square Kilometer Population Density Simulation">
+          <div class="panel-header">
+            <div>
+              <div style="font-family:var(--font-display);font-weight:700;font-size:15px;">Live 1 km² Crowd Density Simulator</div>
+              <div style="font-size:11.5px;color:var(--text-secondary);">Visualizing average inhabitants inside a 1 km × 1 km square</div>
+            </div>
+            <div class="pill-toggle">
+              <button type="button" id="btnSimCrowd" class="active" onclick="setDensitySimMode('crowd')">Living</button>
+              <button type="button" id="btnSimUrban" onclick="setDensitySimMode('urban')">Urban Cluster</button>
+              <button type="button" id="btnSimGrid" onclick="setDensitySimMode('grid')">Grid</button>
+            </div>
+          </div>
+
+          <div class="density-sim-grid">
+            <div class="density-chamber chamber-a">
+              <div class="chamber-head">
+                <span class="chamber-title"><span class="dot-a"></span> <span id="simNameA">Romania</span></span>
+                <span class="chamber-stat" id="simStatA">80.0 / km²</span>
+              </div>
+              <div class="chamber-canvas-wrap">
+                <canvas id="densityCanvasA" class="chamber-canvas"></canvas>
+                <span class="chamber-scale-tag" id="chamberScaleTagA">1 km × 1 km</span>
+              </div>
+              <div class="chamber-foot">
+                <span id="simUrbanA">Urban: 54.8%</span>
+                <span id="simSpaceA">1.25 ha / person</span>
+              </div>
+            </div>
+
+            <div class="density-chamber chamber-b">
+              <div class="chamber-head">
+                <span class="chamber-title"><span class="dot-b"></span> <span id="simNameB">United States</span></span>
+                <span class="chamber-stat" id="simStatB">34.8 / km²</span>
+              </div>
+              <div class="chamber-canvas-wrap">
+                <canvas id="densityCanvasB" class="chamber-canvas"></canvas>
+                <span class="chamber-scale-tag" id="chamberScaleTagB">1 km × 1 km</span>
+              </div>
+              <div class="chamber-foot">
+                <span id="simUrbanB">Urban: 83.5%</span>
+                <span id="simSpaceB">2.88 ha / person</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- POPULATION DOT-MATRIX -->
+          <div class="matrix-section">
+            <div class="kpi-head">
+              <span class="kpi-title">POPULATION DOT-MATRIX COMPARISON</span>
+              <span class="kpi-badge" id="matrixUnitBadge">1 Dot = 2.0M People</span>
+            </div>
+            <canvas id="popMatrixCanvas" class="matrix-canvas"></canvas>
+            <div class="kpi-foot" id="matrixSummaryFoot">
+              <span>Filled glow dots = Urban population • Dimmed dots = Rural population</span>
+              <span id="matrixPctReadout">ROU = 5.58% of USA</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- MULTI-METRIC HEAD-TO-HEAD TELEMETRY -->
+        <section class="stage-panel" aria-label="Head-to-Head Multi-Metric Telemetry">
+          <div class="panel-header">
+            <div style="font-family:var(--font-display);font-weight:700;font-size:15px;">Head-to-Head Normalized Telemetry</div>
+            <div class="pill-toggle">
+              <button type="button" id="btnScaleLinear" class="active" onclick="setTelemetryScale('linear')">Linear Bars</button>
+              <button type="button" id="btnScaleLog" onclick="setTelemetryScale('log')">Log10 Scale</button>
+            </div>
+          </div>
+          <div class="telemetry-list" id="telemetryList"></div>
+        </section>
+      </div>
+    </main>
+
+    <!-- FULL-WIDTH BIOSPHERE, WILDLIFE POPULATIONS & OCEAN ECOLOGY EXPLORER -->
+    <section class="biosphere-section" aria-label="Living Biosphere, Wildlife Populations and Ocean Ecology">
+      <div class="bio-header">
+        <div class="bio-title-group">
+          <div class="bio-icon-badge">🐋</div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px;">
+              LIVING BIOSPHERE, WILDLIFE POPULATIONS &amp; DEEP OCEAN EXPLORER
+              <span class="brand-tag" id="bioMatchupTag">TROPHIC &amp; SPECIES TELEMETRY</span>
+            </div>
+            <div style="font-size:12.5px;color:var(--text-secondary);">
+              Compare signature living creatures, estimated wildlife/marine populations, habitat depth strata, biodiversity richness, and bathymetric extremes
+            </div>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="hud-btn" onclick="selectPreset('ROU','BLKS')">🇷🇴 Romania vs 🌊 Black Sea</button>
+          <button type="button" class="hud-btn" onclick="selectPreset('USA','ATA')">🇺🇸 USA vs ❄️ Antarctica</button>
+          <button type="button" class="hud-btn" onclick="selectPreset('EUR','ANTC')">🌍 Europe vs ❄️ Antarctica</button>
+          <button type="button" class="hud-btn" onclick="selectPreset('AFR','ASIA')">🌍 Africa vs 🌏 Asia</button>
+          <button type="button" class="hud-btn" onclick="selectPreset('ATA','ARCT')">❄️ Antarctica vs 🐻‍❄️ Arctic Ocean</button>
+          <button type="button" class="hud-btn" onclick="selectPreset('ASIA','PAC')">🌏 Asia vs 🌊 Pacific Ocean</button>
+          <button type="button" class="hud-btn active" onclick="switchStageMode('depth')">🏔️🌊 Open Vertical Depth Chart ↑</button>
+        </div>
+      </div>
+
+      <div class="bio-compare-grid">
+        <div class="bio-column col-a" id="bioColA"></div>
+        <div class="bio-column col-b" id="bioColB"></div>
+      </div>
+    </section>
+
+    <!-- FULL-WIDTH CIVILIZATION, POLITICS, FINANCES, HISTORY, GASTRONOMY & TRAVEL COMPARISON STUDIO -->
+    <section class="biosphere-section" aria-label="Civilization, Politics, Economy, History, Gastronomy and Attractions">
+      <div class="bio-header" style="background:linear-gradient(90deg, rgba(168,85,247,0.10), rgba(0,229,255,0.08), rgba(245,158,11,0.10));">
+        <div class="bio-title-group">
+          <div class="bio-icon-badge" style="background:rgba(168,85,247,0.20);border-color:rgba(168,85,247,0.45);">🏛️</div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              ENCYCLOPEDIA &amp; CIVILIZATION DOSSIER: POLITICS, FINANCES, HISTORY, FOOD &amp; ATTRACTIONS
+              <span class="brand-tag" id="civMatchupTag">HEAD-TO-HEAD WIKI</span>
+            </div>
+            <div style="font-size:12.5px;color:var(--text-secondary);">
+              Compare Heads of State, Prime Ministers, government systems, macroeconomic engines, historical timelines, national dishes, landmarks, and activities
+            </div>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="wiki-btn-inline" onclick="openWikiModal(state.isoA)" id="btnOpenWikiA">📖 Full Romania Wiki Pop-Up</button>
+          <button type="button" class="wiki-btn-inline" onclick="openWikiModal(state.isoB)" id="btnOpenWikiB">📖 Full USA Wiki Pop-Up</button>
+        </div>
+      </div>
+
+      <div class="bio-compare-grid">
+        <div class="bio-column col-a" id="civColA"></div>
+        <div class="bio-column col-b" id="civColB"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SEARCHABLE COUNTRY PICKER MODAL -->
+  <div class="modal-backdrop" id="pickerModalBackdrop" onclick="if(event.target===this)closeCountryPicker()">
+    <div class="picker-modal" role="dialog" aria-modal="true" aria-labelledby="pickerModalTitle">
+      <div class="picker-header">
+        <div class="picker-title-row">
+          <div class="picker-title" id="pickerModalTitle">Select Country</div>
+          <button type="button" class="picker-close" onclick="closeCountryPicker()">✕</button>
+        </div>
+        <input type="text" class="picker-search" id="pickerSearchInput" placeholder="Search 220 countries, continents &amp; oceans by name, ISO code (ROU, USA), or capital..." oninput="renderPickerList()" />
+        <div class="region-tabs" id="pickerRegionTabs">
+          <button type="button" class="region-tab active" onclick="setPickerRegion('All')">All Entities (220)</button>
+          <button type="button" class="region-tab" onclick="setPickerRegion('Continents')">🗺️ Continents (8)</button>
+          <button type="button" class="region-tab" onclick="setPickerRegion('Oceans & Seas')">🌊 Oceans &amp; Seas (8)</button>
+          <button type="button" class="region-tab" onclick="setPickerRegion('Antarctica')">❄️ Antarctica</button>
+          <button type="button" class="region-tab" onclick="setPickerRegion('Europe')">Europe</button>
+          <button type="button" class="region-tab" onclick="setPickerRegion('Americas')">Americas</button>
+          <button type="button" class="region-tab" onclick="setPickerRegion('Asia')">Asia</button>
+          <button type="button" class="region-tab" onclick="setPickerRegion('Africa')">Africa</button>
+          <button type="button" class="region-tab" onclick="setPickerRegion('Oceania')">Oceania</button>
+        </div>
+      </div>
+      <div class="picker-list" id="pickerListContainer"></div>
+    </div>
+  </div>
+
+  <!-- MINI-WIKIPEDIA ENCYCLOPEDIA POP-UP MODAL -->
+  <div class="modal-backdrop" id="wikiModalBackdrop" onclick="if(event.target===this)closeWikiModal()">
+    <div class="wiki-modal" role="dialog" aria-modal="true" aria-labelledby="wikiModalHeroTitle">
+      <div class="wiki-hero">
+        <div class="wiki-hero-left">
+          <div class="wiki-hero-flag" id="wikiModalFlag">🇷🇴</div>
+          <div>
+            <div class="wiki-hero-title">
+              <span id="wikiModalHeroTitle">Romania</span>
+              <span class="entity-badge type-country" id="wikiModalTypeBadge">COUNTRY</span>
+              <span class="selector-iso" id="wikiModalIsoBadge">ROU</span>
+            </div>
+            <div class="wiki-hero-official" id="wikiModalOfficialSub">Official Name • Native Name • Capital</div>
+            <div class="wiki-hero-quickbar" id="wikiModalQuickSwitch"></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <a id="wikiExternalLink" href="https://en.wikipedia.org/wiki/Romania" target="_blank" rel="noopener" class="hud-btn" style="text-decoration:none;">↗ Wikipedia.org</a>
+          <button type="button" class="picker-close" onclick="closeWikiModal()" title="Close (Esc)">✕</button>
+        </div>
+      </div>
+
+      <div class="wiki-nav-tabs" role="tablist">
+        <button type="button" class="wiki-nav-tab active" id="wTabOverview" onclick="switchWikiTab('overview')">📋 Overview &amp; Infobox</button>
+        <button type="button" class="wiki-nav-tab" id="wTabPolitics" onclick="switchWikiTab('politics')">🏛️ Politics, President &amp; PM</button>
+        <button type="button" class="wiki-nav-tab" id="wTabEconomy" onclick="switchWikiTab('economy')">💰 Economy, GDP &amp; Finances</button>
+        <button type="button" class="wiki-nav-tab" id="wTabHistory" onclick="switchWikiTab('history')">📜 Deep History &amp; Timeline</button>
+        <button type="button" class="wiki-nav-tab" id="wTabCulture" onclick="switchWikiTab('culture')">🍲 Food, Landmarks &amp; Activities</button>
+        <button type="button" class="wiki-nav-tab" id="wTabBio" onclick="switchWikiTab('bio')">🐋 Wildlife &amp; Ecosystems</button>
+      </div>
+
+      <div class="wiki-body-scroll" id="wikiModalBody"></div>
+    </div>
+  </div>
+
+  <!-- Main Modular Application Entry -->
+  <script type="module" src="/js/app.mjs"></script>
+</body>
+</html>
