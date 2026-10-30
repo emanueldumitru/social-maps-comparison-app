@@ -31,6 +31,8 @@ import {
   getProjectedCountry,
   getBiosphereProfile,
   getEncyclopediaProfile,
+  getTaxProfile,
+  calculateTaxScenario,
   findClosestBenchmark
 } from "../public/js/data-engine.mjs";
 
@@ -45,6 +47,7 @@ const DATA_DIR = path.join(ROOT_DIR, "public", "data");
 const countriesDb = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "countries-db.json"), "utf8"));
 const oceanPolygons = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "ocean-polygons.json"), "utf8"));
 const wikiDeepDb = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "wiki-deep.json"), "utf8"));
+const taxesDb = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "taxes-db.json"), "utf8"));
 const worldTopo = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "world-110m.json"), "utf8"));
 const extra50m = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "extra-50m.json"), "utf8"));
 
@@ -363,8 +366,8 @@ describe("Suite 5: HTTP & REST API Server Integration Tests", () => {
     assert.ok(dataSearch.entities.some(e => e.iso3 === "ROU"));
   });
 
-  it("GET /api/compare?a=ROU&b=USA returns full comparison telemetry, biosphere, and encyclopedia", async () => {
-    const res = await requestServer("/api/compare?a=ROU&b=USA");
+  it("GET /api/compare?a=ROU&b=USA returns full comparison telemetry, biosphere, encyclopedia, and taxes", async () => {
+    const res = await requestServer("/api/compare?a=ROU&b=USA&gross=100000&regime=micro");
     assert.equal(res.status, 200);
     const data = await res.json();
     assert.equal(data.entityA.iso3, "ROU");
@@ -372,6 +375,20 @@ describe("Suite 5: HTTP & REST API Server Integration Tests", () => {
     assert.ok(Math.abs(data.metrics.areaRatioBtoA - 41.2485) < 0.001);
     assert.equal(data.biosphereA.creatures.length, 5);
     assert.ok(data.encyclopediaA.headOfState.includes("Bolojan"));
+    assert.ok(data.taxesA && data.taxesB);
+    assert.equal(data.taxesA.entities.length, 7);
+    assert.ok(data.taxComparison.scenarioA.netTakeHome > data.taxComparison.scenarioB.netTakeHome);
+  });
+
+  it("GET /api/taxes?iso=ROU&gross=100000 returns complete Romanian PFA/Micro/SRL profile and 4 regime scenarios", async () => {
+    const res = await requestServer("/api/taxes?iso=ROU&gross=100000");
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.equal(data.entity.iso3, "ROU");
+    assert.equal(data.grossUsd, 100000);
+    assert.equal(data.profile.vatStandard, 19);
+    assert.ok(data.scenarios.employee && data.scenarios.freelancer && data.scenarios.micro && data.scenarios.corporate);
+    assert.equal(data.scenarios.micro.netTakeHome + data.scenarios.micro.totalTax, 100000);
   });
 
   it("GET / and GET /maps-agg.html serve the Three.js WebGL application HTML", async () => {
@@ -440,6 +457,15 @@ describe("Suite 6: Three.js 3D Volumetric Prism Engine & Bundle Integrity", () =
     engine.prismHeightMetric = "gdp";
     const gdpHeights = engine.computePrismHeights(rou, usa);
     assert.ok(gdpHeights.valB > gdpHeights.valA);
+
+    // 5. Effective Tax Burden Metric (USA S-Corp ~21.4% > ROU Micro-SRL ~15.8% at $100k)
+    engine.ctx.state.taxesDb = taxesDb;
+    engine.ctx.state.taxCalcGross = 100000;
+    engine.ctx.state.taxCalcRegime = "micro";
+    engine.prismHeightMetric = "tax";
+    const taxHeights = engine.computePrismHeights(rou, usa);
+    assert.ok(taxHeights.valB > taxHeights.valA, `Expected USA tax (${taxHeights.valB}%) > ROU micro tax (${taxHeights.valA}%)`);
+    assert.ok(taxHeights.hB > taxHeights.hA);
   });
 
   it("verifies standalone maps-agg.html inline JavaScript compiles with zero syntax errors", () => {
@@ -448,5 +474,125 @@ describe("Suite 6: Three.js 3D Volumetric Prism Engine & Bundle Integrity", () =
     assert.ok(match && match[1], "Expected inline script block in maps-agg.html");
     // Compile via Function constructor to verify syntax
     assert.doesNotThrow(() => new Function(match[1]));
+  });
+});
+
+// ============================================================================
+// SUITE 7: GLOBAL TAXATION, BUSINESS ENTITIES (PFA / MICRO / SRL / LLC) & NET ENGINE
+// ============================================================================
+describe("Suite 7: Global Taxation, Business Entities (PFA / Micro / SRL / LLC) & Net Calculator", () => {
+  it("generates complete personal & business entity tax profiles for all 220 entities", () => {
+    for (const c of countriesDb) {
+      const tp = getTaxProfile(c, taxesDb);
+      assert.ok(tp, `Missing tax profile for ${c.iso3}`);
+      assert.ok(tp.taxAuthority && tp.taxAuthority.length > 3, `Missing taxAuthority for ${c.iso3}`);
+      assert.ok(Number.isFinite(tp.pitRate) && tp.pitRate >= 0 && tp.pitRate <= 70, `Invalid pitRate on ${c.iso3}`);
+      assert.ok(Number.isFinite(tp.employeeSocialRate) && tp.employeeSocialRate >= 0 && tp.employeeSocialRate <= 50, `Invalid social rate on ${c.iso3}`);
+      assert.ok(Number.isFinite(tp.vatStandard) && tp.vatStandard >= 0 && tp.vatStandard <= 35, `Invalid VAT on ${c.iso3}`);
+      assert.ok(Number.isFinite(tp.dividendTaxRate) && tp.dividendTaxRate >= 0 && tp.dividendTaxRate <= 50, `Invalid dividend tax on ${c.iso3}`);
+      assert.ok(Array.isArray(tp.entities) && tp.entities.length >= 3, `Expected >= 3 legal entities on ${c.iso3}`);
+
+      for (const ent of tp.entities) {
+        assert.ok(ent.code && ent.name && ent.badge && ent.turnoverCap && ent.summary && ent.bestFor, `Incomplete entity fields on ${c.iso3}`);
+        assert.ok(Number.isFinite(ent.corporateTaxRate) && ent.corporateTaxRate >= 0);
+        assert.ok(Number.isFinite(ent.dividendRate) && ent.dividendRate >= 0);
+        assert.ok(Number.isFinite(ent.effectiveAt100k) && ent.effectiveAt100k >= 0 && ent.effectiveAt100k <= 70);
+      }
+    }
+  });
+
+  it("verifies Romania (ROU) authentic ANAF fiscal rules: CIM, PFA (Real & Normă), II/IF, Micro (1% & 3%), SRL 16%, and SA", () => {
+    const rou = countryByIso3["ROU"];
+    const tp = getTaxProfile(rou, taxesDb);
+    assert.ok(tp.taxAuthority.includes("ANAF"));
+    assert.equal(tp.pitRate, 10.0);
+    assert.equal(tp.employeeSocialRate, 35.0);
+    assert.equal(tp.employerPayrollRate, 2.25);
+    assert.equal(tp.vatStandard, 19.0);
+    assert.equal(tp.dividendTaxRate, 10.0);
+
+    const codes = tp.entities.map(e => e.code);
+    assert.deepEqual(codes, [
+      "PFA-REAL",
+      "PFA-NORMA",
+      "II-IF",
+      "SRL-MICRO-1",
+      "SRL-MICRO-3",
+      "SRL-PROFIT",
+      "SA-CORP"
+    ]);
+
+    // 1. Employee CIM: 25% CAS + 10% CASS + 10% IV on remaining 65% = 41.5% total employee deduction
+    const cim100k = calculateTaxScenario(rou, tp, 100000, "employee");
+    assert.equal(cim100k.effectiveRatePct, 41.5);
+    assert.equal(cim100k.netTakeHome, 58500);
+
+    // 2. Micro-SRL 1% at $50k (<= €60k) vs 3% at $100k (> €60k) vs Auto-16% Profit Tax at $350k (> €250k Micro Cap)
+    const micro50k = calculateTaxScenario(rou, tp, 50000, "micro");
+    const micro100k = calculateTaxScenario(rou, tp, 100000, "micro");
+    const micro350k = calculateTaxScenario(rou, tp, 350000, "micro");
+    assert.ok(micro50k.regimeTitle.includes("1%"));
+    assert.ok(micro100k.regimeTitle.includes("3%"));
+    assert.ok(micro350k.regimeTitle.includes("Profit"));
+    assert.ok(micro350k.effectiveRatePct > micro100k.effectiveRatePct);
+
+    // 3. PFA Sistem Real: Capped CAS (24 min wages) & CASS (60 min wages) lowers effective rate at high revenue
+    const pfa50k = calculateTaxScenario(rou, tp, 50000, "freelancer");
+    const pfa250k = calculateTaxScenario(rou, tp, 250000, "freelancer");
+    assert.ok(pfa250k.effectiveRatePct < pfa50k.effectiveRatePct, "Expected PFA effective rate to drop at $250k due to CAS/CASS ceilings");
+  });
+
+  it("verifies USA (1099, LLC, S-Corp, C-Corp), UAE (0% SBR), Estonia (0% Retained OÜ), and Hungary (9% Kft)", () => {
+    const usa = countryByIso3["USA"];
+    const tpUsa = getTaxProfile(usa, taxesDb);
+    const usaCodes = tpUsa.entities.map(e => e.code);
+    assert.ok(usaCodes.includes("SOLE-1099") && usaCodes.includes("US-LLC") && usaCodes.includes("S-CORP") && usaCodes.includes("C-CORP"));
+    // S-Corp FICA optimization beats 1099 Sole Prop at $100k
+    const usa1099 = calculateTaxScenario(usa, tpUsa, 100000, "freelancer");
+    const usaSCorp = calculateTaxScenario(usa, tpUsa, 100000, "micro");
+    assert.ok(usaSCorp.netTakeHome > usa1099.netTakeHome);
+
+    // UAE 0% PIT & 0% Small Business / Freelance at $100k
+    const are = countryByIso3["ARE"];
+    const scAre = calculateTaxScenario(are, getTaxProfile(are, taxesDb), 100000, "micro");
+    assert.equal(scAre.totalTax, 0);
+    assert.equal(scAre.netTakeHome, 100000);
+
+    // Estonia OÜ 0% corporate tax on retained profit
+    const estTp = getTaxProfile(countryByIso3["EST"], taxesDb);
+    const ou = estTp.entities.find(e => e.code === "EE-OU");
+    assert.ok(ou && ou.corporateTaxRate === 0 && ou.dividendRate === 22);
+
+    // Hungary 9% Kft CIT
+    const hunTp = getTaxProfile(countryByIso3["HUN"], taxesDb);
+    const kft = hunTp.entities.find(e => e.code === "HU-KFT");
+    assert.ok(kft && kft.corporateTaxRate === 9);
+  });
+
+  it("maintains strict accounting invariants (netTakeHome + totalTax === gross) across all 220 entities, 4 regimes, and brackets", () => {
+    const regimes = ["employee", "freelancer", "micro", "corporate"];
+    const brackets = [25000, 100000, 350000];
+
+    for (const c of countriesDb) {
+      const tp = getTaxProfile(c, taxesDb);
+      for (const rg of regimes) {
+        for (const amt of brackets) {
+          const sc = calculateTaxScenario(c, tp, amt, rg);
+          assert.equal(sc.gross, amt);
+          assert.equal(
+            sc.netTakeHome + sc.totalTax,
+            amt,
+            `Net + Tax mismatch on ${c.iso3} (${rg} @ $${amt}): ${sc.netTakeHome} + ${sc.totalTax}`
+          );
+          assert.equal(
+            sc.primaryTax + sc.secondaryTax,
+            sc.totalTax,
+            `Primary + Secondary tax mismatch on ${c.iso3} (${rg} @ $${amt})`
+          );
+          assert.ok(sc.netTakeHome > 0 && sc.totalTax >= 0);
+          assert.ok(sc.effectiveRatePct >= 0 && sc.effectiveRatePct <= 75);
+        }
+      }
+    }
   });
 });

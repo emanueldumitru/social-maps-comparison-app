@@ -6,7 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { haversineKm, mercatorInflationFactor } from "./public/js/core-math.mjs";
-import { getBiosphereProfile, getEncyclopediaProfile } from "./public/js/data-engine.mjs";
+import { getBiosphereProfile, getEncyclopediaProfile, getTaxProfile, calculateTaxScenario } from "./public/js/data-engine.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +29,9 @@ const countriesDb = JSON.parse(
 );
 const wikiDeepDb = JSON.parse(
   fs.readFileSync(path.join(PUBLIC_DIR, "data", "wiki-deep.json"), "utf8")
+);
+const taxesDb = JSON.parse(
+  fs.readFileSync(path.join(PUBLIC_DIR, "data", "taxes-db.json"), "utf8")
 );
 const countryByIso3 = Object.fromEntries(countriesDb.map(c => [c.iso3, c]));
 
@@ -94,6 +97,10 @@ export function createAppServer() {
         const distanceKm = haversineKm(cA.capLat, cA.capLng, cB.capLat, cB.capLng);
         const areaRatio = cB.area / Math.max(1e-6, cA.area);
         const popRatio = cB.pop / Math.max(1, cA.pop);
+        const gross = Number(parsedUrl.searchParams.get("gross")) || 100000;
+        const regime = parsedUrl.searchParams.get("regime") || "micro";
+        const taxesA = getTaxProfile(cA, taxesDb);
+        const taxesB = getTaxProfile(cB, taxesDb);
 
         res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
         res.end(JSON.stringify({
@@ -109,7 +116,41 @@ export function createAppServer() {
           biosphereA: getBiosphereProfile(cA),
           biosphereB: getBiosphereProfile(cB),
           encyclopediaA: getEncyclopediaProfile(cA, wikiDeepDb),
-          encyclopediaB: getEncyclopediaProfile(cB, wikiDeepDb)
+          encyclopediaB: getEncyclopediaProfile(cB, wikiDeepDb),
+          taxesA,
+          taxesB,
+          taxComparison: {
+            grossUsd: gross,
+            regime,
+            scenarioA: calculateTaxScenario(cA, taxesA, gross, regime),
+            scenarioB: calculateTaxScenario(cB, taxesB, gross, regime)
+          }
+        }));
+        return;
+      }
+
+      // 3b. REST API: Single-Entity Complete Tax & Legal Entities Calculator
+      if (pathname === "/api/taxes") {
+        const iso = (parsedUrl.searchParams.get("iso") || "ROU").toUpperCase();
+        const gross = Number(parsedUrl.searchParams.get("gross")) || 100000;
+        const entity = countryByIso3[iso];
+        if (!entity) {
+          res.writeHead(404, { "Content-Type": "application/json; charset=utf-8" });
+          res.end(JSON.stringify({ error: "ISO3 entity code not found", iso }));
+          return;
+        }
+        const profile = getTaxProfile(entity, taxesDb);
+        res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+        res.end(JSON.stringify({
+          entity,
+          grossUsd: gross,
+          profile,
+          scenarios: {
+            employee: calculateTaxScenario(entity, profile, gross, "employee"),
+            freelancer: calculateTaxScenario(entity, profile, gross, "freelancer"),
+            micro: calculateTaxScenario(entity, profile, gross, "micro"),
+            corporate: calculateTaxScenario(entity, profile, gross, "corporate")
+          }
         }));
         return;
       }

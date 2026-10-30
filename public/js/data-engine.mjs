@@ -762,3 +762,668 @@ export function getEncyclopediaProfile(c, wikiDeepDb = {}) {
     financeOverview, historySummary, timeline, food, attractions, activities, curiosities
   };
 }
+
+// ============================================================================
+// GLOBAL TAXATION, BUSINESS ENTITIES (PFA / MICRO / SRL / LLC) & NET ENGINE
+// ============================================================================
+const LEGAL_FAMILY_TEMPLATES = {
+  ROMANCE: {
+    freelanceCode: "PFA-IND",
+    freelanceName: "PFA / Independent Authorized Professional",
+    microCode: "SRL-MICRO",
+    microName: "Micro-SRL (Simplified Small Limited Liability)",
+    corpCode: "SRL-STD",
+    corpName: "SRL (Societate cu Răspundere Limitată / Standard LLC)",
+    jointCode: "SA-CORP",
+    jointName: "S.A. (Joint-Stock Corporation)"
+  },
+  GERMANIC: {
+    freelanceCode: "EINZEL-PRO",
+    freelanceName: "Einzelunternehmen / Freiberufler (Sole Proprietor)",
+    microCode: "SME-GMBH",
+    microName: "UG / Klein-GmbH (Small Limited Liability Tier)",
+    corpCode: "GMBH-STD",
+    corpName: "GmbH (Gesellschaft mit beschränkter Haftung)",
+    jointCode: "AG-CORP",
+    jointName: "AG (Aktiengesellschaft — Public Stock Corp)"
+  },
+  COMMON: {
+    freelanceCode: "SOLE-TRADER",
+    freelanceName: "Sole Trader / Independent Contractor",
+    microCode: "LTD-SMALL",
+    microName: "Private Limited Company (Ltd — SME / Small Profits Tier)",
+    corpCode: "LLP-PARTNER",
+    corpName: "LLP (Limited Liability Partnership)",
+    jointCode: "LTD-PLC",
+    jointName: "Ltd / PLC (Standard Corporate Rate)"
+  },
+  FRANCO: {
+    freelanceCode: "AUTO-ENT",
+    freelanceName: "Auto-Entrepreneur / Entreprise Individuelle",
+    microCode: "SARL-PME",
+    microName: "EURL / SARL Unipersonnelle (SME Reduced Tier)",
+    corpCode: "SAS-STD",
+    corpName: "SAS / SARL (Société par Actions Simplifiée)",
+    jointCode: "SA-CORP",
+    jointName: "S.A. (Société Anonyme)"
+  },
+  CEE: {
+    freelanceCode: "SOLE-ENT",
+    freelanceName: "Registered Sole Entrepreneur (OSVČ / FOP / IP / s.p.)",
+    microCode: "MICRO-SRO",
+    microName: "Simplified / Micro LLC (s.r.o. / d.o.o. / OOO SME Tier)",
+    corpCode: "STD-SRO",
+    corpName: "Standard Limited Liability (s.r.o. / d.o.o. / DOO)",
+    jointCode: "AS-CORP",
+    jointName: "Joint-Stock Company (a.s. / d.d.)"
+  },
+  NORDIC: {
+    freelanceCode: "SOLE-FIRM",
+    freelanceName: "Sole Proprietorship (Enskild Firma / Enkeltpersonforetak)",
+    microCode: "SME-AB",
+    microName: "Private Limited SME (AB / AS / Oy / UAB / SIA)",
+    corpCode: "HOLD-AB",
+    corpName: "Holding + Operating Limited Company (Participation Exemption)",
+    jointCode: "PUB-ASA",
+    jointName: "Public Limited Corporation (ASA / Oyj / AB publ)"
+  },
+  ISLAMIC_GULF: {
+    freelanceCode: "FREELANCE-PERMIT",
+    freelanceName: "Licensed Freelance Professional / Sole Establishment",
+    microCode: "FZ-LLC",
+    microName: "Free Zone LLC / Small Business Relief Entity",
+    corpCode: "MAIN-WLL",
+    corpName: "Mainland LLC / W.L.L. (With Limited Liability)",
+    jointCode: "PJSC-CORP",
+    jointName: "PJSC / Joint-Stock Holding Company"
+  },
+  HISPANIC: {
+    freelanceCode: "AUTONOMO-MONO",
+    freelanceName: "Autónomo / Monotributo / Persona Física con Actividad Empresarial",
+    microCode: "SAS-PYME",
+    microName: "S.A.S. / S.R.L. Régimen Pyme / Simplificado",
+    corpCode: "SRL-LTDA",
+    corpName: "S.R.L. / Sociedad Limitada (Standard Commercial LLC)",
+    jointCode: "SA-CORP",
+    jointName: "S.A. (Sociedad Anónima)"
+  }
+};
+
+function inferRegionalStatutoryTuple(c) {
+  const sub = (c.subregion || "").toLowerCase();
+  const reg = (c.region || "").toLowerCase();
+  const langs = (c.languages || "").toLowerCase();
+
+  if (sub.includes("western asia") || sub.includes("middle east")) {
+    return [15.0, 10.0, 5.0, 9.0, 15.0, 5.0, 10.0, 5.0, "ISLAMIC_GULF", `Ministry of Finance & Tax Authority of ${c.name}`];
+  }
+  if (reg === "europe") {
+    if (sub.includes("eastern") || sub.includes("southern")) {
+      return [20.0, 16.0, 14.0, 17.0, 16.0, 9.0, 20.0, 10.0, "CEE", `National Revenue & Fiscal Administration of ${c.name}`];
+    }
+    return [42.0, 28.0, 13.0, 19.0, 22.0, 18.0, 21.0, 22.0, "GERMANIC", `National Tax Administration of ${c.name}`];
+  }
+  if (reg === "americas") {
+    if (sub.includes("caribbean")) {
+      return [22.0, 14.0, 5.0, 7.5, 20.0, 5.0, 12.5, 5.0, "COMMON", `Inland Revenue Department of ${c.name}`];
+    }
+    return [30.0, 19.0, 9.5, 16.5, 27.0, 10.0, 16.0, 10.0, "HISPANIC", `Dirección General de Impuestos (${c.name})`];
+  }
+  if (reg === "africa") {
+    const fam = langs.includes("french") ? "FRANCO" : (langs.includes("portuguese") ? "ROMANCE" : "COMMON");
+    return [30.0, 21.0, 6.5, 13.5, 27.0, 4.0, 16.0, 10.0, fam, `General Revenue Authority of ${c.name}`];
+  }
+  if (reg === "oceania") {
+    return [30.0, 19.0, 4.0, 6.0, 22.0, 15.0, 12.5, 10.0, "COMMON", `Customs & Inland Revenue Service of ${c.name}`];
+  }
+  // Asia default
+  return [25.0, 16.5, 7.0, 11.0, 20.0, 10.0, 10.0, 10.0, "COMMON", `National Revenue & Taxation Authority of ${c.name}`];
+}
+
+/**
+ * Synthesizes or retrieves a complete Personal & Business Entity (PFA / Micro / SRL / LLC / Corp)
+ * taxation dossier for all 220 entities (204 countries incl. Antarctica, 8 continents, 8 oceans).
+ */
+export function getTaxProfile(c, taxesDb = {}) {
+  if (!c) return null;
+
+  // 1. Deep Curated Country Profile (ROU, USA, GBR, DEU, FRA, ITA, ESP, POL, HUN, NLD, IRL, CYP, MDA, ARE, CHE, EST, BGR, SGP, CAN, AUS, JPN, IND, BRA, CHN)
+  if (taxesDb && taxesDb.curated && taxesDb.curated[c.iso3]) {
+    return taxesDb.curated[c.iso3];
+  }
+
+  // 2. Antarctica (Polar Scientific Treaty Regime)
+  if (c.iso3 === "ATA" || c.iso3 === "ANTC") {
+    return {
+      taxAuthority: "Antarctic Treaty System (1959) — Home-State Flag Fiscal Jurisdiction",
+      currencyCode: "USD / Home Currency",
+      taxYear: "Antarctic Treaty Article IV Sovereign Protocol",
+      pitHeadline: "0% Local Territorial Tax (Home-Country Tax / Foreign Earned Income Exclusion)",
+      pitRate: 0.0,
+      pitSystem: "No indigenous tax authority; expedition personnel taxed by sponsoring country (often 0% via polar/FEIE exemptions)",
+      employeeSocialRate: 0.0,
+      employeeSocialBreakdown: "0% Antarctic levy (home-agency social security coverage applies)",
+      employerPayrollRate: 0.0,
+      employerPayrollBreakdown: "0% Antarctic payroll duty",
+      vatStandard: 0.0,
+      vatReduced: "0% VAT / 0% Customs Duty on scientific supplies, fuel, and expedition logistics",
+      dividendTaxRate: 0.0,
+      dividendNotes: "0% local withholding tax",
+      capitalGainsRate: "0% local territorial tax (Madrid Protocol bans commercial mineral mining until 2048)",
+      propertyTax: "0% (No private land ownership permitted under the Antarctic Treaty)",
+      entities: [
+        {
+          code: "ATA-SCI",
+          name: "Expeditionary Scientist / Contractor (FEIE / Polar Grant)",
+          badge: "0% LOCAL TAX",
+          turnoverCap: "Sponsored by 57 Antarctic Treaty Nations",
+          corporateTaxRate: 0.0,
+          dividendRate: 0.0,
+          effectiveAt100k: 0.0,
+          summary: "0% Antarctic territorial income tax. Many researchers and support contractors qualify for tax-free scientific stipends or Foreign Earned Income Exclusions (e.g. up to $130,000 USD under IRC § 911 depending on home-court status).",
+          bestFor: "Glaciologists, astrophysicists, marine biologists, and polar station engineers."
+        },
+        {
+          code: "ATA-SUPPORT-LLC",
+          name: "Polar Logistics & Expedition Support Contractor LLC / SRL",
+          badge: "HOME-FLAG CIT",
+          turnoverCap: "Government & National Science Foundation Contracts",
+          corporateTaxRate: 15.0,
+          dividendRate: 0.0,
+          effectiveAt100k: 15.0,
+          summary: "0% Antarctic customs, VAT, or establishment tax; corporate profits are taxed solely in the contractor's country of incorporation (e.g. Chile, New Zealand, USA, UK, Norway).",
+          bestFor: "Icebreaker operators, polar aviation, and station engineering contractors."
+        },
+        {
+          code: "ATA-IAATO",
+          name: "IAATO Polar Expedition Vessel Registry (Tonnage Tax)",
+          badge: "0% – 2% TONNAGE REGIME",
+          turnoverCap: "Strict IAATO 100-passenger shore-landing cap",
+          corporateTaxRate: 2.0,
+          dividendRate: 0.0,
+          effectiveAt100k: 2.5,
+          summary: "Expedition cruise vessels operating in Antarctic waters typically sail under international maritime Tonnage Tax regimes paying fixed per-tonnage fees rather than standard CIT.",
+          bestFor: "Polar expedition vessels departing Ushuaia, Punta Arenas, or Hobart."
+        }
+      ],
+      calcModel: { empTaxRate: 0.08, freelanceEffective100k: 0.05, microEffective100k: 0.025, corpEffective100k: 0.15 }
+    };
+  }
+
+  // 3. Oceans & Seas (UNCLOS International Maritime & Open-Registry Tonnage Tax Framework)
+  if (c.entityType === "ocean") {
+    return {
+      taxAuthority: "UNCLOS High-Seas Regime • IMO • International Seabed Authority (ISA)",
+      currencyCode: "USD / SDR (Special Drawing Rights)",
+      taxYear: "2025 / 2026 International Maritime Tonnage Tax Code",
+      pitHeadline: "0% High-Seas Seafarer PIT (Flag-State / Seafarers' Earnings Deduction)",
+      pitRate: 0.0,
+      pitSystem: "0% PIT for qualifying international seafarers (>183 days at sea under UK SED, Philippines OFW, Singapore & EU Tonnage rules)",
+      employeeSocialRate: 0.0,
+      employeeSocialBreakdown: "0% High-Seas levy (Maritime Labour Convention MLC shipowner medical & repatriation protection)",
+      employerPayrollRate: 1.5,
+      employerPayrollBreakdown: "~1% – 2% Maritime Welfare & P&I Crew Insurance contribution",
+      vatStandard: 0.0,
+      vatReduced: "0% VAT / 0% Excise on International Marine Bunkers, Provisioning & High-Seas Freight",
+      dividendTaxRate: 0.0,
+      dividendNotes: "0% Dividend Withholding Tax across Open Maritime Registries (Panama, Liberia, Marshall Islands, Cyprus, Malta)",
+      capitalGainsRate: "0% Capital Gains Tax on Vessel Transfers & Shipping SPV Shares under Open Registries",
+      propertyTax: "Annual Vessel Net Tonnage Registry Fee (~$0.10 – $0.40 per Net Ton)",
+      entities: [
+        {
+          code: "MAR-SEAFARER",
+          name: "International Merchant Officer / Marine Contractor",
+          badge: "0% SEAFARER EXEMPTION",
+          turnoverCap: "≥ 183 days international voyage / year",
+          corporateTaxRate: 0.0,
+          dividendRate: 0.0,
+          effectiveAt100k: 0.0,
+          summary: "0% Personal Income Tax across major maritime nations (UK Seafarers' Earnings Deduction, Filipino OFW exemption, Cyprus/Malta/Singapore crew rules) for officers and marine specialists working aboard international vessels.",
+          bestFor: "Master mariners, marine engineers, subsea ROV pilots, and oceanographers."
+        },
+        {
+          code: "MAR-OPEN-IBC",
+          name: "Open-Registry Shipping SPV / IBC (Panama • Liberia • Marshall Is.)",
+          badge: "0% SHIPPING PROFIT TAX",
+          turnoverCap: "Unlimited Global Freight & Charter Revenue",
+          corporateTaxRate: 0.0,
+          dividendRate: 0.0,
+          effectiveAt100k: 1.2,
+          summary: "0% Corporate Income Tax and 0% Dividend Tax on international maritime freight/chartering! Vessels pay only a flat annual Net Tonnage registration fee (~$1,200–$6,500/yr depending on tonnage).",
+          bestFor: "Container lines, LNG/tanker SPVs, bulk carriers, and superyacht holdings."
+        },
+        {
+          code: "MAR-EU-TONNAGE",
+          name: "EU Approved Tonnage Tax Ltd (Cyprus • Malta • Greece • Netherlands)",
+          badge: "1% – 2.5% EFFECTIVE",
+          turnoverCap: "Qualifying EU/EEA Maritime Fleet Operations",
+          corporateTaxRate: 2.0,
+          dividendRate: 0.0,
+          effectiveAt100k: 2.2,
+          summary: "Replaces standard 12.5%–25% Corporate Tax with a tiny fixed tax based purely on ship net tonnage, regardless of how high actual shipping profits soar, with 0% dividend WHT!",
+          bestFor: "European shipowners, ship-management hubs, and dredging/offshore wind fleets."
+        },
+        {
+          code: "MAR-EEZ-ISA",
+          name: "200-NM EEZ Offshore Energy / ISA Seabed Consortium",
+          badge: "COASTAL CIT + ROYALTY",
+          turnoverCap: `Littoral EEZ & ${c.name} Basin Concessions`,
+          corporateTaxRate: 18.0,
+          dividendRate: 5.0,
+          effectiveAt100k: 21.5,
+          summary: `Offshore wind, subsea cables, fisheries, and energy platforms inside the 200-nautical-mile Exclusive Economic Zone pay coastal-state CIT, while deep-seabed resources beyond 200 NM fall under UNCLOS International Seabed Authority (ISA) revenue-sharing.`,
+          bestFor: "Offshore wind developers, subsea fiber-optic operators, and pelagic fisheries."
+        }
+      ],
+      calcModel: { empTaxRate: 0.015, freelanceEffective100k: 0.015, microEffective100k: 0.018, corpEffective100k: 0.045 }
+    };
+  }
+
+  // 4. Continents & EU-27 Macro-Blocs (Weighted Continental Benchmark & Cross-Border Vehicles)
+  if (c.entityType === "continent") {
+    const contProfiles = {
+      "EU27": [42.8, 29.5, 14.5, 22.5, 21.2, 9.0, 21.6, 15.0, "EU-27 Single Market (Parent-Subsidiary 0% WHT • VAT Directive • 9% HU / 10% BG / 1%–3% RO Micro to 29.9% DE)"],
+      "EUR":  [41.5, 28.0, 13.8, 21.0, 20.5, 9.0, 20.8, 15.0, "European Tax Authorities (EU-27 + UK HMRC + Swiss Cantons + EEA)"],
+      "NAMC": [35.0, 24.5, 7.6, 8.5, 23.5, 12.2, 5.5, 15.0, "USMCA & Caribbean Authorities (IRS USA • CRA Canada • SAT Mexico • 0% Caribbean IFCs)"],
+      "SAM":  [33.0, 21.5, 12.5, 19.0, 28.0, 8.5, 18.0, 7.0, "Mercosur & Andean Revenue Agencies (0% Brazil Dividend • 10% Paraguay • 0% Uruguay Software Export)"],
+      "ASIA": [32.0, 17.5, 8.0, 13.5, 20.0, 6.5, 10.5, 10.0, "Asian Fiscal Regimes (0% UAE/Gulf • 17% Singapore • 16.5% HK • 5% China SLPE • 44ADA India)"],
+      "AFR":  [31.5, 21.5, 7.0, 13.5, 26.5, 3.5, 16.0, 10.0, "AfCFTA Continental Fiscal Systems (15% Mauritius • 0% Nigeria Small Ltd • 1%–3% SME Turnover Regimes)"],
+      "OCE":  [39.0, 24.5, 2.5, 8.5, 26.5, 25.0, 11.5, 10.0, "Oceania Revenue Authorities (ATO Australia • IRD New Zealand • Pacific Island Regimes)"]
+    };
+    const [pitTop, pitEff, empSoc, erSoc, citStd, citSmall, vat, divTax, authDesc] =
+      contProfiles[c.iso3] || contProfiles["EUR"];
+    const isEU = c.iso3 === "EU27" || c.iso3 === "EUR";
+
+    return {
+      taxAuthority: authDesc,
+      currencyCode: c.currency || "Multi-Currency (USD / EUR)",
+      taxYear: "2025 / 2026 Continental Statutory Benchmark",
+      pitHeadline: `~${pitTop}% Avg Top Bracket (${isEU ? "10% Flat in RO/BG to 52% DK/SE" : "Weighted Continental Benchmark"})`,
+      pitRate: pitTop,
+      pitSystem: isEU
+        ? "Mix of Flat-Tax Eastern EU Members (10% Bulgaria & Romania, 15% Hungary) and Progressive Western/Nordic Brackets"
+        : `Continental spectrum of progressive and flat/territorial personal tax systems across ${c.name}`,
+      employeeSocialRate: empSoc,
+      employeeSocialBreakdown: `~${empSoc}% Continental average employee pension & healthcare deduction`,
+      employerPayrollRate: erSoc,
+      employerPayrollBreakdown: `~${erSoc}% Continental average employer social security contribution`,
+      vatStandard: vat,
+      vatReduced: `~${vat}% Average Standard VAT / GST (Reduced tiers 0% – 10% on essentials)`,
+      dividendTaxRate: divTax,
+      dividendNotes: isEU
+        ? "0% Intra-EU Corporate Dividend Withholding under EU Parent-Subsidiary Directive (0% CY Non-Dom / 5% BG / 10% RO personal)"
+        : `~${divTax}% regional average personal dividend withholding (0% in territorial/imputation hubs)`,
+      capitalGainsRate: isEU
+        ? "0% (CH, CY, BE, >1yr DE Crypto/Gold, regulated BG) up to 26%–34% across Western Europe"
+        : `0% – 25% across ${c.name} jurisdictions (often 0% or 50%-discounted on long-term holdings)`,
+      propertyTax: "0.1% – 1.8% municipal cadastral or land value tax",
+      entities: [
+        {
+          code: `${c.iso3}-FREELANCE`,
+          name: isEU ? "Freelancer / Sole Prop (PFA • JDG Ryczałt • Forfettario • Auto-Entrepreneur)" : `${c.name} Independent Contractor / Sole Proprietor`,
+          badge: "SIMPLIFIED FREELANCE",
+          turnoverCap: "Varies by Member State (€25k – €2M simplified caps)",
+          corporateTaxRate: Number((pitEff * 0.65).toFixed(1)),
+          dividendRate: 0.0,
+          effectiveAt100k: Number((pitEff * 0.72).toFixed(1)),
+          summary: isEU
+            ? "Across Europe, solo professionals utilize specialized low-tax regimes like Romania's PFA (10% + capped CAS/CASS), Italy's 5% Forfettario, Poland's 12% IT Ryczałt, Bulgaria's 7.5% effective freelance tax, or France's Micro-Entrepreneur."
+            : `Direct pass-through or simplified presumptive sole-proprietor regimes across ${c.name} with streamlined bookkeeping and 0% dividend layer.`,
+          bestFor: "Independent contractors, remote engineers, consultants, and solo creators."
+        },
+        {
+          code: `${c.iso3}-MICRO`,
+          name: isEU ? "Micro-Company / SME Optimizer (RO Micro 1%–3% • PL 9% • EE 0% OÜ • HU 9% Kft)" : `${c.name} Small Business / Micro-LLC Regime`,
+          badge: `${citSmall}% SME / MICRO TIER`,
+          turnoverCap: "SME / Micro statutory revenue thresholds",
+          corporateTaxRate: citSmall,
+          dividendRate: Number((divTax * 0.65).toFixed(1)),
+          effectiveAt100k: Number((citSmall + (100 - citSmall) * (divTax * 0.65) / 100).toFixed(1)),
+          summary: isEU
+            ? "Small limited companies benefit from preferential EU regimes: Romania Micro-SRL (1% or 3% turnover), Estonia/Latvia OÜ/SIA (0% retained profit tax), Hungary Kft (9% CIT), Poland Sp. z o.o. (9% small CIT), and Cyprus/Ireland (12.5% CIT)."
+            : `Preferential small-business corporate tier (~${citSmall}% benchmark) designed for startups, agencies, and high-margin SMEs across ${c.name}.`,
+          bestFor: "Startups, software studios, agencies, and small limited-liability businesses."
+        },
+        {
+          code: `${c.iso3}-STD-CORP`,
+          name: isEU ? "Standard LLC & Societas Europaea (SRL • GmbH • SAS • Ltd • SE)" : `${c.name} Standard Corporation (LLC / C-Corp / Ltda / Pte Ltd)`,
+          badge: `${citStd}% AVG CORP TAX`,
+          turnoverCap: "Unlimited (Cross-border treaty network)",
+          corporateTaxRate: citStd,
+          dividendRate: divTax,
+          effectiveAt100k: Number((citStd + (100 - citStd) * (divTax * 0.5) / 100).toFixed(1)),
+          summary: `Continental weighted headline Corporate Income Tax averages ~${citStd}%, paired with R&D tax credits, IP Box regimes, and holding participation exemptions.`,
+          bestFor: "Scaling enterprises, cross-border holdings, and multinational subsidiaries."
+        }
+      ],
+      calcModel: {
+        empTaxRate: Number(Math.min(0.52, (pitEff * 0.72 + empSoc) / 100).toFixed(3)),
+        freelanceEffective100k: Number((pitEff * 0.72 / 100).toFixed(3)),
+        microEffective100k: Number(((citSmall + (100 - citSmall) * (divTax * 0.65) / 100) / 100).toFixed(3)),
+        corpEffective100k: Number(((citStd + (100 - citStd) * (divTax * 0.65) / 100) / 100).toFixed(3))
+      }
+    };
+  }
+
+  // 5. Statutory Lookup Table (77 countries) or Regional Legal-Tradition Inference (remaining countries)
+  const tuple = (taxesDb && taxesDb.statutory && taxesDb.statutory[c.iso3])
+    ? taxesDb.statutory[c.iso3]
+    : inferRegionalStatutoryTuple(c);
+
+  const [pitTop, pitEff100k, empSoc, erSoc, citStd, citSmall, vatStd, divTax, famKey, authName] = tuple;
+  const tpl = LEGAL_FAMILY_TEMPLATES[famKey] || LEGAL_FAMILY_TEMPLATES.COMMON;
+  const isFlatPit = pitTop > 0 && Math.abs(pitTop - pitEff100k) <= 2.5;
+  const currCode = c.currency ? c.currency.split(" ")[0] : "Local / USD";
+
+  const empCombined = Math.min(56, Number((pitEff100k * 0.78 + empSoc).toFixed(1)));
+  const freelanceEff = Math.max(0, Number(Math.min(46, pitEff100k * 0.74 + Math.min(empSoc, 11) * 0.65).toFixed(1)));
+  const microEff = Math.max(0, Number((citSmall + (100 - citSmall) * (divTax * 0.75) / 100).toFixed(1)));
+  const corpEff = Math.max(0, Number((citStd * 0.9 + (100 - citStd * 0.9) * (divTax * 0.85) / 100).toFixed(1)));
+
+  return {
+    taxAuthority: authName,
+    currencyCode: currCode,
+    taxYear: `2025 / 2026 ${c.name} Fiscal Code`,
+    pitHeadline: pitTop === 0
+      ? "0% Personal Income Tax"
+      : (isFlatPit ? `${pitTop}% Flat Personal Income Tax` : `0% – ${pitTop}% Progressive Personal Income Tax`),
+    pitRate: pitTop,
+    pitSystem: pitTop === 0
+      ? "0% Tax-Free Personal Income Regime"
+      : (isFlatPit ? `${pitTop}% Flat Rate System` : `Progressive statutory brackets up to ${pitTop}% (~${pitEff100k}% effective PIT before social levies)`),
+    employeeSocialRate: empSoc,
+    employeeSocialBreakdown: empSoc === 0
+      ? "0% mandatory employee payroll deduction for expatriates/residents"
+      : `${empSoc}% Employee pension, health & social insurance contribution`,
+    employerPayrollRate: erSoc,
+    employerPayrollBreakdown: erSoc === 0
+      ? "0% employer payroll tax"
+      : `${erSoc}% Employer statutory social security & payroll contribution`,
+    vatStandard: vatStd,
+    vatReduced: vatStd === 0
+      ? "0% VAT / Sales Tax"
+      : `${vatStd}% Standard VAT / GST (Reduced/0% rates on exports, basic food, healthcare & books)`,
+    dividendTaxRate: divTax,
+    dividendNotes: divTax === 0
+      ? "0% Dividend Withholding Tax on distributed corporate profits!"
+      : `${divTax}% Dividend Withholding Tax (often reduced to 0%–5% under Double Tax Treaties)`,
+    capitalGainsRate: divTax === 0 && pitTop === 0
+      ? "0% Capital Gains Tax"
+      : `~${Math.min(pitTop || 15, Math.max(divTax, 10))}% Standard Capital Gains Rate (exemptions often apply to long-term listed equities)`,
+    propertyTax: "0.1% – 1.2% municipal real estate / cadastral assessment",
+    entities: [
+      {
+        code: `${c.iso3}-${tpl.freelanceCode}`,
+        name: `${tpl.freelanceName}`,
+        badge: "FREELANCER / SOLE PROP",
+        turnoverCap: `Simplified sole-trader registration in ${c.name}`,
+        corporateTaxRate: Number((pitEff100k * 0.75).toFixed(1)),
+        dividendRate: 0.0,
+        effectiveAt100k: freelanceEff,
+        summary: `Direct personal business registration under ${authName}. Net profit after statutory business expense deductions is taxed at personal rates (~${freelanceEff}% all-in effective at $100k) with 0% dividend withholding.`,
+        bestFor: "Independent contractors, digital consultants, freelancers, and solo specialists."
+      },
+      {
+        code: `${c.iso3}-${tpl.microCode}`,
+        name: `${tpl.microName}`,
+        badge: citSmall < citStd ? `${citSmall}% SME / MICRO TIER` : `${citSmall}% SMALL LLC`,
+        turnoverCap: "Statutory Micro / SME annual revenue ceiling",
+        corporateTaxRate: citSmall,
+        dividendRate: divTax,
+        effectiveAt100k: microEff,
+        summary: citSmall < citStd
+          ? `Preferential ${citSmall}% Micro / Small-Business tax regime (vs ${citStd}% standard CIT) + ${divTax}% dividend tax, yielding ~${microEff}% total effective tax to personal pocket.`
+          : `Streamlined SME limited-liability vehicle taxed at ${citSmall}% corporate rate (0% while profits are reinvested inside the company) + ${divTax}% upon dividend payout.`,
+        bestFor: "High-margin startups, software/service agencies, and small limited-liability companies."
+      },
+      {
+        code: `${c.iso3}-${tpl.corpCode}`,
+        name: `${tpl.corpName}`,
+        badge: `${citStd}% STANDARD CORP`,
+        turnoverCap: "Unlimited commercial turnover",
+        corporateTaxRate: citStd,
+        dividendRate: divTax,
+        effectiveAt100k: corpEff,
+        summary: `Primary commercial limited-liability entity in ${c.name}: ${citStd}% Corporate Income Tax on net profit after salaries, equipment & R&D deductions + ${divTax}% dividend withholding.`,
+        bestFor: "Scaling commercial enterprises, employers, and international subsidiaries."
+      },
+      {
+        code: `${c.iso3}-${tpl.jointCode}`,
+        name: `${tpl.jointName}`,
+        badge: "LARGE / PUBLIC CORP",
+        turnoverCap: "Institutional share capital & multi-shareholder governance",
+        corporateTaxRate: citStd,
+        dividendRate: divTax,
+        effectiveAt100k: corpEff,
+        summary: `Full joint-stock corporate architecture (${citStd}% CIT) eligible for institutional equity issuance, holding participation exemptions, and double-taxation treaty relief.`,
+        bestFor: "Large industrial corporations, financial institutions, and listed enterprises."
+      }
+    ],
+    calcModel: {
+      empTaxRate: Number((empCombined / 100).toFixed(3)),
+      freelanceEffective100k: Number((freelanceEff / 100).toFixed(3)),
+      microEffective100k: Number((microEff / 100).toFixed(3)),
+      corpEffective100k: Number((corpEff / 100).toFixed(3))
+    }
+  };
+}
+
+/**
+ * Computes an exact Gross-to-Net Take-Home Breakdown for any of the 220 entities
+ * across any annual gross income/revenue ($10,000 – $500,000+) and 4 universal regimes:
+ * - 'employee'   : Gross Employee Salary (CIM / W-2 / PAYE)
+ * - 'freelancer' : Solo Freelancer / Sole Prop (PFA Sistem Real / 1099 / Autónomo / JDG)
+ * - 'micro'      : Micro-Company / Small Corp Optimizer (SRL Micro 1%–3% / S-Corp / Sp. z o.o. 9% / OÜ)
+ * - 'corporate'  : Standard LLC / Corporation + Dividend Extraction (SRL 16% / C-Corp / GmbH / Ltd)
+ */
+export function calculateTaxScenario(country, taxProfile, grossUsd = 100000, regimeKey = "micro") {
+  const gross = Math.max(1000, Math.round(Number(grossUsd) || 100000));
+  const tp = taxProfile || getTaxProfile(country);
+  const cm = tp.calcModel || { empTaxRate: 0.30, freelanceEffective100k: 0.24, microEffective100k: 0.18, corpEffective100k: 0.26 };
+
+  // Special exact statutory calculator for Romania (ROU) so PFA, Micro 1%/3%, SRL 16%, and CIM match ANAF rules!
+  if (country && country.iso3 === "ROU") {
+    const minWageMonthlyUsd = 880; // ~4,050 RON/month gross minimum wage (~$880 USD/mo; 12 wages = $10,560/yr)
+    const minWageAnnualUsd = 12 * minWageMonthlyUsd;
+    if (regimeKey === "employee") {
+      const cas = Math.round(gross * 0.25);
+      const cass = Math.round(gross * 0.10);
+      const pit = Math.round((gross - cas - cass) * 0.10);
+      const totalTax = cas + cass + pit;
+      return {
+        gross,
+        netTakeHome: gross - totalTax,
+        totalTax,
+        primaryTax: pit,
+        primaryLabel: "10% Income Tax (IV)",
+        secondaryTax: cas + cass,
+        secondaryLabel: "CAS 25% + CASS 10%",
+        employerExtraCost: Math.round(gross * 0.0225),
+        effectiveRatePct: Number(((totalTax / gross) * 100).toFixed(1)),
+        regimeTitle: "Employee (CIM — Contract Individual de Muncă)",
+        note: "25% CAS Pension + 10% CASS Health + 10% Income Tax on net after social (+ 2.25% Employer CAM)."
+      };
+    }
+    if (regimeKey === "freelancer") {
+      // PFA Sistem Real: CAS 25% capped at 12 or 24 MONTHLY min wages; CASS 10% capped at 60 MONTHLY min wages (min 6); 10% PIT on remaining!
+      let casBase = 0;
+      if (gross >= 24 * minWageMonthlyUsd) casBase = 24 * minWageMonthlyUsd;
+      else if (gross >= 12 * minWageMonthlyUsd) casBase = 12 * minWageMonthlyUsd;
+      const cas = Math.round(casBase * 0.25);
+
+      const cassBase = Math.min(60 * minWageMonthlyUsd, Math.max(6 * minWageMonthlyUsd, gross));
+      const cass = Math.round(cassBase * 0.10);
+
+      const taxableNet = Math.max(0, gross - cas - cass);
+      const pit = Math.round(taxableNet * 0.10);
+      const totalTax = Math.min(gross, cas + cass + pit);
+      return {
+        gross,
+        netTakeHome: gross - totalTax,
+        totalTax,
+        primaryTax: pit,
+        primaryLabel: "10% PFA Net Income Tax",
+        secondaryTax: cas + cass,
+        secondaryLabel: "Capped CAS + CASS",
+        employerExtraCost: 0,
+        effectiveRatePct: Number(((totalTax / gross) * 100).toFixed(1)),
+        regimeTitle: "PFA — Sistem Real (10% + Capped CAS/CASS)",
+        note: "CAS capped at 12/24 monthly min wages & CASS capped at 60 monthly min wages; 0% dividend tax!"
+      };
+    }
+    if (regimeKey === "micro") {
+      // SRL Micro: 1% turnover if <= ~$65k (~€60k), 3% above €60k (up to €250k / ~$270k; above ~$270k transitions to 16% SRL Profit)
+      if (gross > 270000) {
+        const cit = Math.round(gross * 0.92 * 0.16); // ~8% deductible expenses
+        const distributable = gross - cit;
+        const divTax = Math.round(distributable * 0.10);
+        const divCass = Math.round(24 * minWageMonthlyUsd * 0.10);
+        const totalTax = cit + divTax + divCass;
+        return {
+          gross,
+          netTakeHome: gross - totalTax,
+          totalTax,
+          primaryTax: cit,
+          primaryLabel: "16% CIT (>€250k Micro Cap)",
+          secondaryTax: divTax + divCass,
+          secondaryLabel: "10% Dividend + Capped CASS",
+          employerExtraCost: 0,
+          effectiveRatePct: Number(((totalTax / gross) * 100).toFixed(1)),
+          regimeTitle: "SRL Impozit pe Profit (Auto-Triggered >€250k Cap)",
+          note: "Above the Micro-SRL turnover ceiling, Romanian SRLs automatically transition to 16% Profit Tax."
+        };
+      }
+      const turnRate = gross <= 65000 ? 0.01 : 0.03;
+      const microTax = Math.round(gross * turnRate);
+      // Mandatory 1 min-wage employee: founder receives net salary, state gets ~42.8% of $10,560 (~$4,520)
+      const empTaxes = Math.round(minWageAnnualUsd * 0.428);
+      const remainingProfit = Math.max(0, gross - minWageAnnualUsd * 1.0225 - microTax);
+      const divTax = Math.round(remainingProfit * 0.10);
+      let divCassBase = 0;
+      if (remainingProfit >= 24 * minWageMonthlyUsd) divCassBase = 24 * minWageMonthlyUsd;
+      else if (remainingProfit >= 12 * minWageMonthlyUsd) divCassBase = 12 * minWageMonthlyUsd;
+      else if (remainingProfit >= 6 * minWageMonthlyUsd) divCassBase = 6 * minWageMonthlyUsd;
+      const divCass = Math.round(divCassBase * 0.10);
+
+      const totalTax = Math.min(Math.round(gross * 0.55), microTax + empTaxes + divTax + divCass);
+      return {
+        gross,
+        netTakeHome: gross - totalTax,
+        totalTax,
+        primaryTax: microTax + empTaxes,
+        primaryLabel: `${turnRate * 100}% Micro Tax + 1 Min-Wage CIM`,
+        secondaryTax: divTax + divCass,
+        secondaryLabel: "10% Dividend + Capped CASS",
+        employerExtraCost: 0,
+        effectiveRatePct: Number(((totalTax / gross) * 100).toFixed(1)),
+        regimeTitle: `SRL Microîntreprindere (${turnRate * 100}% Turnover Tier)`,
+        note: `${turnRate * 100}% turnover tax + 1 mandatory employee salary (founder keeps net wage!) + 10% dividend tax.`
+      };
+    }
+    // 'corporate' -> SRL Impozit pe Profit 16%
+    const cit = Math.round(gross * 0.90 * 0.16); // assumes 10% deductible operational expenses
+    const afterCit = gross - cit;
+    const divTax = Math.round(afterCit * 0.10);
+    let divCassBase = 0;
+    if (afterCit >= 24 * minWageMonthlyUsd) divCassBase = 24 * minWageMonthlyUsd;
+    else if (afterCit >= 12 * minWageMonthlyUsd) divCassBase = 12 * minWageMonthlyUsd;
+    else if (afterCit >= 6 * minWageMonthlyUsd) divCassBase = 6 * minWageMonthlyUsd;
+    const divCass = Math.round(divCassBase * 0.10);
+    const totalTax = cit + divTax + divCass;
+    return {
+      gross,
+      netTakeHome: gross - totalTax,
+      totalTax,
+      primaryTax: cit,
+      primaryLabel: "16% Corporate Profit Tax",
+      secondaryTax: divTax + divCass,
+      secondaryLabel: "10% Dividend + Capped CASS",
+      employerExtraCost: 0,
+      effectiveRatePct: Number(((totalTax / gross) * 100).toFixed(1)),
+      regimeTitle: "SRL Impozit pe Profit (16% Standard LLC)",
+      note: "16% CIT on net profit (assuming ~10% deductible costs) + 10% Dividend Tax + capped CASS."
+    };
+  }
+
+  // General Parametric Gross-to-Net Model across all 220 jurisdictions
+  const isProgressive = tp.pitRate >= 25 && !(tp.pitSystem || "").toLowerCase().includes("flat");
+  // Income progression curve relative to $100,000 anchor
+  const logShift = Math.log10(gross / 100000); // -1 at $10k, 0 at $100k, +0.7 at $500k
+
+  let baseRate = cm.microEffective100k;
+  let regimeTitle = (tp.entities && tp.entities[1]) ? tp.entities[1].name : "Micro / SME Limited Company";
+  let primaryLabel = "Corporate / Turnover Tax";
+  let secondaryLabel = "Dividend / Social Levy";
+  let primaryShare = 0.58;
+  let employerExtraCost = 0;
+
+  if (regimeKey === "employee") {
+    baseRate = cm.empTaxRate;
+    if (isProgressive && baseRate > 0.03) {
+      baseRate = Math.max(0.02, Math.min(0.62, baseRate + logShift * 0.095));
+    }
+    regimeTitle = `Employee Gross Salary (${country ? country.iso3 : ""})`;
+    primaryLabel = "Personal Income Tax";
+    secondaryLabel = "Employee Social / Health";
+    const socRatio = tp.employeeSocialRate / Math.max(1, tp.employeeSocialRate + tp.pitRate * 0.55);
+    primaryShare = Math.max(0.15, Math.min(0.92, 1 - socRatio));
+    employerExtraCost = Math.round(gross * ((tp.employerPayrollRate || 0) / 100));
+  } else if (regimeKey === "freelancer") {
+    baseRate = cm.freelanceEffective100k;
+    if (isProgressive && baseRate > 0.03) {
+      baseRate = Math.max(0.015, Math.min(0.56, baseRate + logShift * 0.085));
+    } else if (!isProgressive && baseRate > 0.08) {
+      // Capped social contributions decrease effective rate slightly at high revenue
+      baseRate = Math.max(0.05, baseRate - logShift * 0.03);
+    }
+    regimeTitle = (tp.entities && tp.entities[0]) ? tp.entities[0].name : "Freelancer / Sole Proprietor";
+    primaryLabel = "Business / Personal Tax";
+    secondaryLabel = "Self-Employed Social";
+    primaryShare = 0.65;
+  } else if (regimeKey === "micro") {
+    baseRate = cm.microEffective100k;
+    if (country && country.iso3 === "ARE" && gross > 275000) {
+      // UAE > $275k (~AED 1M) / > AED 375k profit: 9% above ~$102k if outside SBR, or 0% under SBR up to $816k
+      baseRate = gross <= 816000 ? 0.0 : ((gross - 102000) * 0.09) / gross;
+    } else if (baseRate > 0.04) {
+      baseRate = Math.max(0.01, Math.min(0.52, baseRate + logShift * (isProgressive ? 0.045 : 0.015)));
+    }
+    const entIdx = tp.entities && tp.entities.length >= 2 ? 1 : 0;
+    regimeTitle = (tp.entities && tp.entities[entIdx]) ? tp.entities[entIdx].name : "Micro / SME Company";
+    primaryLabel = "SME / Micro Entity Tax";
+    secondaryLabel = "Dividend / Extraction Tax";
+    primaryShare = tp.dividendTaxRate === 0 ? 0.92 : 0.55;
+  } else {
+    // 'corporate'
+    baseRate = cm.corpEffective100k;
+    if (country && country.iso3 === "ARE") {
+      baseRate = gross <= 102000 ? 0.0 : ((gross - 102000) * 0.09) / gross;
+    } else if (baseRate > 0.04) {
+      baseRate = Math.max(0.02, Math.min(0.58, baseRate + logShift * 0.03));
+    }
+    const lastIdx = tp.entities ? Math.max(0, tp.entities.length - 1) : 0;
+    regimeTitle = (tp.entities && tp.entities[lastIdx]) ? tp.entities[lastIdx].name : "Standard Corporation";
+    primaryLabel = "Corporate Income Tax (CIT)";
+    secondaryLabel = "Dividend Withholding Tax";
+    primaryShare = tp.dividendTaxRate === 0 ? 1.0 : 0.62;
+  }
+
+  baseRate = Math.max(0, Math.min(0.75, baseRate));
+  const totalTax = Math.round(gross * baseRate);
+  const primaryTax = Math.round(totalTax * primaryShare);
+  const secondaryTax = totalTax - primaryTax;
+
+  return {
+    gross,
+    netTakeHome: gross - totalTax,
+    totalTax,
+    primaryTax,
+    primaryLabel,
+    secondaryTax,
+    secondaryLabel,
+    employerExtraCost,
+    effectiveRatePct: Number(((totalTax / gross) * 100).toFixed(1)),
+    regimeTitle,
+    note: `${tp.pitHeadline} • VAT: ${tp.vatStandard}% • Authority: ${tp.taxAuthority}`
+  };
+}

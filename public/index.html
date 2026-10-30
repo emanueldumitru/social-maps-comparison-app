@@ -250,6 +250,7 @@
         </div>
       </div>
       <div class="topbar-actions">
+        <button type="button" class="hud-btn" onclick="switchStageMode('tax')">💳 Taxes &amp; PFA/SRL →</button>
         <button type="button" class="hud-btn" onclick="switchStageMode('prism3d')">🧊 3D Volumetric Prisms →</button>
         <button type="button" class="hud-btn" onclick="switchStageMode('globe')">🌐 Spin 3D WebGL Globe →</button>
         <button type="button" class="hud-btn" onclick="switchStageMode('packing')">📦 Packing Matrix →</button>
@@ -279,6 +280,9 @@
             </button>
             <button type="button" class="mode-tab" id="tabModeDepth" onclick="switchStageMode('depth')">
               <span>🏔️🌊</span> Depth &amp; Creatures
+            </button>
+            <button type="button" class="mode-tab" id="tabModeTax" onclick="switchStageMode('tax')">
+              <span>💳</span> Tax &amp; Entity Chart
             </button>
           </div>
 
@@ -348,6 +352,7 @@
                 <button type="button" id="btnPrismDensity" class="active" onclick="setPrismHeightMetric('density')">Height: Pop Density</button>
                 <button type="button" id="btnPrismElev" onclick="setPrismHeightMetric('elevation')">Height: Max Peak/Depth</button>
                 <button type="button" id="btnPrismGdp" onclick="setPrismHeightMetric('gdp')">Height: GDP / Capita</button>
+                <button type="button" id="btnPrismTax" onclick="setPrismHeightMetric('tax')">Height: Tax Burden %</button>
               </div>
               <button type="button" class="hud-btn active" id="btnPrismSpin" onclick="togglePrismAutoRotate()">⟳ 3D Turntable</button>
             </div>
@@ -443,6 +448,27 @@
             </div>
           </div>
         </div>
+
+        <!-- VIEW 7: GLOBAL TAXATION, BUSINESS ENTITIES (PFA/MICRO/SRL/LLC) & EFFECTIVE TAX CURVES -->
+        <div class="alt-stage-view" id="taxStageView">
+          <div class="packing-header">
+            <div>
+              <div class="packing-headline" id="taxStageHeadline">Global Tax &amp; Business Entity Take-Home Matrix ($100,000 Gross / yr)</div>
+              <div class="packing-sub" id="taxStageSubline">Comparing Employee Salary, Freelancer/PFA/1099, Micro-SRL/S-Corp, and Standard SRL/C-Corp net pocket take-home &amp; effective tax curves ($15k → $500k).</div>
+            </div>
+            <div class="pill-toggle">
+              <button type="button" id="btnStageTaxEmp" onclick="setTaxCalcRegime('employee')">👔 Employee</button>
+              <button type="button" id="btnStageTaxFree" onclick="setTaxCalcRegime('freelancer')">🧑‍💻 PFA / Freelance</button>
+              <button type="button" id="btnStageTaxMicro" class="active" onclick="setTaxCalcRegime('micro')">🚀 Micro / S-Corp</button>
+              <button type="button" id="btnStageTaxCorp" onclick="setTaxCalcRegime('corporate')">🏢 SRL 16% / Corp</button>
+            </div>
+          </div>
+          <canvas id="taxCompareCanvas"></canvas>
+          <div class="kpi-foot" id="taxStageFooter">
+            <span id="taxStageReadout">Adjust Gross Annual Revenue ($10k – $500k) in the Taxation &amp; Business Entities Studio below to inspect bracket &amp; Micro-cap shifts live.</span>
+            <button type="button" class="hud-btn" onclick="document.getElementById('taxStudioSection').scrollIntoView({behavior:'smooth'})">↓ Full PFA / Micro / SRL Studio</button>
+          </div>
+        </div>
       </section>
 
       <!-- RIGHT COLUMN: DEMOGRAPHIC & DENSITY LABORATORY -->
@@ -520,6 +546,61 @@
         </section>
       </div>
     </main>
+
+    <!-- FULL-WIDTH GLOBAL TAXATION, BUSINESS ENTITIES (PFA / MICRO / SRL / LLC) & NET TAKE-HOME STUDIO -->
+    <section class="biosphere-section" id="taxStudioSection" aria-label="Global Taxation, Personal Taxes, Business Entities and Net Income Calculator">
+      <div class="bio-header" style="background:linear-gradient(90deg, rgba(16,185,129,0.12), rgba(0,229,255,0.09), rgba(245,158,11,0.11));">
+        <div class="bio-title-group">
+          <div class="bio-icon-badge" style="background:rgba(16,185,129,0.20);border-color:rgba(16,185,129,0.48);">💳</div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              GLOBAL TAXATION, BUSINESS ENTITIES (PFA • MICRO • SRL • LLC • CORP) &amp; NET TAKE-HOME STUDIO
+              <span class="brand-tag" id="taxWinnerBadge">NET TAKE-HOME COMPARISON</span>
+            </div>
+            <div style="font-size:12.5px;color:var(--text-secondary);">
+              Compare Personal Income Tax, CAS/CASS Social Contributions, VAT/GST, Dividend &amp; Crypto/Capital Gains Taxes, plus all Company Structures (e.g. PFA, Micro 1%/3%, SRL 16%, SA, 1099, LLC, S-Corp, C-Corp, GmbH, OÜ)
+            </div>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="hud-btn" onclick="selectPreset('ROU','USA')">🇷🇴 ROU vs 🇺🇸 USA</button>
+          <button type="button" class="hud-btn" onclick="selectPreset('ROU','BGR')">🇷🇴 ROU vs 🇧🇬 Bulgaria 10%</button>
+          <button type="button" class="hud-btn" onclick="selectPreset('ROU','ARE')">🇷🇴 ROU vs 🇦🇪 UAE 0%</button>
+          <button type="button" class="hud-btn" onclick="selectPreset('EST','DEU')">🇪🇪 Estonia OÜ vs 🇩🇪 DEU</button>
+          <button type="button" class="hud-btn" onclick="selectPreset('POL','GBR')">🇵🇱 Poland JDG vs 🇬🇧 UK</button>
+          <button type="button" class="hud-btn" onclick="selectPreset('CHE','SGP')">🇨🇭 Swiss vs 🇸🇬 Singapore</button>
+          <button type="button" class="hud-btn active" onclick="switchStageMode('tax')">💳 Open Tax Curves Chart ↑</button>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE GROSS-TO-NET REVENUE / SALARY SIMULATOR TOOLBAR -->
+      <div class="tax-calc-toolbar">
+        <div class="tax-slider-group">
+          <span style="font-family:var(--font-mono);font-size:11.5px;font-weight:700;color:var(--text-primary);">💵 Annual Gross Income / Revenue:</span>
+          <input type="range" id="taxGrossSlider" min="10000" max="500000" step="5000" value="100000" oninput="setTaxCalcGross(this.value)" />
+          <span class="tax-gross-readout" id="taxGrossReadout">$100,000 / yr</span>
+          <div class="pill-toggle">
+            <button type="button" class="tax-preset-amt" data-amt="25000" onclick="setTaxCalcGross(25000)">$25k</button>
+            <button type="button" class="tax-preset-amt" data-amt="60000" onclick="setTaxCalcGross(60000)">$60k</button>
+            <button type="button" class="tax-preset-amt active" data-amt="100000" onclick="setTaxCalcGross(100000)">$100k</button>
+            <button type="button" class="tax-preset-amt" data-amt="250000" onclick="setTaxCalcGross(250000)">$250k</button>
+            <button type="button" class="tax-preset-amt" data-amt="500000" onclick="setTaxCalcGross(500000)">$500k</button>
+          </div>
+        </div>
+
+        <div class="pill-toggle" role="group" aria-label="Taxation Regime Comparison Mode">
+          <button type="button" id="btnRegimeEmp" onclick="setTaxCalcRegime('employee')">👔 Employee Salary</button>
+          <button type="button" id="btnRegimeFree" onclick="setTaxCalcRegime('freelancer')">🧑‍💻 Freelancer / PFA / 1099</button>
+          <button type="button" id="btnRegimeMicro" class="active" onclick="setTaxCalcRegime('micro')">🚀 Micro-SRL / S-Corp / SME</button>
+          <button type="button" id="btnRegimeCorp" onclick="setTaxCalcRegime('corporate')">🏢 Standard SRL / LLC / Corp</button>
+        </div>
+      </div>
+
+      <div class="bio-compare-grid">
+        <div class="bio-column col-a" id="taxColA"></div>
+        <div class="bio-column col-b" id="taxColB"></div>
+      </div>
+    </section>
 
     <!-- FULL-WIDTH BIOSPHERE, WILDLIFE POPULATIONS & OCEAN ECOLOGY EXPLORER -->
     <section class="biosphere-section" aria-label="Living Biosphere, Wildlife Populations and Ocean Ecology">
@@ -632,6 +713,7 @@
         <button type="button" class="wiki-nav-tab active" id="wTabOverview" onclick="switchWikiTab('overview')">📋 Overview &amp; Infobox</button>
         <button type="button" class="wiki-nav-tab" id="wTabPolitics" onclick="switchWikiTab('politics')">🏛️ Politics, President &amp; PM</button>
         <button type="button" class="wiki-nav-tab" id="wTabEconomy" onclick="switchWikiTab('economy')">💰 Economy, GDP &amp; Finances</button>
+        <button type="button" class="wiki-nav-tab" id="wTabTaxes" onclick="switchWikiTab('taxes')">💳 Taxes, PFA/SRL &amp; Business</button>
         <button type="button" class="wiki-nav-tab" id="wTabHistory" onclick="switchWikiTab('history')">📜 Deep History &amp; Timeline</button>
         <button type="button" class="wiki-nav-tab" id="wTabCulture" onclick="switchWikiTab('culture')">🍲 Food, Landmarks &amp; Activities</button>
         <button type="button" class="wiki-nav-tab" id="wTabBio" onclick="switchWikiTab('bio')">🐋 Wildlife &amp; Ecosystems</button>

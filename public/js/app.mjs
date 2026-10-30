@@ -20,7 +20,9 @@ import {
   getTargetAreaKm2,
   getProjectedCountry,
   getBiosphereProfile,
-  getEncyclopediaProfile
+  getEncyclopediaProfile,
+  getTaxProfile,
+  calculateTaxScenario
 } from "./data-engine.mjs";
 
 import { TerraThreeEngine } from "./three-stage.mjs";
@@ -61,6 +63,9 @@ export const state = {
   wikiCurrentIso: "ROU",
   wikiCurrentTab: "overview",
   wikiLiveCache: {},
+  taxCalcGross: 100000,
+  taxCalcRegime: "micro",        // 'employee' | 'freelancer' | 'micro' | 'corporate'
+  taxesDb: {},
   countriesDb: [],
   countryByIso3: {},
   countryById: {},
@@ -311,6 +316,8 @@ export function updateDashboardUI() {
   if (state.stageMode === "packing") renderPackingMatrix();
   if (state.stageMode === "geom") renderGeometricStage();
   if (state.stageMode === "depth") renderDepthCrossCanvas();
+  if (state.stageMode === "tax") renderTaxCompareCanvas();
+  renderTaxStudioSection();
   renderBiosphereSection();
   renderCivilizationSection();
 }
@@ -326,6 +333,8 @@ function updatePrismHUD(cA, cB) {
     sub.textContent = `Base Footprint Area = True Surface km² • Z-Extrusion Height = Density (${unitLabel}) → 3D Prism Volume = Total Population!`;
   } else if (threeEngine.prismHeightMetric === "elevation") {
     sub.textContent = `Base Footprint Area = True Surface km² • Z-Extrusion Height = Highest Mountain Peak / Max Ocean Trench Depth (meters).`;
+  } else if (threeEngine.prismHeightMetric === "tax") {
+    sub.textContent = `Base Footprint Area = True Surface km² • Z-Extrusion Height = Effective Tax Burden % ($${state.taxCalcGross.toLocaleString()} • ${state.taxCalcRegime.toUpperCase()}).`;
   } else {
     sub.textContent = `Base Footprint Area = True Surface km² • Z-Extrusion Height = Economic Output per Capita (USD).`;
   }
@@ -394,6 +403,13 @@ function renderTelemetryTable() {
       valB: Math.max(0.1, cB.coast),
       fmtA: cA.coast === 0 ? "Landlocked (0)" : fmtDist(cA.coast, true),
       fmtB: cB.coast === 0 ? "Landlocked (0)" : fmtDist(cB.coast, true)
+    },
+    {
+      label: `Effective Tax (${state.taxCalcRegime.toUpperCase()} @ $${Math.round(state.taxCalcGross / 1000)}k)`,
+      valA: Math.max(0.2, calculateTaxScenario(cA, getTaxProfile(cA, state.taxesDb), state.taxCalcGross, state.taxCalcRegime).effectiveRatePct),
+      valB: Math.max(0.2, calculateTaxScenario(cB, getTaxProfile(cB, state.taxesDb), state.taxCalcGross, state.taxCalcRegime).effectiveRatePct),
+      fmtA: `${calculateTaxScenario(cA, getTaxProfile(cA, state.taxesDb), state.taxCalcGross, state.taxCalcRegime).effectiveRatePct}%`,
+      fmtB: `${calculateTaxScenario(cB, getTaxProfile(cB, state.taxesDb), state.taxCalcGross, state.taxCalcRegime).effectiveRatePct}%`
     }
   ];
 
@@ -651,6 +667,384 @@ function renderCivilizationSection() {
 }
 
 // ============================================================================
+// GLOBAL TAXATION, BUSINESS ENTITIES (PFA / MICRO / SRL / LLC) & NET STUDIO
+// ============================================================================
+function buildTaxColumnHTML(c, slot, isModal = false) {
+  const tp = getTaxProfile(c, state.taxesDb);
+  const sc = calculateTaxScenario(c, tp, state.taxCalcGross, state.taxCalcRegime);
+  const colVar = slot === "A" ? "var(--country-a)" : "var(--country-b)";
+
+  const netPct = Math.max(2, (sc.netTakeHome / sc.gross) * 100);
+  const primPct = Math.max(0, (sc.primaryTax / sc.gross) * 100);
+  const secPct = Math.max(0, (sc.secondaryTax / sc.gross) * 100);
+
+  const effBadgeClass = r => r <= 18.0 ? "eff-low" : (r <= 28.5 ? "eff-mid" : "eff-high");
+
+  return `
+    ${!isModal ? `
+    <div class="bio-col-head">
+      <div>
+        <div class="bio-col-title">
+          <span>${c.flag} ${c.name}</span>
+          <span class="selector-iso">${c.iso3}</span>
+        </div>
+        <div class="bio-biome-tag">🏛️ <strong>Tax Authority:</strong> ${tp.taxAuthority}</div>
+      </div>
+      <button type="button" class="wiki-btn-inline" onclick="openWikiModal('${c.iso3}', 'taxes')">💳 Tax Wiki Tab ↗</button>
+    </div>
+    ` : ""}
+
+    <div class="tax-takehome-card" style="border-top: 3px solid ${colVar};">
+      <div class="tax-takehome-top">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:10.5px;font-weight:700;color:${colVar};text-transform:uppercase;">
+            LIVE NET TAKE-HOME @ $${sc.gross.toLocaleString()}/YR • ${sc.regimeTitle}
+          </div>
+          <div style="display:flex;align-items:baseline;gap:10px;margin-top:4px;flex-wrap:wrap;">
+            <span class="tax-net-amount" style="color:#34D399;">$${sc.netTakeHome.toLocaleString()}</span>
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-secondary);">net / yr ($${Math.round(sc.netTakeHome / 12).toLocaleString()} / mo)</span>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <span class="rate-pill ${effBadgeClass(sc.effectiveRatePct)}" style="font-size:12px;padding:4px 10px;">
+            ${sc.effectiveRatePct}% Effective Tax
+          </span>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:3px;">
+            Total Tax: $${sc.totalTax.toLocaleString()}${sc.employerExtraCost > 0 ? ` (+$${sc.employerExtraCost.toLocaleString()} Employer)` : ""}
+          </div>
+        </div>
+      </div>
+
+      <div class="tax-stacked-bar" title="Green = Net Take-Home • Amber = ${sc.primaryLabel} • Coral = ${sc.secondaryLabel}">
+        <div class="tax-seg-net" style="width:${netPct.toFixed(1)}%"></div>
+        <div class="tax-seg-primary" style="width:${primPct.toFixed(1)}%"></div>
+        <div class="tax-seg-secondary" style="width:${secPct.toFixed(1)}%"></div>
+      </div>
+
+      <div class="tax-legend-row">
+        <span><strong style="color:#34D399;">● Net Pocket:</strong> ${(100 - sc.effectiveRatePct).toFixed(1)}% ($${sc.netTakeHome.toLocaleString()})</span>
+        <span><strong style="color:#FBBF24;">● ${sc.primaryLabel}:</strong> $${sc.primaryTax.toLocaleString()}</span>
+        <span><strong style="color:#F87171;">● ${sc.secondaryLabel}:</strong> $${sc.secondaryTax.toLocaleString()}</span>
+      </div>
+      <div style="font-size:11.5px;color:var(--text-secondary);border-top:1px solid var(--border-hairline);padding-top:6px;">
+        📌 ${sc.note}
+      </div>
+    </div>
+
+    <div class="wiki-card">
+      <div class="wiki-card-label">👤 PERSONAL, PAYROLL (CAS / CASS / FICA), VAT &amp; INVESTMENT TAXES</div>
+      <div class="bio-mini-kpis">
+        <div class="bio-mini-kpi">
+          <span class="bio-mini-label">PERSONAL INCOME (PIT)</span>
+          <span class="bio-mini-val" style="color:${colVar}">${tp.pitRate}% ${tp.pitRate === 0 ? "Tax-Free" : ((tp.pitSystem || "").toLowerCase().includes("flat") ? "Flat" : "Top")}</span>
+          <span style="font-size:10px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${tp.pitHeadline}">${tp.pitHeadline}</span>
+        </div>
+        <div class="bio-mini-kpi">
+          <span class="bio-mini-label">EMPLOYEE SOCIAL</span>
+          <span class="bio-mini-val">${tp.employeeSocialRate}%</span>
+          <span style="font-size:10px;color:var(--text-muted);">Employer: +${tp.employerPayrollRate}%</span>
+        </div>
+        <div class="bio-mini-kpi">
+          <span class="bio-mini-label">STANDARD VAT / GST</span>
+          <span class="bio-mini-val">${tp.vatStandard}%</span>
+          <span style="font-size:10px;color:var(--text-muted);">${tp.vatStandard === 0 ? "0% Federal VAT" : "Consumption tax"}</span>
+        </div>
+        <div class="bio-mini-kpi">
+          <span class="bio-mini-label">DIVIDEND WHT TAX</span>
+          <span class="bio-mini-val">${tp.dividendTaxRate}%</span>
+          <span style="font-size:10px;color:var(--text-muted);">Profit distribution</span>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--text-secondary);margin-top:4px;">
+        <div><strong>• PIT &amp; Social System:</strong> ${tp.pitSystem} — <em>${tp.employeeSocialBreakdown}</em></div>
+        <div><strong>• Employer Payroll Levy:</strong> ${tp.employerPayrollBreakdown}</div>
+        <div><strong>• VAT &amp; Reduced Tiers:</strong> ${tp.vatReduced}</div>
+        <div><strong>• Dividends:</strong> ${tp.dividendNotes}</div>
+        <div><strong>• Capital Gains &amp; Crypto:</strong> ${tp.capitalGainsRate}</div>
+        <div><strong>• Property / Wealth Tax:</strong> ${tp.propertyTax}</div>
+      </div>
+    </div>
+
+    <div class="wiki-card">
+      <div class="wiki-card-label">🏢 ALL COMPANY &amp; LEGAL ENTITY STRUCTURES (${tp.entities.length} REGIMES: PFA / MICRO / SRL / LLC / CORP)</div>
+      <div class="legal-entity-list">
+        ${tp.entities.map(ent => `
+          <div class="legal-entity-card">
+            <div class="legal-entity-head">
+              <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">
+                <span class="legal-entity-name">${ent.name}</span>
+                <span class="entity-badge type-country">${ent.badge}</span>
+              </div>
+              <div class="legal-rate-pills">
+                <span class="rate-pill">Entity Tax: ${ent.corporateTaxRate}%</span>
+                <span class="rate-pill">Div: ${ent.dividendRate}%</span>
+                <span class="rate-pill ${effBadgeClass(ent.effectiveAt100k)}">~${ent.effectiveAt100k}% Eff. @ $100k</span>
+              </div>
+            </div>
+            <div class="legal-entity-meta">⚖️ Threshold / Capital: ${ent.turnoverCap}</div>
+            <div style="font-size:12px;color:var(--text-secondary);line-height:1.45;">${ent.summary}</div>
+            <div class="legal-entity-best"><strong>Best For:</strong> ${ent.bestFor}</div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+export function renderTaxStudioSection() {
+  const cA = getCountryA();
+  const cB = getCountryB();
+  if (!cA || !cB) return;
+
+  const tpA = getTaxProfile(cA, state.taxesDb);
+  const tpB = getTaxProfile(cB, state.taxesDb);
+  const scA = calculateTaxScenario(cA, tpA, state.taxCalcGross, state.taxCalcRegime);
+  const scB = calculateTaxScenario(cB, tpB, state.taxCalcGross, state.taxCalcRegime);
+
+  const readout = document.getElementById("taxGrossReadout");
+  if (readout) readout.textContent = `$${state.taxCalcGross.toLocaleString()} / yr`;
+
+  const slider = document.getElementById("taxGrossSlider");
+  if (slider && Number(slider.value) !== state.taxCalcGross) {
+    slider.value = state.taxCalcGross;
+  }
+
+  document.querySelectorAll(".tax-preset-amt").forEach(btn => {
+    btn.classList.toggle("active", Number(btn.getAttribute("data-amt")) === state.taxCalcGross);
+  });
+
+  const regButtons = [
+    ["employee", "btnRegimeEmp", "btnStageTaxEmp"],
+    ["freelancer", "btnRegimeFree", "btnStageTaxFree"],
+    ["micro", "btnRegimeMicro", "btnStageTaxMicro"],
+    ["corporate", "btnRegimeCorp", "btnStageTaxCorp"]
+  ];
+  for (const [key, id1, id2] of regButtons) {
+    const b1 = document.getElementById(id1);
+    const b2 = document.getElementById(id2);
+    if (b1) b1.classList.toggle("active", state.taxCalcRegime === key);
+    if (b2) b2.classList.toggle("active", state.taxCalcRegime === key);
+  }
+
+  const badge = document.getElementById("taxWinnerBadge");
+  if (badge) {
+    const diff = Math.abs(scA.netTakeHome - scB.netTakeHome);
+    if (diff < 100) {
+      badge.textContent = `EQUAL NET TAKE-HOME ($${scA.netTakeHome.toLocaleString()}/YR)`;
+    } else {
+      const winner = scA.netTakeHome > scB.netTakeHome ? cA : cB;
+      const loser = scA.netTakeHome > scB.netTakeHome ? cB : cA;
+      badge.textContent = `${winner.flag} ${winner.iso3} KEEPS +$${diff.toLocaleString()}/YR MORE NET THAN ${loser.iso3}`;
+    }
+  }
+
+  const colA = document.getElementById("taxColA");
+  const colB = document.getElementById("taxColB");
+  if (colA) colA.innerHTML = buildTaxColumnHTML(cA, "A", false);
+  if (colB) colB.innerHTML = buildTaxColumnHTML(cB, "B", false);
+}
+
+export function setTaxCalcGross(val) {
+  state.taxCalcGross = Math.max(10000, Math.min(500000, Math.round(Number(val) || 100000)));
+  renderTaxStudioSection();
+  renderTelemetryTable();
+  if (state.stageMode === "tax") renderTaxCompareCanvas();
+  if (threeEngine && threeEngine.prismHeightMetric === "tax") {
+    updatePrismHUD(getCountryA(), getCountryB());
+    requestRenderAll();
+  }
+}
+
+export function setTaxCalcRegime(regime) {
+  state.taxCalcRegime = regime;
+  renderTaxStudioSection();
+  renderTelemetryTable();
+  if (state.stageMode === "tax") renderTaxCompareCanvas();
+  if (threeEngine && threeEngine.prismHeightMetric === "tax") {
+    updatePrismHUD(getCountryA(), getCountryB());
+    requestRenderAll();
+  }
+}
+
+export function renderTaxCompareCanvas() {
+  const canvas = document.getElementById("taxCompareCanvas");
+  if (!canvas || canvas.offsetParent === null) return;
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width === 0) return;
+  canvas.width = Math.round(rect.width * dpr);
+  canvas.height = Math.round(rect.height * dpr);
+
+  const ctx = canvas.getContext("2d");
+  ctx.save();
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+  const colors = getThemeColors();
+  const cA = getCountryA();
+  const cB = getCountryB();
+  const tpA = getTaxProfile(cA, state.taxesDb);
+  const tpB = getTaxProfile(cB, state.taxesDb);
+
+  const hl = document.getElementById("taxStageHeadline");
+  if (hl) {
+    hl.textContent = `Fiscal Take-Home & Effective Tax Curves: ${cA.flag} ${cA.name} vs ${cB.flag} ${cB.name} ($${state.taxCalcGross.toLocaleString()} Gross)`;
+  }
+
+  ctx.fillStyle = colors.water;
+  ctx.fillRect(0, 0, W, H);
+
+  // Split: Left 47% = 4-Regime Net Take-Home Bar Comparison; Right 53% = Effective Tax % Curve ($15k -> $500k)
+  const splitX = Math.round(W * 0.48);
+
+  ctx.strokeStyle = colors.landStroke;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(splitX, 16);
+  ctx.lineTo(splitX, H - 16);
+  ctx.stroke();
+
+  // LEFT PANEL: 4-Regime Net Take-Home Comparison
+  ctx.font = "700 12px 'Space Grotesk', sans-serif";
+  ctx.fillStyle = colors.text;
+  ctx.textAlign = "left";
+  ctx.fillText(`NET TAKE-HOME BY ENTITY REGIME (@ $${state.taxCalcGross.toLocaleString()}/YR)`, 18, 26);
+
+  const regimes = [
+    { key: "employee", label: "👔 Employee Salary" },
+    { key: "freelancer", label: "🧑‍💻 PFA / Freelance / 1099" },
+    { key: "micro", label: "🚀 Micro-SRL / S-Corp / SME" },
+    { key: "corporate", label: "🏢 Standard SRL / C-Corp" }
+  ];
+
+  const rowStartY = 48;
+  const rowGap = (H - 68) / 4;
+  const barMaxW = Math.max(80, splitX - 185);
+
+  regimes.forEach((rg, idx) => {
+    const yTop = rowStartY + idx * rowGap;
+    const sA = calculateTaxScenario(cA, tpA, state.taxCalcGross, rg.key);
+    const sB = calculateTaxScenario(cB, tpB, state.taxCalcGross, rg.key);
+    const isSelected = state.taxCalcRegime === rg.key;
+
+    if (isSelected) {
+      ctx.fillStyle = state.theme === "light" ? "rgba(2,132,199,0.08)" : "rgba(0,229,255,0.07)";
+      ctx.beginPath();
+      ctx.roundRect(10, yTop - 6, splitX - 22, rowGap - 6, 8);
+      ctx.fill();
+      ctx.strokeStyle = colors.colorA;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    ctx.font = "700 11.5px 'Inter', sans-serif";
+    ctx.fillStyle = isSelected ? colors.text : colors.textMuted;
+    ctx.textAlign = "left";
+    ctx.fillText(rg.label, 18, yTop + 11);
+
+    // Bar A
+    const wA = Math.max(8, (sA.netTakeHome / state.taxCalcGross) * barMaxW);
+    ctx.fillStyle = colors.colorA;
+    ctx.beginPath();
+    ctx.roundRect(18, yTop + 18, wA, 15, 4);
+    ctx.fill();
+    ctx.font = "600 10.5px 'JetBrains Mono', monospace";
+    ctx.fillStyle = colors.text;
+    ctx.fillText(`${cA.iso3}: $${Math.round(sA.netTakeHome / 1000)}k (${sA.effectiveRatePct}% tax)`, 24 + wA, yTop + 29);
+
+    // Bar B
+    const wB = Math.max(8, (sB.netTakeHome / state.taxCalcGross) * barMaxW);
+    ctx.fillStyle = colors.colorB;
+    ctx.beginPath();
+    ctx.roundRect(18, yTop + 38, wB, 15, 4);
+    ctx.fill();
+    ctx.fillStyle = colors.text;
+    ctx.fillText(`${cB.iso3}: $${Math.round(sB.netTakeHome / 1000)}k (${sB.effectiveRatePct}% tax)`, 24 + wB, yTop + 49);
+  });
+
+  // RIGHT PANEL: Effective Tax Rate Curve ($15k -> $500k)
+  const padL = splitX + 46;
+  const padR = W - 24;
+  const padT = 50;
+  const padB = H - 38;
+  const plotW = Math.max(60, padR - padL);
+  const plotH = Math.max(60, padB - padT);
+
+  ctx.font = "700 12px 'Space Grotesk', sans-serif";
+  ctx.fillStyle = colors.text;
+  ctx.textAlign = "left";
+  ctx.fillText(`EFFECTIVE TAX BURDEN CURVE ($15K → $500K • ${state.taxCalcRegime.toUpperCase()})`, splitX + 18, 26);
+
+  const maxPct = 60;
+  ctx.font = "500 10px 'JetBrains Mono', monospace";
+  for (let pct = 0; pct <= maxPct; pct += 15) {
+    const y = padB - (pct / maxPct) * plotH;
+    ctx.strokeStyle = colors.graticule;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padL, y);
+    ctx.lineTo(padR, y);
+    ctx.stroke();
+
+    ctx.fillStyle = colors.textMuted;
+    ctx.textAlign = "right";
+    ctx.fillText(`${pct}%`, padL - 7, y + 3);
+  }
+
+  const checkpoints = [15000, 30000, 50000, 65000, 85000, 100000, 140000, 180000, 220000, 265000, 280000, 350000, 425000, 500000];
+  const amtToX = amt => padL + ((amt - 15000) / (500000 - 15000)) * plotW;
+  const pctToY = pct => padB - (Math.min(maxPct, Math.max(0, pct)) / maxPct) * plotH;
+
+  for (const tickAmt of [25000, 100000, 250000, 500000]) {
+    const tx = amtToX(tickAmt);
+    ctx.fillStyle = colors.textMuted;
+    ctx.textAlign = "center";
+    ctx.fillText(`$${tickAmt / 1000}k`, tx, padB + 16);
+  }
+
+  // Active Gross Marker Line
+  const curX = amtToX(Math.max(15000, Math.min(500000, state.taxCalcGross)));
+  ctx.save();
+  ctx.strokeStyle = "#10B981";
+  ctx.setLineDash([4, 4]);
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(curX, padT);
+  ctx.lineTo(curX, padB);
+  ctx.stroke();
+  ctx.restore();
+
+  const drawCurve = (country, tp, hexColor) => {
+    ctx.beginPath();
+    checkpoints.forEach((amt, i) => {
+      const sc = calculateTaxScenario(country, tp, amt, state.taxCalcRegime);
+      const x = amtToX(amt);
+      const y = pctToY(sc.effectiveRatePct);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = hexColor;
+    ctx.lineWidth = 2.6;
+    ctx.stroke();
+
+    const curSc = calculateTaxScenario(country, tp, state.taxCalcGross, state.taxCalcRegime);
+    const cy = pctToY(curSc.effectiveRatePct);
+    ctx.beginPath();
+    ctx.arc(curX, cy, 5, 0, Math.PI * 2);
+    ctx.fillStyle = hexColor;
+    ctx.fill();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.stroke();
+  };
+
+  drawCurve(cA, tpA, colors.colorA);
+  drawCurve(cB, tpB, colors.colorB);
+
+  ctx.restore();
+}
+
+// ============================================================================
 // MINI-WIKIPEDIA POP-UP MODAL CONTROLLER
 // ============================================================================
 export function openWikiModal(iso3, initialTab = "overview") {
@@ -731,6 +1125,7 @@ function renderWikiModalContent() {
     overview: "wTabOverview",
     politics: "wTabPolitics",
     economy: "wTabEconomy",
+    taxes: "wTabTaxes",
     history: "wTabHistory",
     culture: "wTabCulture",
     bio: "wTabBio"
@@ -932,6 +1327,8 @@ function renderWikiModalContent() {
         </ul>
       </div>
     `;
+  } else if (tab === "taxes") {
+    body.innerHTML = buildTaxColumnHTML(c, "A", true);
   } else if (tab === "bio") {
     body.innerHTML = buildBioColumnHTML(c, bio, "A");
   }
@@ -1888,6 +2285,8 @@ export function switchStageMode(mode) {
   document.getElementById("tabModeGeom").classList.toggle("active", mode === "geom");
   const tabDepth = document.getElementById("tabModeDepth");
   if (tabDepth) tabDepth.classList.toggle("active", mode === "depth");
+  const tabTax = document.getElementById("tabModeTax");
+  if (tabTax) tabTax.classList.toggle("active", mode === "tax");
 
   const mainWrap = document.getElementById("mainCanvasWrap");
   const map2dCanvas = document.getElementById("mainMapCanvas");
@@ -1896,6 +2295,7 @@ export function switchStageMode(mode) {
   const packView = document.getElementById("packingStageView");
   const geomView = document.getElementById("geomStageView");
   const depthView = document.getElementById("depthStageView");
+  const taxView = document.getElementById("taxStageView");
 
   mainWrap.style.display = (mode === "overlay" || mode === "globe") ? "block" : "none";
   if (map2dCanvas) map2dCanvas.style.display = mode === "overlay" ? "block" : "none";
@@ -1905,6 +2305,7 @@ export function switchStageMode(mode) {
   packView.classList.toggle("active", mode === "packing");
   geomView.classList.toggle("active", mode === "geom");
   if (depthView) depthView.classList.toggle("active", mode === "depth");
+  if (taxView) taxView.classList.toggle("active", mode === "tax");
 
   document.getElementById("overlayLayoutSwitch").style.display = mode === "overlay" ? "inline-flex" : "none";
   document.getElementById("hudOverlayControls").style.display = mode === "overlay" ? "flex" : "none";
@@ -1922,6 +2323,7 @@ export function switchStageMode(mode) {
   if (mode === "packing") renderPackingMatrix();
   if (mode === "geom") renderGeometricStage();
   if (mode === "depth") setDepthProbe(state.depthProbeM);
+  if (mode === "tax") renderTaxCompareCanvas();
   requestRenderAll();
 }
 
@@ -1931,6 +2333,8 @@ export function setPrismHeightMetric(metric) {
   document.getElementById("btnPrismDensity").classList.toggle("active", metric === "density");
   document.getElementById("btnPrismElev").classList.toggle("active", metric === "elevation");
   document.getElementById("btnPrismGdp").classList.toggle("active", metric === "gdp");
+  const btnTax = document.getElementById("btnPrismTax");
+  if (btnTax) btnTax.classList.toggle("active", metric === "tax");
   updatePrismHUD(getCountryA(), getCountryB());
   requestRenderAll();
 }
@@ -2317,6 +2721,7 @@ function setupCanvasInteractions() {
     if (state.stageMode === "packing") renderPackingMatrix();
     if (state.stageMode === "geom") renderGeometricStage();
     if (state.stageMode === "depth") renderDepthCrossCanvas();
+    if (state.stageMode === "tax") renderTaxCompareCanvas();
   });
 
   window.addEventListener("keydown", e => {
@@ -2430,10 +2835,11 @@ function tickAnimation() {
 // ============================================================================
 async function bootApp() {
   try {
-    const [countriesDb, oceanPolygons, wikiDeepDb, worldTopo, extra50m] = await Promise.all([
+    const [countriesDb, oceanPolygons, wikiDeepDb, taxesDb, worldTopo, extra50m] = await Promise.all([
       fetch("/data/countries-db.json").then(r => r.json()),
       fetch("/data/ocean-polygons.json").then(r => r.json()),
       fetch("/data/wiki-deep.json").then(r => r.json()),
+      fetch("/data/taxes-db.json").then(r => r.json()),
       fetch("/data/world-110m.json").then(r => r.json()),
       fetch("/data/extra-50m.json").then(r => r.json())
     ]);
@@ -2441,6 +2847,7 @@ async function bootApp() {
     state.countriesDb = countriesDb;
     state.oceanPolygons = oceanPolygons;
     state.wikiDeepDb = wikiDeepDb;
+    state.taxesDb = taxesDb;
 
     for (const c of countriesDb) {
       state.countryByIso3[c.iso3] = c;
@@ -2512,6 +2919,8 @@ if (typeof window !== "undefined") {
     renderPickerList,
     chooseCountryFromPicker,
     setDepthProbe,
+    setTaxCalcGross,
+    setTaxCalcRegime,
     openWikiModal,
     closeWikiModal,
     switchWikiTab,

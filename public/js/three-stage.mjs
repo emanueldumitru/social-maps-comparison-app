@@ -2,7 +2,7 @@
 // TERRA // SCALE — Three.js 3D WebGL Globe & 3D Volumetric Prism Engine
 // ============================================================================
 import { slerpLatLng, latLngToVector3 } from "./core-math.mjs";
-import { doesEntityContainFeature } from "./data-engine.mjs";
+import { doesEntityContainFeature, getTaxProfile, calculateTaxScenario } from "./data-engine.mjs";
 
 export class TerraThreeEngine {
   constructor(context) {
@@ -467,7 +467,7 @@ export class TerraThreeEngine {
   }
 
   computePrismHeights(cA, cB) {
-    const { getBiosphereProfile } = this.ctx;
+    const { state, getBiosphereProfile } = this.ctx;
     const bioA = getBiosphereProfile(cA);
     const bioB = getBiosphereProfile(cB);
 
@@ -480,6 +480,15 @@ export class TerraThreeEngine {
       valA = cA.entityType === "ocean" ? cA.gdp * 10 : Math.max(200, Math.round((cA.gdp * 1e9) / Math.max(1, cA.pop)));
       valB = cB.entityType === "ocean" ? cB.gdp * 10 : Math.max(200, Math.round((cB.gdp * 1e9) / Math.max(1, cB.pop)));
       unitLabel = "$ GDP/cap";
+    } else if (this.prismHeightMetric === "tax") {
+      const taxesDb = (state && state.taxesDb) || {};
+      const gross = (state && state.taxCalcGross) || 100000;
+      const regime = (state && state.taxCalcRegime) || "micro";
+      const scA = calculateTaxScenario(cA, getTaxProfile(cA, taxesDb), gross, regime);
+      const scB = calculateTaxScenario(cB, getTaxProfile(cB, taxesDb), gross, regime);
+      valA = Math.max(0.5, scA.effectiveRatePct);
+      valB = Math.max(0.5, scB.effectiveRatePct);
+      unitLabel = "% Eff. Tax";
     } else {
       // Population Density: Base Area * Height = Total Population!
       valA = Math.max(0.5, cA.pop / Math.max(1, cA.area));
@@ -499,7 +508,8 @@ export class TerraThreeEngine {
     const { state, getCountryA, getCountryB, getProjectedCountry, getThemeColors } = this.ctx;
     const cA = getCountryA();
     const cB = getCountryB();
-    const sig = `${cA.iso3}_${cB.iso3}_${state.territoryScope}_${this.prismHeightMetric}_${state.theme}`;
+    const taxSig = this.prismHeightMetric === "tax" ? `_${state.taxCalcGross || 100000}_${state.taxCalcRegime || "micro"}` : "";
+    const sig = `${cA.iso3}_${cB.iso3}_${state.territoryScope}_${this.prismHeightMetric}${taxSig}_${state.theme}`;
     if (sig === this.lastPrismSignature) return;
     this.lastPrismSignature = sig;
 

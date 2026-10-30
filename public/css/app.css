@@ -1887,3 +1887,210 @@ body::before {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ==========================================================================
+   GLOBAL TAXATION, BUSINESS ENTITIES (PFA / MICRO / SRL / LLC) & CALCULATOR
+   ========================================================================== */
+#taxCompareCanvas {
+  width: 100%;
+  height: 410px;
+  display: block;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-hairline);
+  background: var(--map-water);
+}
+
+.tax-calc-toolbar {
+  padding: 14px 20px;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border-hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tax-slider-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 290px;
+  flex-wrap: wrap;
+}
+
+.tax-slider-group input[type="range"] {
+  flex: 1;
+  min-width: 140px;
+  accent-color: var(--accent-emerald);
+  cursor: pointer;
+}
+
+.tax-gross-readout {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: #34D399;
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.38);
+  padding: 4px 10px;
+  border-radius: 8px;
+  min-width: 124px;
+  text-align: center;
+}
+
+.tax-takehome-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tax-takehome-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tax-net-amount {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.tax-stacked-bar {
+  height: 11px;
+  width: 100%;
+  border-radius: 999px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-hairline);
+  overflow: hidden;
+  display: flex;
+}
+
+.tax-seg-net {
+  height: 100%;
+  background: #10B981;
+  transition: width 0.35s ease;
+}
+
+.tax-seg-primary {
+  height: 100%;
+  background: #F59E0B;
+  transition: width 0.35s ease;
+}
+
+.tax-seg-secondary {
+  height: 100%;
+  background: #EF4444;
+  transition: width 0.35s ease;
+}
+
+.tax-legend-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.legal-entity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legal-entity-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.16s ease;
+}
+
+.legal-entity-card:hover {
+  border-color: var(--border-strong);
+  transform: translateX(2px);
+}
+
+.legal-entity-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.legal-entity-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--text-primary);
+}
+
+.legal-rate-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.rate-pill {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-hairline);
+  color: var(--text-primary);
+}
+
+.rate-pill.eff-low {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  border-color: rgba(16, 185, 129, 0.38);
+}
+
+.rate-pill.eff-mid {
+  background: rgba(245, 158, 11, 0.15);
+  color: #FBBF24;
+  border-color: rgba(245, 158, 11, 0.38);
+}
+
+.rate-pill.eff-high {
+  background: rgba(239, 68, 68, 0.15);
+  color: #F87171;
+  border-color: rgba(239, 68, 68, 0.38);
+}
+
+.legal-entity-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.legal-entity-best {
+  font-size: 11.5px;
+  color: var(--text-primary);
+  background: var(--bg-subtle);
+  padding: 5px 9px;
+  border-radius: 6px;
+  border-left: 2px solid var(--accent-emerald);
+}
